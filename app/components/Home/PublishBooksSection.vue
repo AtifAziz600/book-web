@@ -4,7 +4,7 @@
     <section class="w-full relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-slate-100">
         <div class="container mx-auto px-4 max-w-7xl">
             <div class="flex max-w-7xl mx-auto rounded-lg shadow-xl my-8 overflow-hidden border-2" style="border-color: var(--color-primary);">
-                <div class="flex-3 p-6 md:p-8 border-r-2" style="border-color: var(--color-primary); background-color: white;">
+                <div class="md:w-3/5 p-6 md:p-8 border-r-2" style="border-color: var(--color-primary); background-color: white;">
                     <h2 class="text-xl md:text-2xl font-bold pb-3 border-b-2 flex items-center" style="color: var(--color-primary); border-color: var(--color-primary);">
                         <span class="mr-2">
                             <Icon name="mdi:books" class="h-8 w-8"/>
@@ -39,7 +39,7 @@
                     </div>
                 </div>
 
-                <div class="flex-1 p-6 md:p-8" style="background-color: rgba(28, 59, 139, 0.05);">
+                <div class="md:w-2/5 p-6 md:p-8" style="background-color: rgba(28, 59, 139, 0.05);">
                     <div class="flex items-center pb-3 border-b-2" style="border-color: var(--color-primary);">
                         <span class="text-xl md:text-2xl mr-2" >
                             <Icon name="mdi:newspaper" class="h-8 w-8" />
@@ -47,7 +47,6 @@
                         <h2 class="text-xl md:text-2xl font-bold" style="color: var(--color-primary);">নোটিশ কার্ড</h2>
                     </div>
                     
-                    <!-- Placeholder for notice content -->
                     <div class="mt-4 space-y-3">
                         <div class="p-3 rounded-md" style="background-color: white; border-left: 4px solid var(--color-secondary);">
                             <p class="text-sm" style="color: var(--color-primary);">নোটিশ কার্ডের বিষয়বস্তু এখানে প্রদর্শিত হবে</p>
