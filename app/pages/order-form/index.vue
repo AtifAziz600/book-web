@@ -23,7 +23,7 @@ const totalAmount = computed(() => {
 
 <template>
     <section class="w-full bg-gradient-to-br from-gray-50 to-gray-100 py-8 px-4 sm:px-6">
-        <div class="max-w-6xl mx-auto">
+        <div class="max-w-7xl mx-auto">
             <div class="text-center mb-8">
                 <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">অর্ডার ফর্ম</h2>
                 <div class="w-24 h-1 bg-red-500 mx-auto rounded-full"></div>
