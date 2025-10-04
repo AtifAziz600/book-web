@@ -22,7 +22,7 @@ const formattedOriginalPrice = computed(() => {
 </script>
 
 <template>
-  <NuxtLink :to="`/books/${book.id}`" class="block group h-full">
+  <NuxtLink :to="`/products/[id]`" class="block group h-full">
     <div class="bg-white overflow-hidden transition-all duration-300 border border-gray-100 h-full flex flex-col hover:-translate-y-1">
       
       <div class="relative w-full aspect-[2/3] overflow-hidden bg-gray-100 p-4">
@@ -67,11 +67,11 @@ const formattedOriginalPrice = computed(() => {
           <div class="text-xs mt-2">
             <span v-if="book.inStock" class="text-green-600 font-medium flex items-center">
               <Icon name="heroicons:check-circle-20-solid" class="w-3.5 h-3.5 mr-1" />
-              In Stock
+              ইন স্টক
             </span>
             <span v-else class="text-red-600 font-medium flex items-center">
               <Icon name="heroicons:x-circle-20-solid" class="w-3.5 h-3.5 mr-1" />
-              Out of Stock
+              আউট অফ স্টক
             </span>
           </div>
         </div>
@@ -82,7 +82,7 @@ const formattedOriginalPrice = computed(() => {
           class="flex items-center bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 text-white font-semibold text-sm px-4 py-2.5 rounded-full transition-all duration-300 shadow-md hover:shadow-lg active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none"
         >
           <Icon name="heroicons:shopping-cart" class="w-4 h-4 mr-1.5" />
-          Add To Cart
+          অ্যাড তো কার্ট
         </button>
       </div>
       

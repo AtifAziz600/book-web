@@ -27,30 +27,31 @@ const cartItemCount = ref(0);
                             </div>
 
                             <div class="flex items-center space-x-6">
-                                <div
+                                <!-- <div
                                     class="flex flex-col items-center cursor-pointer group p-1.5 hover:bg-gray-100 rounded-lg transition duration-200">
                                     <Icon name="heroicons:gift"
                                         class="w-6 h-6 text-gray-700 group-hover:text-red-600" />
                                     <span class="text-xs mt-1 text-gray-600">উইশ লিস্ট</span>
-                                </div>
-
-                                <div
-                                    class="flex flex-col items-center cursor-pointer group relative p-1.5 hover:bg-gray-100 rounded-lg transition duration-200">
-                                    <Icon name="heroicons:shopping-bag"
-                                        class="w-6 h-6 text-gray-700 group-hover:text-red-600" />
-                                    <span v-if="cartItemCount > 0"
-                                        class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-medium rounded-full h-5 w-5 flex items-center justify-center border-2 border-white">
-                                        {{ cartItemCount }}
-                                    </span>
-                                    <span class="text-xs mt-1 text-gray-600">কার্ট</span>
-                                </div>
+                                </div> -->
+                                <NuxtLink to="/order/cart">
+                                    <div
+                                        class="flex flex-col items-center cursor-pointer group relative p-1.5 hover:bg-gray-100 rounded-lg transition duration-200">
+                                        <Icon name="heroicons:shopping-bag"
+                                            class="w-6 h-6 text-gray-700 group-hover:text-red-600" />
+                                        <span v-if="cartItemCount > 0"
+                                            class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-medium rounded-full h-5 w-5 flex items-center justify-center border-2 border-white">
+                                            {{ cartItemCount }}
+                                        </span>
+                                        <span class="text-xs mt-1 text-gray-600">কার্ট</span>
+                                    </div>
+                                </NuxtLink>
                                 <NuxtLink to="/login">
-                                <div
-                                    class="flex flex-col items-center cursor-pointer group p-1.5 hover:bg-gray-100 rounded-lg transition duration-200">
-                                    <Icon name="heroicons:user"
-                                        class="w-12 h-12 text-gray-700 group-hover:text-red-600" />
+                                    <div
+                                        class="flex flex-col items-center cursor-pointer group p-1.5 hover:bg-gray-100 rounded-lg transition duration-200">
+                                        <Icon name="heroicons:user"
+                                            class="w-12 h-12 text-gray-700 group-hover:text-red-600" />
                                         <span class="text-xs mt-1 text-gray-600">লগইন</span>
-                                </div>
+                                    </div>
                                 </NuxtLink>
                             </div>
                         </div>

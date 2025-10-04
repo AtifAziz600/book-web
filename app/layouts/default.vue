@@ -2,10 +2,10 @@
   
   <div class="w-full relative">
         <header>
-      <!-- <MobileHeader/> -->
+      <MobileNavbar/>
       <Header />
     </header>
-    <main class="pt-16 lg:pt-0">
+    <main>
           <slot />
     </main>
         <footer>

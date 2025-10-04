@@ -7,15 +7,15 @@
             <div class="flex flex-wrap items-center gap-6">
                 <div class="flex items-center gap-2 hover:text-amber-600 transition-colors group">
                     <Icon name="ph:phone-light" class="text-xl text-red-500 group-hover:scale-110 transition-transform" />
-                    <span>Phone: <span class="font-semibold text-gray-900">09613 787878, ০৯৬১৩ ৭৮৭৮৭৮</span></span>
+                    <span>ফোন: <span class="font-semibold text-gray-900">০১৭৮৪-৫৬৬৩১৫, ০১৯৭২-১৩৩৪৫</span></span>
                 </div>
                 <div class="flex items-center gap-2 hover:text-amber-600 transition-colors group">
                     <Icon name="ph:envelope-light" class="text-xl text-red-500 group-hover:scale-110 transition-transform" />
-                    <span>Email: <span class="font-semibold text-gray-900">info@salsabilpublications.com</span></span>
+                    <span>ইমেইল: <span class="font-semibold text-gray-900">info@salsabilpublications.com</span></span>
                 </div>
                 <div class="flex items-center gap-2 hover:text-yellow-600 transition-colors group">
                     <Icon name="ph:clock-light" class="text-xl text-red-500 group-hover:scale-110 transition-transform" />
-                    <span>Open: <span class="font-semibold text-gray-900">9AM - 6PM</span></span>
+                    <span>ওপেন: <span class="font-semibold text-gray-900">9AM - 6PM</span></span>
                 </div>
             </div>
             <div class="flex flex-wrap items-center gap-6">
@@ -29,14 +29,7 @@
                 </div>
                 
                 <div class="bg-gradient-to-r from-yellow-300 to-yellow-400 text-gray-900 px-4 py-1.5 rounded-full font-semibold shadow-md animate-pulse">
-                    Friday 5th September, 2025
-                </div>
-                <div class="flex items-center gap-2 group">
-                    <Icon name="ph:globe-light" class="text-xl text-red-500 group-hover:scale-110 transition-transform" />
-                    <select class="bg-transparent border-none focus:ring-2 focus:ring-red-300 rounded-md px-2 py-1 font-medium cursor-pointer">
-                        <option>EN</option>
-                        <option>BN</option>
-                    </select>
+                    শুক্রবার ৫ সেপ্টেম্বর, ২০২৫
                 </div>
             </div>
         </div>
