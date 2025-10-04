@@ -1,115 +1,131 @@
+<script setup>
+import { ref, computed } from "vue";
+const subjects = ref([
+    { id: 1, name: "ছবি আঁকিবুকি অনুশীলন", rate: 250, quantity: 0, image: "/image/book-1.jpg" },
+    { id: 2, name: "ছেলে অথবা মেয়েদের লেখা", rate: 310, quantity: 0, image: "/image/book-1.jpg" },
+    { id: 3, name: "অঙ্কের অনুশীলন", rate: 120, quantity: 0, image: "/image/book-1.jpg" },
+    { id: 4, name: "আলফাবেট লেখা", rate: 110, quantity: 0, image: "/image/book-1.jpg" },
+    { id: 5, name: "শ্রেণী কার্য (টেবিল কাজ)", rate: 100, quantity: 0, image: "/image/book-1.jpg" },
+    { id: 6, name: "ফ্রিজার রঙের কাজ", rate: 420, quantity: 0, image: "/image/book-1.jpg" },
+    { id: 7, name: "কার্ড আঁকিবুকি", rate: 320, quantity: 0, image: "/image/book-1.jpg" },
+    { id: 8, name: "ফ্রিজার কেটে আঠা লাগানো", rate: 230, quantity: 0, image: "/image/book-1.jpg" },
+    { id: 9, name: "ফ্রিজার জার্নাল ও স্কেচবুক লেখা", rate: 520, quantity: 0, image: "/image/book-1.jpg" },
+    { id: 10, name: "আলফাবেট ব্লক", rate: 620, quantity: 0, image: "/image/book-1.jpg" },
+    { id: 11, name: "নিয়মিত ছুটি (৭)", rate: 430, quantity: 0, image: "/image/book-1.jpg" },
+]);
+
+const totalAmount = computed(() => {
+  return subjects.value.reduce((total, subject) => {
+    return total + (subject.quantity * subject.rate);
+  }, 0).toFixed(2);
+});
+</script>
+
 <template>
-    <section class="w-full relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-slate-100 py-12">
-        <div class="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
-            <div class="container max-w-screen-lg mx-auto">
-                <div>
-                    <h2 class="font-semibold text-xl text-gray-600">বুক অর্ডার ফর্ম</h2>
-                    <p class="text-gray-500 mb-6">অর্ডার করতে প্রয়োজনীয় তথ্য দিন.</p>
-
-                    <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
-                        <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
-                            <div class="text-gray-600">
-                                <p class="font-medium text-lg">অর্ডার বিস্তারিত</p>
-                                <p>আপনার বই নির্বাচন করুন এবং শিপিং তথ্য প্রদান করুন।</p>
-                            </div>
-
-                            <div class="lg:col-span-2">
-                                <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-6">
-                                    <div class="md:col-span-5">
-                                        <label for="full_name">প্রতিষ্ঠানের নাম</label>
-                                        <input type="text" name="full_name" id="full_name"
-                                            class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value=""
-                                            placeholder="আপনার প্রতিষ্ঠানের নাম লিখুন" />
+    <section class="w-full bg-gradient-to-br from-gray-50 to-gray-100 py-8 px-4 sm:px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">অর্ডার ফর্ম</h2>
+                <div class="w-24 h-1 bg-red-500 mx-auto rounded-full"></div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gradient-to-r from-red-500 to-red-600 text-white sticky top-0 z-10">
+                            <tr>
+                                <th class="py-3 px-4 text-left text-sm font-semibold uppercase tracking-wider">ক্রম</th>
+                                <th class="py-3 px-4 text-left text-sm font-semibold uppercase tracking-wider">ছবি</th>
+                                <th class="py-3 px-4 text-left text-sm font-semibold uppercase tracking-wider">পণ্যের নাম</th>
+                                <th class="py-3 px-4 text-left text-sm font-semibold uppercase tracking-wider">মূল্য</th>
+                                <th class="py-3 px-4 text-left text-sm font-semibold uppercase tracking-wider">পরিমাণ</th>
+                                <th class="py-3 px-4 text-right text-sm font-semibold uppercase tracking-wider">মোট (৳)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 bg-white max-h-[350px] overflow-y-auto block">
+                            <tr v-for="(subject, index) in subjects" :key="subject.id" 
+                                class="hover:bg-gray-50 transition-colors duration-150 table-row">
+                                <td class="py-3 px-4 text-sm font-medium text-gray-700">{{ index + 1 }}</td>
+                                <td class="py-3 px-4 text-sm">
+                                    <div class="flex justify-center">
+                                        <img :src="subject.image" :alt="subject.name" 
+                                             class="w-10 h-10 object-cover rounded-lg border border-gray-200 shadow-sm" />
                                     </div>
-
-                                    <div class="md:col-span-5">
-                                        <label for="email">কোড</label>
-                                        <input type="text" name="email" id="email"
-                                            class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value=""
-                                            placeholder="আপনার ইনস্টিটিউট কোড লিখুন" />
-                                    </div>
-
-                                    <div class="md:col-span-5">
-                                        <label for="phone">মোবাইল নম্বর</label>
-                                        <input type="tel" name="phone" id="phone"
-                                            class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value=""
-                                            placeholder="+880" />
-                                    </div>
-
-                                    <div class="md:col-span-5">
-                                        <div class="grid grid-cols-2 gap-4">
-
-                                            <div class="col-span-1">
-                                                <label for="country">জেলা</label>
-                                                <select id="book_selection" name="district_selection"
-                                                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50 border-gray-200 text-gray-600">
-                                                    <option value="">Select</option>
-                                                    <option value="pre-play">Pre Play</option>
-                                                    <option value="pre-boro-boi">Pre Boro Boi</option>
-                                                    <option value="shoto-size">Shoto Size</option>
-                                                    <option value="other">Other Book</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="col-span-1">
-                                                <label for="country">থানা</label>
-                                                <select id="book_selection" name="district_selection"
-                                                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50 border-gray-200 text-gray-600">
-                                                    <option value="">Select</option>
-                                                    <option value="pre-play">Pre Play</option>
-                                                    <option value="pre-boro-boi">Pre Boro Boi</option>
-                                                    <option value="shoto-size">Shoto Size</option>
-                                                    <option value="other">Other Book</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="md:col-span-5">
-                                        <label for="email">ঠিকানা</label>
-                                        <input type="text" name="address" id="address"
-                                            class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value=""
-                                            placeholder="আপনার ঠিকানা লিখুন" />
-                                    </div>
-                                    <div class="md:col-span-5">
-                                        <label for="special_instructions">নোট</label>
-                                        <textarea name="special_instructions" id="special_instructions" rows="5"
-                                            class="mt-1 border rounded px-4 w-full bg-gray-50"
-                                            placeholder="নোট (যদি থাকে)..."></textarea>
-                                    </div>
-
-                                    <div class="md:col-span-5 text-right">
-                                        <div class="inline-flex items-end">
-                                            <NuxtLink to="/order-form/order-table"
-                                                class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-8 rounded transition duration-300 inline-flex items-center justify-center">
-                                                অর্ডার করুন
-                                            </NuxtLink>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                </td>
+                                <td class="py-3 px-4 text-sm font-medium text-gray-800">{{ subject.name }}</td>
+                                <td class="py-3 px-4 text-sm">
+                                    <input type="number" v-model.number="subject.rate" min="0"
+                                        class="w-20 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all text-right" />
+                                </td>
+                                <td class="py-3 px-4 text-sm">
+                                    <input type="number" v-model.number="subject.quantity" min="0"
+                                        class="w-20 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all text-right" />
+                                </td>
+                                <td class="py-3 px-4 text-sm font-semibold text-right text-gray-800">
+                                    {{ (subject.quantity * subject.rate).toFixed(2) }}
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot class="bg-gray-50 font-semibold sticky bottom-0 z-10">
+                            <tr>
+                                <td colspan="5" class="py-3 px-4 text-right text-gray-700">মোট:</td>
+                                <td class="py-3 px-4 text-right text-lg text-red-600">{{ totalAmount }}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
                 </div>
+            </div>
+            
+            <div class="flex justify-center">
+                <NuxtLink to="/order-form/order-table" 
+                    class="px-8 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold rounded-lg shadow-md hover:from-red-600 hover:to-red-700 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50">
+                    <button class="flex items-center">
+                        <span>বিল</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </NuxtLink>
             </div>
         </div>
     </section>
 </template>
 
-<script setup>
-import { ref } from 'vue';
+<style scoped>
 
-const quantity = ref(1);
+.overflow-x-auto::-webkit-scrollbar {
+    height: 8px;
+}
 
-const increaseQuantity = () => {
-    quantity.value++;
-};
+.overflow-x-auto::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
 
-const decreaseQuantity = () => {
-    if (quantity.value > 1) {
-        quantity.value--;
-    }
-};
-</script>
+.overflow-x-auto::-webkit-scrollbar-thumb {
+    background: #c5c5c5;
+    border-radius: 10px;
+}
 
-<style scoped></style>
+.overflow-x-auto::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+
+tbody {
+    display: block;
+    max-height: 350px; 
+    overflow-y: auto;
+}
+
+
+thead, tbody tr, tfoot {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+th, td {
+    width: calc(100% / 6); 
+}
+</style>
