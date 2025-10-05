@@ -73,7 +73,7 @@ const addComment = () => {
 </script>
 
 <template>
-  <section class="w-full relative overflow-hidden bg-gradient-to-br from-gray-50 via-white to-gray-100">
+  <section class="w-full relative overflow-hidden bg-gradient-to-br from-gray-50 via-white to-gray-100 py-12">
     <div class="mt-10">
       <div class="mb-4 md:mb-0 w-full max-w-7xl mx-auto relative" style="height: 24em;">
         <div class="absolute left-0 bottom-0 w-full h-full z-10"
