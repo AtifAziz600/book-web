@@ -6,7 +6,7 @@ const cartItemCount = ref(0);
     <header class="hidden lg:block">
         <nav class="relative">
             <div class=" ">
-                <TopHeader />
+                <!-- <TopHeader /> -->
                 <header class="bg-white shadow-lg py-3 sticky top-0 z-50">
                     <div class="container mx-auto px-4">
                         <div class="flex flex-col md:flex-row items-center justify-between gap-4">
