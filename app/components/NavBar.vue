@@ -1,5 +1,5 @@
 <template>
-    <nav class="bg-[#ED1B24] w-full">
+    <nav class="bg-[#800000] w-full">
         <div class="flex items-center justify-center text-white text-md font-normal">
 
             <NuxtLink to="/" class="py-4 px-6 text-white hover:bg-[#A82229] transition-colors duration-200 uppercase" active-class="font-bold text-red-300 border-b-2 border-red-600 bg-[#A82229]">হোম</NuxtLink>

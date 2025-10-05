@@ -4,7 +4,7 @@ definePageMeta({
 })
 
 import { ref } from 'vue'
-const email = ref('')
+const phone = ref('')
 const password = ref('')
 const rememberMe = ref(false)
 const isLoading = ref(false)
@@ -12,7 +12,7 @@ const showPassword = ref(false)
 
 const handleLogin = async () => {
   
-  if (!email.value || !password.value) {
+  if (!phone.value || !password.value) {
     alert('অনুগ্রহ করে ইমেল এবং পাসওয়ার্ড উভয়ই লিখুন')
     return
   }
@@ -45,11 +45,11 @@ const handleLogin = async () => {
                   <Icon name="mdi:email" class="h-5 w-5 text-gray-400" />
                 </div>
                 <input 
-                  id="email"
-                  v-model="email"
-                  type="email" 
+                  id="phone"
+                  v-model="phone"
+                  type="phone" 
                   class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition" 
-                  placeholder="আপনার@ইমেল.কম"
+                  placeholder="আপনার ফোন নম্বর লিখুন"
                   required
                 />
               </div>

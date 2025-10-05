@@ -54,9 +54,9 @@ const addToCart = () => {
                     <p class="text-lg text-gray-600 mb-4">by <span class="font-semibold">{{ book.author }}</span></p>
 
                     <div class="flex items-center mb-4">
-                        <div class="text-3xl font-bold text-red-600 mr-3">৳{{ book.price.toFixed(2) }}</div>
+                        <div class="text-3xl font-bold text-[#800000] mr-3">৳{{ book.price.toFixed(2) }}</div>
                         <div v-if="book.originalPrice" class="text-xl text-gray-400 line-through">৳{{ book.originalPrice.toFixed(2) }}</div>
-                        <div v-if="book.discount" class="ml-4 px-2 py-0.5 bg-red-600 text-white text-sm font-bold rounded-full shadow-lg">
+                        <div v-if="book.discount" class="ml-4 px-2 py-0.5 bg-[#800000] text-white text-sm font-bold rounded-full shadow-lg">
                             -{{ book.discount }}%
                         </div>
                     </div>

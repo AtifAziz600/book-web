@@ -7,5 +7,7 @@
   <HomeNewProductsSection/>
   <HomeSecondBannerSection/>
   <HomeBookServiceSection/>
+  <HomeBlogSection/>
+  <HomeNewsLetterSection/>
   <!-- <HomeBooksTable/> -->
 </template>

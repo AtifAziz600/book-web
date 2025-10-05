@@ -9,4 +9,15 @@ css: ['~/assets/css/main.css'],
 },
 
   modules: ["nuxt-swiper", "@nuxt/icon"],
+  
+  app: {
+    head: {
+      link: [
+        {
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali&display=swap',
+        },
+      ],
+    },
+  },
 })
