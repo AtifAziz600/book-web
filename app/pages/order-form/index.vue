@@ -46,7 +46,7 @@ const totalAmount = computed(() => {
                             <tr v-for="(subject, index) in subjects" :key="subject.id" 
                                 class="hover:bg-gray-50 transition-colors duration-150 table-row">
                                 <td class="py-3 px-4 text-sm font-medium text-gray-700">{{ index + 1 }}</td>
-                                <td class="py-3 px-4 text-sm">
+                                <td class="py-3 px-3 text-sm">
                                     <div class="flex justify-center">
                                         <img :src="subject.image" :alt="subject.name" 
                                              class="w-10 h-10 object-cover rounded-lg border border-gray-200 shadow-sm" />

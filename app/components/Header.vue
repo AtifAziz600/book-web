@@ -12,7 +12,7 @@ const cartItemCount = ref(0);
                         <div class="flex flex-col md:flex-row items-center justify-between gap-4">
                             <a href="/" class="flex items-center flex-shrink-0">
                                 <img src="/image/logo.png" class="h-12 w-auto rounded-2xl" alt="Brand Logo">
-                                <span class="ml-2 text-xl font-extrabold text-gray-800">সালসাবিল পাবলিকেশন্স</span>
+                                <span class="ml-2 text-xl font-extrabold text-gray-800">সালসাবীল পাবলিকেশন্স</span>
                             </a>
 
                             <div class="flex-1 max-w-xl w-full order-3 md:order-none">

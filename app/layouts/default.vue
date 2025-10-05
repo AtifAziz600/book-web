@@ -11,5 +11,6 @@
         <footer>
       <Footer />
     </footer>
+    <BottomNavbar />
   </div>
 </template>
