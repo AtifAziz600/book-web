@@ -2,9 +2,9 @@
   
   <div class="w-full relative">
         <header>
-      <MobileNavbar/>
       <Header />
     </header>
+    <MobileNavbar/>
     <main>
           <slot />
     </main>

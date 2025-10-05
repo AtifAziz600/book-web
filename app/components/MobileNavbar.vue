@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <div class="lg:hidden">
+  <div class="lg:hidden z-50">
     <header class="bg-white shadow-lg py-3 sticky top-0 z-50">
       <div class="container mx-auto px-4">
         <div class="flex items-center justify-between">
@@ -24,7 +24,7 @@
       </div>
     </header>
 
-    <div class="md:hidden bg-white py-3 overflow-x-auto border-b">
+    <div class="md:hidden bg-white py-3 overflow-x-auto border-b sticky top-[64px] z-50">
       <div class="flex space-x-3 px-4">
         <NuxtLink to="/"
           class="flex-shrink-0 py-2 px-4 bg-white border border-gray-300 text-gray-800 rounded-full font-medium"
