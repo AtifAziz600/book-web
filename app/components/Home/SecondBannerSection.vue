@@ -18,11 +18,11 @@
                 কোন অভিযোগ থাকলে এখানে জানান।
               </p>
             </div>
-            <a href="#"
+            <NuxtLink to="/contact-us"
               class="flex items-center gap-2 rounded-full shadow-sm text-lg font-semibold py-4 px-8 transition-all duration-500"
               style="background-color: white; color: var(--color-primary);">
               বিস্তারিত
-            </a>
+            </NuxtLink>
 
           </div>
         </div>

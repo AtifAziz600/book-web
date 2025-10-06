@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue';
 
-
 const book = ref({
     id: 1,
     title: "শিশুদের বাংলা পড়া (পেপারব্যাক)",

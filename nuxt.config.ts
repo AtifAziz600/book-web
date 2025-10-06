@@ -8,7 +8,7 @@ css: ['~/assets/css/main.css'],
   plugins: [tailwindcss()],
 },
 
-  modules: ["nuxt-swiper", "@nuxt/icon"],
+  modules: ["nuxt-swiper", "@nuxt/icon", "@nuxt/ui"],
   
   app: {
     head: {

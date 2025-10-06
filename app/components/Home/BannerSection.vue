@@ -18,11 +18,11 @@
                 এবং স্টেশনারি জিনিসপত্র অর্ডার করুন
               </p>
             </div>
-            <a href="#"
+            <NuxtLink to="/products/AllBooks"
               class="flex items-center gap-2 rounded-full shadow-sm text-lg font-semibold py-4 px-8 transition-all duration-500"
               style="background-color: white; color: var(--color-primary);">
               বিস্তারিত
-            </a>
+            </NuxtLink>
 
           </div>
         </div>

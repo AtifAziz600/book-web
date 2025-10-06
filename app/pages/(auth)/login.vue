@@ -1,7 +1,7 @@
 <script setup>
-definePageMeta({
-  layout: 'guest'
-})
+// definePageMeta({
+//   layout: 'guest'
+// })
 
 import { ref } from 'vue'
 const phone = ref('')
@@ -26,23 +26,22 @@ const handleLogin = async () => {
 </script>
 
 <template>
-  <section class="min-h-screen w-full relative overflow-hidden bg-cover bg-center bg-no-repeat flex items-center justify-center p-4 transition-all duration-1000" 
-          style="background-image: url('/image/auth-bg.jpg');">
+  <section class="min-h-screen w-full relative overflow-hidden bg-cover bg-center bg-no-repeat flex items-center justify-center p-4 transition-all duration-1000">
     
     <div class="relative z-10 w-full max-w-xl">
       <div class="bg-white shadow-xl overflow-hidden border border-gray-100 rounded-lg">
         <div class="p-8 text-start">
           <h1 class="text-2xl font-bold text-gray-700 mb-2">সালসাবিল পাবলিকেশন</h1>
-          <p class="text-gray-600">আপনার অ্যাকাউন্টে **লগইন** করুন</p>
+          <p class="text-gray-600">আপনার অ্যাকাউন্টে লগইন করুন</p>
         </div>
         <div class="p-8">
           <form @submit.prevent="handleLogin">
             
             <div class="mb-6">
-              <label for="email" class="block text-gray-700 font-medium mb-2">ইমেল ঠিকানা</label>
+              <label for="phone" class="block text-gray-700 font-medium mb-2">ফোন নম্বর</label>
               <div class="relative">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Icon name="mdi:email" class="h-5 w-5 text-gray-400" />
+                  <Icon name="mdi:phone" class="h-5 w-5 text-gray-400" />
                 </div>
                 <input 
                   id="phone"

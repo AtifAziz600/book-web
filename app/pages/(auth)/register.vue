@@ -1,21 +1,23 @@
 <script setup>
-definePageMeta({
-  layout: 'guest'
-})
+// definePageMeta({
+//   layout: 'guest'
+// })
 
 import { ref } from 'vue'
 const firstName = ref('')
 const lastName = ref('')
 const email = ref('')
+const phone = ref('')
 const password = ref('')
-const rememberMe = ref(false)
+const confirmPhone = ref('')
 const isLoading = ref(false)
 const showPassword = ref(false)
+const showConfirmPassword = ref(false)
 
 const handleRegister = async () => {
 
-  if (!email.value || !password.value) {
-    alert('অনুগ্রহ করে ইমেল এবং পাসওয়ার্ড উভয়ই লিখুন')
+  if (!email.value || !phone.value || !password.value || !firstName.value || !lastName.value || !confirmPhone.value) {
+    alert('অনুগ্রহ করে ইমেল,  এবং পাসওয়ার্ড উভয়ই লিখুন')
     return
   }
   
@@ -29,14 +31,13 @@ const handleRegister = async () => {
 </script>
 
 <template>
-  <section class="min-h-screen w-full relative overflow-hidden bg-cover bg-center bg-no-repeat flex items-center justify-center p-4 transition-all duration-1000" 
-          style="background-image: url('/image/auth-bg.jpg');">
+  <section class="min-h-screen w-full relative overflow-hidden bg-cover bg-center bg-no-repeat flex items-center justify-center p-4 transition-all duration-1000">
     
     <div class="relative z-10 w-full max-w-xl">
       <div class="bg-white shadow-xl overflow-hidden border border-gray-100 rounded-lg">
         <div class="p-8 text-start">
           <h1 class="text-2xl font-bold text-gray-700 mb-2">সালসাবিল পাবলিকেশন</h1>
-          <p class="text-gray-600">আপনার অ্যাকাউন্টে **নিবন্ধন** করুন</p>
+          <p class="text-gray-600">আপনার অ্যাকাউন্টে নিবন্ধন করুন</p>
         </div>
         <div class="p-8">
           <form @submit.prevent="handleRegister">
@@ -91,7 +92,22 @@ const handleRegister = async () => {
                 />
               </div>
             </div>
-            
+              <div class="mb-6">
+              <label for="phone" class="block text-gray-700 font-medium mb-2">ফোন নম্বর</label>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Icon name="mdi:phone" class="h-5 w-5 text-gray-400" />
+                </div>
+                <input 
+                  id="phone"
+                  v-model="phone"
+                  type="phone" 
+                  class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition" 
+                  placeholder="আপনার ফোন নম্বর লিখুন"
+                  required
+                />
+              </div>
+            </div>
             <div class="mb-6">
               <label for="password" class="block text-gray-700 font-medium mb-2">পাসওয়ার্ড</label>
               <div class="relative">
@@ -109,6 +125,30 @@ const handleRegister = async () => {
                 <button 
                   type="button"
                   class="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  @click="showConfirmPassword = !showConfirmPassword"
+                >
+                  <Icon v-if="showConfirmPassword" name="mdi:eye-off" class="h-5 w-5 text-gray-500" />
+                  <Icon v-else name="mdi:eye" class="h-5 w-5 text-gray-500" />
+                </button>
+              </div>
+            </div>
+              <div class="mb-6">
+              <label for="confirmPassword" class="block text-gray-700 font-medium mb-2">পাসওয়ার্ড</label>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Icon name="mdi:lock" class="h-5 w-5 text-gray-400" />
+                </div>
+                <input 
+                  id="confirmPassword"
+                  v-model="confirmPhone"
+                  :type="showPassword ? 'text' : 'password'" 
+                  class="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition" 
+                  placeholder="আপনার পাসওয়ার্ড নিশ্চিত করুন"
+                  required
+                />
+                <button 
+                  type="button"
+                  class="absolute inset-y-0 right-0 pr-3 flex items-center"
                   @click="showPassword = !showPassword"
                 >
                   <Icon v-if="showPassword" name="mdi:eye-off" class="h-5 w-5 text-gray-500" />
@@ -116,7 +156,6 @@ const handleRegister = async () => {
                 </button>
               </div>
             </div>
-            
             <button 
               type="submit" 
               class="w-full bg-red-500 hover:bg-red-700 text-white font-semibold py-3 px-4 rounded-lg shadow-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition flex items-center justify-center"

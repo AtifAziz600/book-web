@@ -35,9 +35,12 @@
         <NuxtLink to="/books-category"
           class="flex-shrink-0 py-2 px-4 bg-white border border-gray-300 text-gray-800 rounded-full font-medium"
           exact-active-class="!bg-[#ED1B24] !text-white !border-none">পাঠ্যপুস্তক</NuxtLink>
-        <a href="/order-form"
+          <NuxtLink to="/syllabus" class="flex-shrink-0 py-2 px-4 bg-white border border-gray-300 text-gray-800 rounded-full font-medium"
+          exact-active-class="!bg-[#ED1B24] !text-white !border-none">সিলেবাস ও প্রশ্নপত্র
+          </NuxtLink>
+        <Nuxt to="/order-form"
           class="flex-shrink-0 py-2 px-4 bg-white border border-gray-300 text-gray-800 rounded-full font-medium"
-          exact-active-class="!bg-[#ED1B24] !text-white !border-none">অর্ডার ফর্ম</a>
+          exact-active-class="!bg-[#ED1B24] !text-white !border-none">অর্ডার ফর্ম</Nuxt>
         <NuxtLink to="/advice"
           class="flex-shrink-0 py-2 px-4 bg-white border border-gray-300 text-gray-800 rounded-full font-medium"
           exact-active-class="!bg-[#ED1B24] !text-white !border-none">পরামর্শ</NuxtLink>

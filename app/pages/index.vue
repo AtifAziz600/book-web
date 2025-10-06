@@ -9,5 +9,5 @@
   <HomeBookServiceSection/>
   <HomeBlogSection/>
   <HomeNewsLetterSection/>
-  <!-- <HomeBooksTable/> -->
+
 </template>

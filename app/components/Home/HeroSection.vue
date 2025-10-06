@@ -28,18 +28,18 @@
           </p>
 
           <div class="mt-6 flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="#"
+            <NuxtLink
+              to="/products/AllBooks"
               class="inline-block rounded bg-[var(--color-secondary)] px-5 py-3 font-medium text-white shadow-md transition hover:bg-[var(--color-primary)]"
             >
               {{ slide.button1 }}
-            </a>
-            <a
-              href="#"
+            </NuxtLink>
+            <NuxtLink
+              to="/order-form"
               class="inline-block rounded border border-white px-5 py-3 font-medium text-white shadow-md transition hover:bg-white hover:text-[var(--color-primary)]"
             >
               {{ slide.button2 }}
-            </a>
+            </NuxtLink>
           </div>
         </div>
       </SwiperSlide>
