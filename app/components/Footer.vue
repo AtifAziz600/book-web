@@ -131,6 +131,10 @@
             <span class="text-white font-semibold">সালসাবীল পাবলিকেশন্স</span>। 
             সর্বস্বত্ব সংরক্ষিত। 
             <span class="text-gray-400">All Rights Reserved</span>
+                    | <span class="text-gray-400">Design & Developed by</span> 
+        <a href="https://creativetechpark.com" target="_blank" class="text-yellow-400 hover:text-white transition-colors duration-200 font-semibold">
+          Creative Tech Park
+        </a>
           </p>
         </div>
       </div>
