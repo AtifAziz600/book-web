@@ -39,10 +39,6 @@ const books = [
     }
 ];
 
-const toggleFavorite = (id) => {
-    const book = books.find(b => b.id === id);
-    if (book) book.isFavorite = !book.isFavorite;
-};
 
 const addToCart = (book) => {
     console.log("Added to cart:", book.title);
@@ -60,7 +56,7 @@ const addToCart = (book) => {
         <div class="container mx-auto px-3 relative z-10">
             <div class="max-w-7xl justify-center items-center">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
-                    <BookCard v-for="book in books" :key="book.id" :book="book" @toggle-favorite="toggleFavorite"
+                    <BookCard v-for="book in books" :key="book.id" :book="book"
                         @add-to-cart="addToCart" />
                 </div>
             </div>

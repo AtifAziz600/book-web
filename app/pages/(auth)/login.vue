@@ -1,15 +1,13 @@
 <script setup>
-// definePageMeta({
-//   layout: 'guest'
-// })
-
 import { ref } from 'vue'
 const phone = ref('')
 const password = ref('')
 const rememberMe = ref(false)
 const isLoading = ref(false)
 const showPassword = ref(false)
+import { useRouter } from 'vue-router'
 
+const router = useRouter() 
 const handleLogin = async () => {
   
   if (!phone.value || !password.value) {
@@ -21,6 +19,7 @@ const handleLogin = async () => {
   setTimeout(() => {
     isLoading.value = false
     alert(`লগইন করার চেষ্টা করা হয়েছে এই ইমেল দিয়ে: ${email.value}`)
+    router.push('/dashboard')
   }, 1500)
 }
 </script>
@@ -106,7 +105,7 @@ const handleLogin = async () => {
           
           <p class="mt-8 text-center text-sm text-gray-600">
             আপনার কি অ্যাকাউন্ট নেই?
-            <NuxtLink href="/register" class="font-medium text-red-600 hover:text-red-500 transition">নিবন্ধন করুন</NuxtLink>
+            <NuxtLink to="/register" class="font-medium text-red-600 hover:text-red-500 transition">নিবন্ধন করুন</NuxtLink>
           </p>
         </div>
       </div>

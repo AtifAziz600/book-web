@@ -8,8 +8,13 @@ css: ['~/assets/css/main.css'],
   plugins: [tailwindcss()],
 },
 
-  modules: ["nuxt-swiper", "@nuxt/icon", "@nuxt/ui"],
-  
+  modules: ["nuxt-swiper", "@nuxt/icon", "@nuxt/ui", "@pinia/nuxt"],
+    runtimeConfig: {
+    public: {
+      apiUrl: 'http://localhost:8000/api',
+      apiBase: process.env.APP_URL || 'http://localhost:8000'
+    },
+  },
   app: {
     head: {
       link: [

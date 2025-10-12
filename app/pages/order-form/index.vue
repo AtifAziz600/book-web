@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref, computed } from "vue";
 const subjects = ref([
     { id: 1, name: "ছবি আঁকিবুকি অনুশীলন", rate: 250, quantity: 0, image: "/image/book-1.jpg" },

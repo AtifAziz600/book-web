@@ -10,12 +10,12 @@ const menuItems = ref([
         link: "/syllabus",
         type: "dropdown",
         items: [
-            { name: "প্রাক-প্রাথমিক", link: "/books-category/singlebookcategory" },
-            { name: "প্রাথমিক", link: "/books-category/singlebookcategory" },
-            { name: "মাধ্যমিক", link: "/books-category/singlebookcategory" },
-            { name: "উচ্চ মাধ্যমিক", link: "/books-category/singlebookcategory" },
-            { name: "অনার্স", link: "/books-category/singlebookcategory" },
-            { name: "মাস্টার্স", link: "/books-category/singlebookcategory" },
+            { name: "প্রাক-প্রাথমিক", link: "/syllabus/singlepage" },
+            { name: "প্রাথমিক", link: "/syllabus/singlepage" },
+            { name: "মাধ্যমিক", link: "/syllabus/singlepage" },
+            { name: "উচ্চ মাধ্যমিক", link: "/syllabus/singlepage" },
+            { name: "অনার্স", link: "/syllabus/singlepage" },
+            { name: "মাস্টার্স", link: "/syllabus/singlepage" },
         ]
     },
     { name: "অর্ডার ফর্ম", link: "/order-form", type: "link" },

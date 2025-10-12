@@ -1,59 +1,63 @@
 <template>
-  <section class="relative w-full h-[800px] lg:h-screen">
-    <Swiper
-      :modules="modules"
+  <section class="relative w-full h-[800px] lg:h-screen overflow-hidden">
+    <Swiper 
+      :modules="modules" 
       :autoplay="{ delay: 4000, disableOnInteraction: false }"
-      :loop="true"
-      :pagination="{ clickable: true }"
-      class="h-screen w-full"
+      :loop="true" 
+      :pagination="{ clickable: true }" 
+      :speed="1000"
+      class="h-full w-full"
     >
-      <SwiperSlide
-        v-for="slide in slides"
-        :key="slide.id"
-        class="h-full w-full bg-cover bg-center"
-        :style="{ backgroundImage: `url(${slide.image})` }"
-      >
-        <div class="absolute inset-0 bg-black/50"></div>
-        <div
-          class="relative z-10 flex h-full flex-col items-center justify-center text-center px-6"
-        >
-<h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white drop-shadow-md">
-    {{ slide.title }}
-    <strong class="text-[var(--color-secondary)]">
-        {{ slide.highlight }}
-    </strong>
-</h1>
-          <p class="mt-4 max-w-2xl text-base sm:text-lg text-gray-100">
-            {{ slide.description }}
-          </p>
+      <SwiperSlide v-for="slide in data?.hero_slider" :key="slide.id" class="h-full w-full relative">
+        <img 
+          :src="slide.image_url" 
+          :alt="slide.id" 
+          class="h-full w-full object-fit object-center" 
+        />
 
-          <div class="mt-6 flex flex-col sm:flex-row gap-4 justify-center">
-            <NuxtLink
-              to="/products/AllBooks"
-              class="inline-block rounded bg-[var(--color-secondary)] px-5 py-3 font-medium text-white shadow-md transition hover:bg-[var(--color-primary)]"
-            >
-              {{ slide.button1 }}
-            </NuxtLink>
-            <NuxtLink
-              to="/order-form"
-              class="inline-block rounded border border-white px-5 py-3 font-medium text-white shadow-md transition hover:bg-white hover:text-[var(--color-primary)]"
-            >
-              {{ slide.button2 }}
-            </NuxtLink>
+        <div class="absolute inset-0 bg-black/40"></div>
+
+        <div class="absolute inset-0 flex items-center justify-center px-4 lg:px-0">
+          <div class="container mx-auto px-4 lg:px-8">
+            <div class="max-w-2xl text-white">
+              <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
+                {{ commonTitle }}
+                <span class="text-[var(--color-thirdly)] block">{{ commonHighlight }}</span>
+              </h1>
+
+              <p class="text-lg md:text-xl mb-8 leading-relaxed opacity-90 max-w-xl">
+                {{ commonDescription }}
+              </p>
+
+              <div class="flex flex-col sm:flex-row gap-4">
+                <button class="bg-[var(--color-secondary)] hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+                  {{ button1Text }}
+                </button>
+                <button class="bg-transparent border-2 border-white hover:bg-white/10 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105">
+                  {{ button2Text }}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </SwiperSlide>
     </Swiper>
+
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
+      <div class="swiper-pagination-custom"></div>
+    </div>
+
   </section>
 </template>
 
 <script setup>
 import { Swiper, SwiperSlide } from 'swiper/vue';
-import { Autoplay, Pagination } from 'swiper/modules';
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
-const modules = [Autoplay, Pagination];
+const modules = [Autoplay, Pagination, Navigation];
 
 const commonTitle = "শিশুর স্বপ্ন হোক আকাশ জয়ের,";
 const commonHighlight = "ইনশাআল্লাহ সব সম্ভব,";
@@ -61,35 +65,8 @@ const commonDescription = "অবিরাম লক্ষ্যে দূরন
 const button1Text = "প্রকাশিত বইগুলো দেখুন";
 const button2Text = "বই অর্ডার করুন";
 
-const slides = [
-  {
-    id: 1,
-    title: commonTitle,
-    highlight: commonHighlight,
-    description: commonDescription,
-    image: "/image/rajniti-banner-8639.jpg",
-    button1: button1Text,
-    button2: button2Text,
-  },
-  {
-    id: 2,
-    title: commonTitle,
-    highlight: commonHighlight,
-    description: commonDescription,
-    image: "/image/darsul-quran-slider-banner-de24.jpg",
-    button1: button1Text,
-    button2: button2Text,
-  },
-  {
-    id: 3,
-    title: commonTitle,
-    highlight: commonHighlight,
-    description: commonDescription,
-    image: "/image/best-seller-books-38a6.jpg",
-    button1: button1Text,
-    button2: button2Text,
-  },
-];
+const {$api} = useNuxtApp();
+const {data, error, status, refresh} = useAsyncData('sliders', () => $api('/top-one-ir'));
 </script>
 
 <style>
@@ -97,5 +74,63 @@ const slides = [
   --color-primary: #1C3B8B;
   --color-secondary: #E61C24;
   --color-thirdly: #FEE600;
+  --swiper-pagination-color: #FEE600;
+  --swiper-pagination-bullet-size: 12px;
+  --swiper-pagination-bullet-inactive-color: #FFFFFF;
+  --swiper-pagination-bullet-inactive-opacity: 0.5;
+}
+
+.swiper-pagination-custom .swiper-pagination-bullet {
+  width: 12px;
+  height: 12px;
+  background: white;
+  opacity: 0.5;
+  margin: 0 6px;
+  transition: all 0.3s ease;
+}
+
+.swiper-pagination-custom .swiper-pagination-bullet-active {
+  background: var(--color-thirdly);
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+.swiper-button-prev-custom, .swiper-button-next-custom {
+  backdrop-filter: blur(4px);
+}
+
+.swiper-slide-active h1,
+.swiper-slide-active p,
+.swiper-slide-active .flex {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.swiper-slide-active h1 {
+  animation-delay: 0.2s;
+}
+
+.swiper-slide-active p {
+  animation-delay: 0.4s;
+}
+
+.swiper-slide-active .flex {
+  animation-delay: 0.6s;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-width: 768px) {
+  .swiper-button-prev-custom, 
+  .swiper-button-next-custom {
+    display: none;
+  }
 }
 </style>
