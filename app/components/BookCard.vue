@@ -64,16 +64,6 @@ const formattedOriginalPrice = computed(() => {
           </div>
           <div v-else class="text-2xl font-semibold text-primary leading-tight">৳{{ formattedPrice }}</div>
           
-          <div class="text-xs mt-2">
-            <span v-if="book.inStock" class="text-green-600 font-medium flex items-center">
-              <Icon name="heroicons:check-circle-20-solid" class="w-3.5 h-3.5 mr-1" />
-              ইন স্টক
-            </span>
-            <span v-else class="text-red-600 font-medium flex items-center">
-              <Icon name="heroicons:x-circle-20-solid" class="w-3.5 h-3.5 mr-1" />
-              আউট অফ স্টক
-            </span>
-          </div>
         </div>
         
         <button

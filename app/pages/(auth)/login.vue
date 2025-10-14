@@ -8,19 +8,33 @@ const showPassword = ref(false)
 import { useRouter } from 'vue-router'
 
 const router = useRouter() 
+const config = useRuntimeConfig();
+const baseURL = config.public.apiBase;
+const { $api } = useNuxtApp();
 const handleLogin = async () => {
-  
   if (!phone.value || !password.value) {
-    alert('অনুগ্রহ করে ইমেল এবং পাসওয়ার্ড উভয়ই লিখুন')
+    alert('অনুগ্রহ করে ফোন এবং পাসওয়ার্ড উভয়ই লিখুন')
     return
   }
   
   isLoading.value = true
-  setTimeout(() => {
+  try {
+    const response = await $api.post(`${baseURL}/customer/login`, {
+      phone: phone.value,
+      password: password.value,
+      remember_me: rememberMe.value
+    });
+    
+    if (response && response.data) {
+      alert('লগইন সফল হয়েছে!')
+      router.push('/')
+    }
+  } catch (error) {
+    console.error('Login error:', error);
+    alert('লগইন ব্যর্থ হয়েছে। অনুগ্রহ করে আপনার তথ্য পরীক্ষা করুন।')
+  } finally {
     isLoading.value = false
-    alert(`লগইন করার চেষ্টা করা হয়েছে এই ইমেল দিয়ে: ${email.value}`)
-    router.push('/dashboard')
-  }, 1500)
+  }
 }
 </script>
 

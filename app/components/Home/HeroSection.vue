@@ -1,42 +1,32 @@
 <template>
   <section class="relative w-full h-[800px] lg:h-screen overflow-hidden">
-    <Swiper 
-      :modules="modules" 
-      :autoplay="{ delay: 4000, disableOnInteraction: false }"
-      :loop="true" 
-      :pagination="{ clickable: true }" 
-      :speed="1000"
-      class="h-full w-full"
-    >
+    <Swiper :modules="modules" :autoplay="{ delay: 4000, disableOnInteraction: false }" :loop="true"
+      :pagination="{ clickable: true }" :speed="1000" class="h-full w-full">
       <SwiperSlide v-for="slide in data?.hero_slider" :key="slide.id" class="h-full w-full relative">
-        <img 
-          :src="slide.image_url" 
-          :alt="slide.id" 
-          class="h-full w-full object-fit object-center" 
-        />
+        <img :src="slide.image_url" :alt="slide.id" class="h-full w-full object-fit object-center" />
 
         <div class="absolute inset-0 bg-black/40"></div>
 
-        <div class="absolute inset-0 flex items-center justify-center px-4 lg:px-0">
-          <div class="container mx-auto px-4 lg:px-8">
-            <div class="max-w-2xl text-white">
-              <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
-                {{ commonTitle }}
-                <span class="text-[var(--color-thirdly)] block">{{ commonHighlight }}</span>
-              </h1>
+        <div class="absolute inset-0 flex items-center justify-center text-center px-4">
+          <div class="max-w-3xl text-white mx-auto">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
+              {{ commonTitle }}
+              <span class="text-[var(--color-thirdly)] block">{{ commonHighlight }}</span>
+            </h1>
 
-              <p class="text-lg md:text-xl mb-8 leading-relaxed opacity-90 max-w-xl">
-                {{ commonDescription }}
-              </p>
+            <p class="text-lg md:text-xl mb-8 leading-relaxed opacity-90 max-w-xl mx-auto">
+              {{ commonDescription }}
+            </p>
 
-              <div class="flex flex-col sm:flex-row gap-4">
-                <button class="bg-[var(--color-secondary)] hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
-                  {{ button1Text }}
-                </button>
-                <button class="bg-transparent border-2 border-white hover:bg-white/10 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105">
-                  {{ button2Text }}
-                </button>
-              </div>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+              <button
+                class="bg-[var(--color-secondary)] hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+                {{ button1Text }}
+              </button>
+              <button
+                class="bg-transparent border-2 border-white hover:bg-white/10 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105">
+                {{ button2Text }}
+              </button>
             </div>
           </div>
         </div>
@@ -65,8 +55,8 @@ const commonDescription = "অবিরাম লক্ষ্যে দূরন
 const button1Text = "প্রকাশিত বইগুলো দেখুন";
 const button2Text = "বই অর্ডার করুন";
 
-const {$api} = useNuxtApp();
-const {data, error, status, refresh} = useAsyncData('sliders', () => $api('/top-one-ir'));
+const { $api } = useNuxtApp();
+const { data, error, status, refresh } = useAsyncData('sliders', () => $api('/top-one-ir'));
 </script>
 
 <style>
@@ -95,7 +85,8 @@ const {data, error, status, refresh} = useAsyncData('sliders', () => $api('/top-
   transform: scale(1.2);
 }
 
-.swiper-button-prev-custom, .swiper-button-next-custom {
+.swiper-button-prev-custom,
+.swiper-button-next-custom {
   backdrop-filter: blur(4px);
 }
 
@@ -122,13 +113,16 @@ const {data, error, status, refresh} = useAsyncData('sliders', () => $api('/top-
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
+
 @media (max-width: 768px) {
-  .swiper-button-prev-custom, 
+
+  .swiper-button-prev-custom,
   .swiper-button-next-custom {
     display: none;
   }
