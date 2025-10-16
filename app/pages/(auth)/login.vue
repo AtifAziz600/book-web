@@ -1,37 +1,31 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
+import { useAuthStore } from '@/stores/auth' 
+
 const phone = ref('')
 const password = ref('')
 const rememberMe = ref(false)
 const isLoading = ref(false)
 const showPassword = ref(false)
-import { useRouter } from 'vue-router'
+const auth = useAuthStore()
 
-const router = useRouter() 
-const config = useRuntimeConfig();
-const baseURL = config.public.apiBase;
-const { $api } = useNuxtApp();
 const handleLogin = async () => {
   if (!phone.value || !password.value) {
     alert('অনুগ্রহ করে ফোন এবং পাসওয়ার্ড উভয়ই লিখুন')
     return
   }
-  
+
   isLoading.value = true
   try {
-    const response = await $api.post(`${baseURL}/customer/login`, {
+    await auth.login({
       phone: phone.value,
       password: password.value,
-      remember_me: rememberMe.value
-    });
-    
-    if (response && response.data) {
-      alert('লগইন সফল হয়েছে!')
-      router.push('/')
-    }
-  } catch (error) {
-    console.error('Login error:', error);
-    alert('লগইন ব্যর্থ হয়েছে। অনুগ্রহ করে আপনার তথ্য পরীক্ষা করুন।')
+    })
+    alert('লগইন সফল হয়েছে!')
+  } catch (error: any) {
+    console.error('Login error:', error)
+    const message = error?.data?.message || 'লগইন ব্যর্থ হয়েছে। অনুগ্রহ করে আপনার তথ্য পরীক্ষা করুন।'
+    alert(message)
   } finally {
     isLoading.value = false
   }

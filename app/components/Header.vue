@@ -1,6 +1,23 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import { useAuthStore } from '@/stores/auth';
+
 const cartItemCount = ref(0);
+const store = useAuthStore();
+
+const isLoggedIn = computed(() => store.loggedIn);
+const user = computed(() => store.user);
+
+const isDropdownOpen = ref(false);
+
+const toggleDropdown = () => {
+    isDropdownOpen.value = !isDropdownOpen.value;
+};
+
+const logout = async () => {
+    await store.logout();
+    isDropdownOpen.value = false;
+};
 </script>
 <template>
     <header class="hidden lg:block">
@@ -44,7 +61,19 @@ const cartItemCount = ref(0);
                                         <span class="text-xs mt-1 text-gray-600">কার্ট</span>
                                     </div>
                                 </NuxtLink>
-                                <NuxtLink to="/login">
+
+                                <div v-if="isLoggedIn" class="relative">
+                                    <div @click="toggleDropdown"
+                                        class="flex flex-col items-center cursor-pointer group p-1.5 hover:bg-gray-100 rounded-lg transition duration-200">
+                                        <Icon name="heroicons:user-circle" class="w-12 h-12 text-gray-700 group-hover:text-red-600" />
+                                        <span class="text-xs mt-1 text-gray-600">{{ user.name }}</span>
+                                    </div>
+                                    <div v-if="isDropdownOpen" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-20">
+                                        <NuxtLink to="/dashboard" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">ড্যাশবোর্ড</NuxtLink>
+                                        <a @click.prevent="logout" href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">লগআউট</a>
+                                    </div>
+                                </div>
+                                <NuxtLink v-else to="/login">
                                     <div
                                         class="flex flex-col items-center cursor-pointer group p-1.5 hover:bg-gray-100 rounded-lg transition duration-200">
                                         <Icon name="heroicons:user"

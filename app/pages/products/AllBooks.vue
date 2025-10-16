@@ -1,48 +1,11 @@
 <script setup>
 import { ref } from 'vue';
-const books = [
-    {
-        id: 1,
-        title: "শিশুদের বাংলা পড়া(পেপারব্যাক)",
-        price: 29.99,
-        originalPrice: 39.99,
-        discount: 25,
-        inStock: true,
-        image: "/image/book-1.jpg",
-    },
-    {
-        id: 2,
-        title: "শিশুদের বাংলা পড়া(পেপারব্যাক)",
-        price: 34.99,
-        originalPrice: null,
-        discount: null,
-        inStock: false,
-        image: "/image/book-1.jpg",
-    },
-    {
-        id: 3,
-        title: "শিশুদের বাংলা পড়া(পেপারব্যাক)",
-        price: 49.99,
-        originalPrice: 59.99,
-        discount: 15,
-        inStock: true,
-        image: "/image/book-1.jpg",
-    },
-    {
-        id: 4,
-        title: "শিশুদের বাংলা পড়া(পেপারব্যাক)",
-        price: 99.99,
-        originalPrice: null,
-        discount: null,
-        inStock: true,
-        image: "/image/book-1.jpg",
-    }
-];
-
-// const toggleFavorite = (id) => {
-//     const book = books.find(b => b.id === id);
-//     if (book) book.isFavorite = !book.isFavorite;
-// };
+const books = [];
+const loading = ref(true);
+const config = useRuntimeConfig();
+const baseURL = config.public.apiBase;
+const {$api} = useNuxtApp();
+const {data, error, status, refresh} = useAsyncData('all_products', () => $api('/top-one-ir'))
 
 const addToCart = (book) => {
     console.log("Added to cart:", book.title);
@@ -59,7 +22,7 @@ const addToCart = (book) => {
                 <div class="container mx-auto px-3 relative z-10">
             <div class="max-w-7xl justify-center items-center">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
-                    <BookCard v-for="book in books" :key="book.id" :book="book"
+                    <BookCard v-for="data in data?.all_products" :key="data.id" :book="data" 
                         @add-to-cart="addToCart" />
                 </div>
             </div>

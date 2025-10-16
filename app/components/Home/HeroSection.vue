@@ -19,14 +19,14 @@
             </p>
 
             <div class="flex flex-col sm:flex-row justify-center gap-4">
-              <button
+              <NuxtLink to="/products/AllBooks"
                 class="bg-[var(--color-secondary)] hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
                 {{ button1Text }}
-              </button>
-              <button
+            </NuxtLink>
+              <NuxtLink to="/products/AllBooks"
                 class="bg-transparent border-2 border-white hover:bg-white/10 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105">
                 {{ button2Text }}
-              </button>
+              </NuxtLink>
             </div>
           </div>
         </div>

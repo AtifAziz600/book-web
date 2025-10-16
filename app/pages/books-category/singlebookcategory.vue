@@ -18,24 +18,6 @@ const books = [
         author: "ড. আলী আহম্মাদ",
         image: "/image/book-1.jpg",
     },
-    {
-        id: 2,
-        title: "শিশুদের বাংলা পড়া(পেপারব্যাক)",
-        author: "ড. আলী আহম্মাদ",
-        image: "/image/book-1.jpg",
-    },
-    {
-        id: 3,
-        title: "শিশুদের বাংলা পড়া(পেপারব্যাক)",
-        author: "ড. আলী আহম্মাদ",
-        image: "/image/book-1.jpg",
-    },
-    {
-        id: 4,
-        title: "শিশুদের বাংলা পড়া(পেপারব্যাক)",
-        author: "ড. আলী আহম্মাদ",
-        image: "/image/book-1.jpg",
-    }
 ];
 
 </script>

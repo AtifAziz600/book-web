@@ -24,10 +24,9 @@ const formattedOriginalPrice = computed(() => {
 <template>
   <NuxtLink :to="`/products/[id]`" class="block group h-full">
     <div class="bg-white overflow-hidden transition-all duration-300 border border-gray-100 h-full flex flex-col hover:-translate-y-1">
-      
       <div class="relative w-full aspect-[2/3] overflow-hidden bg-gray-100 p-4">
         <img
-          :src="book.image"
+          :src="book.cover_image_url"
           :alt="`Cover of ${book.title}`"
           class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
           loading="lazy"
@@ -53,17 +52,16 @@ const formattedOriginalPrice = computed(() => {
         <h3 class="text-md font-extrabold text-gray-800 line-clamp-2 mb-2 min-h-[3rem]">
           {{ book.title }}
         </h3>
+         <p class="text-sm text-gray-500">{{ book.category?.name }}</p>
         </div>
 
       <div class="mt-auto p-4 flex justify-between items-end border-t border-gray-100 bg-gray-50/50">
-        
         <div class="flex flex-col">
-          <div v-if="book.originalPrice && book.discount" class="flex flex-row items-start">
-            <div class="text-2xl font-semibold text-primary leading-tight">${{ formattedPrice }}</div>
-            <div class="text-sm text-gray-400 line-through mt-0.5">${{ formattedOriginalPrice }}</div>
+          <div v-if="book.discount_price" class="flex flex-row items-start">
+            <div class="text-2xl font-semibold text-primary leading-tight">৳{{ formattedPrice }}</div>
+            <div class="text-sm text-gray-400 line-through mt-0.5 ml-2">৳{{ formattedOriginalPrice }}</div>
           </div>
           <div v-else class="text-2xl font-semibold text-primary leading-tight">৳{{ formattedPrice }}</div>
-          
         </div>
         
         <button

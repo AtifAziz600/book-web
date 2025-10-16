@@ -30,14 +30,14 @@ export const useAuthStore = defineStore('auth', {
         async login(credentials: object) {
             try {
                 const { $api } = useNuxtApp()
-                const response: any = await $api('/salsabil/login', {
+                const response: any = await $api('/customer/login', {
                     method: 'POST',
                     body: { ...credentials }
                 })
                 this.accessToken = response.token
                 this.loggedIn = true
                 this.user = response.user
-                return navigateTo('/dashboard')
+                return navigateTo('/')
             } catch (error) {
                 throw error
             }
@@ -45,7 +45,7 @@ export const useAuthStore = defineStore('auth', {
         async register(credentials: object) {
             try {
                 const { $api } = useNuxtApp()
-                const response: any = await $api('/salsabil/register', {
+                const response: any = await $api('/customer/register', {
                     method: 'POST',
                     body: { ...credentials }
                 })
@@ -55,7 +55,7 @@ export const useAuthStore = defineStore('auth', {
                 if(response.redirect_url){
                     window.location.href = response.redirect_url;
                 }else {
-                    navigateTo('/salsabil-profile')
+                    navigateTo('/')
                 }
             } catch (error) {
                 throw error
