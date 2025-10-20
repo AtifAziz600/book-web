@@ -68,7 +68,7 @@ const { data: categories, status } = await useAsyncData('category', () => $api('
                         class="absolute left-0 mt-0 w-56 bg-white shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 border">
                         <div class="py-1">
                             <!--:to="`/syllabus/${cat.slug}`"-->
-                            <NuxtLink v-for="cat in categories" :key="cat?.id" to="/tutorial/[slug]"
+                            <NuxtLink v-for="cat in categories" :key="cat?.id" to="/syllabus/singlepage"
                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
                                 active-class="bg-gray-100 font-semibold">
                                 {{ cat?.name }}
