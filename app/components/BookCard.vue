@@ -22,7 +22,7 @@ const formattedOriginalPrice = computed(() => {
 </script>
 
 <template>
-  <NuxtLink :to="`/products/[id]`" class="block group h-full">
+  <NuxtLink :to="`/products/${book.slug}`"  class="block group h-full">
     <div class="bg-white overflow-hidden transition-all duration-300 border border-gray-100 h-full flex flex-col hover:-translate-y-1">
       <div class="relative w-full aspect-[2/3] overflow-hidden bg-gray-100 p-4">
         <img

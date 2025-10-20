@@ -45,14 +45,13 @@
                     <h3 class="px-3 py-2 text-sm font-semibold text-gray-500 uppercase tracking-wider">ক্যাটাগরি পাঠ্যপুস্তক সমূহ</h3>
                     <nav class="space-y-1">
                         <NuxtLink 
-                            v-for="category in categories" 
-                            :key="category.id"
+                        v-for="book in data?.all_categories" :key="book.id"
                             to="/books-category/singlebookcategory" 
                             class="flex items-center py-3 px-4 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-all group"
                             @click="isSidebarOpen = false"
                         >
-                            <img class="w-8 h-8 text-xl mr-3 object-cover rounded-full" :src="category.image" :alt="category.title" />
-                            <span class="font-medium">{{ category.title }}</span>
+                            <img class="w-8 h-8 text-xl mr-3 object-cover rounded-full" :src="`${baseURL}${book.icon}`" :alt="data?.name">
+                            <span class="font-medium">{{ book.name }}</span>
                         </NuxtLink>
                     </nav>
                 </div>
@@ -70,21 +69,12 @@
 const isSidebarOpen = ref(false)
 const cartItemsCount = ref(0) 
 
-const categories = ref([
-    { id: 1, title: 'Pre Play', image: '/image/pre-play.jpg', slug: 'pre-play' },
-    { id: 2, title: 'Pre Boro Boi', image: '/image/pre-boro-boi.jpg', slug: 'pre-boro-boi' },
-    { id: 3, title: 'Shoto Size', image: '/image/shoto-size.jpg', slug: 'shoto-size' },
-    { id: 4, title: 'Shoto Size', image: '/image/shoto-size.jpg', slug: 'shoto-size-2' },
-    { id: 5, title: 'Pre Boro Boi', image: '/image/pre-boro-boi.jpg', slug: 'pre-boro-boi-2' },
-    { id: 6, title: 'Pre Play', image: '/image/pre-play.jpg', slug: 'pre-play-2' },
-    { id: 7, title: 'Pre Play', image: '/image/pre-play.jpg', slug: 'pre-play-3' },
-    { id: 8, title: 'Pre Play', image: '/image/pre-play.jpg', slug: 'pre-play-4' },
-    { id: 9, title: 'Pre Play', image: '/image/pre-play.jpg', slug: 'pre-play-5' },
-    { id: 10, title: 'Pre Play', image: '/image/pre-play.jpg', slug: 'pre-play-6' },
-    { id: 11, title: 'Pre Play', image: '/image/pre-play.jpg', slug: 'pre-play-7' },
-    { id: 12, title: 'Pre Play', image: '/image/pre-play.jpg', slug: 'pre-play-8' },
-])
+const categories = ref([])
 
+const config = useRuntimeConfig()
+const baseURL = config.public.apiBase
+const { $api } = useNuxtApp()
+const {data, error, status, refresh} = useAsyncData('category ', () => $api('/top-one-ir'));
 
 const handleEscape = (e) => {
     if (e.key === 'Escape') {

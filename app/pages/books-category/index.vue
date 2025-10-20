@@ -1,8 +1,10 @@
 <script setup>
+const route = useRoute();
 const config = useRuntimeConfig();
 const baseURL = config.public.apiBase;
 const {$api} = useNuxtApp();
-const {data, error, status, refresh} = useAsyncData('category ', () => $api('/top-one-ir'));
+
+const {data: categories, error, status} = await useAsyncData('category', () => $api('/frontend/v1/category'));
 </script>
 
 <template>
@@ -12,11 +14,12 @@ const {data, error, status, refresh} = useAsyncData('category ', () => $api('/to
                 আমাদের প্রকাশিত পাঠ্যপুস্তক সমূহ
             </h1>
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 gap-6">
-                <NuxtLink v-for="book in data?.all_categories" :key="book.id" to="/books-category/singlebookcategory" class="block">
+                <NuxtLink v-for="category in categories" :key="category.id" :to="`/category/${category.slug}`" class="text-center bg-white shadow-md rounded-xl p-4 hover:shadow-xl transition-all duration-300">
                     <div
-                        class="w-32 h-32 bg-white rounded-full shadow-md flex justify-center items-center grayscale hover:grayscale-0 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
-                        <img class="w-full h-full object-cover rounded-full" :src="`${baseURL}${book.icon}`" :alt="data?.title">
+                        class="w-32 h-32 mx-auto rounded-full overflow-hidden shadow-sm mb-4 grayscale hover:grayscale-0 transition-all duration-300">
+                        <img class="w-full h-full object-cover rounded-full" :src="`${baseURL}${category.icon}`" :alt="category.name">
                     </div>
+                    <h2 class="text-lg font-semibold text-gray-800 mb-3">{{ category.name }}</h2>
                 </NuxtLink>
             </div>
         </div>

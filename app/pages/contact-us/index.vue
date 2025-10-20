@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from "vue";
 import { Icon } from "@iconify/vue";
+const { $api } = useNuxtApp();
+const toast = useToast();
 
 const form = ref({
   name: "",
@@ -11,9 +13,26 @@ const form = ref({
 });
 
 const handleSubmit = async () => {
+  const formData = new FormData();
+  formData.append("name", form.value.name);
+  formData.append("email", form.value.email);
+  formData.append("phone", form.value.phone);
+  formData.append("subject", form.value.subject);
+  formData.append("message", form.value.message);
+
   try {
-    console.log("Form Submitted:", form.value);
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await $api("/frontend/v1/contact-us", {
+      method: "post",
+      body: formData,
+    });
+
+    toast.add({
+      title: "Success",
+      description: "আপনার বার্তা সফলভাবে পাঠানো হয়েছে!",
+      color: "green",
+      icon: "i-heroicons-check-circle",
+    });
+
     form.value = {
       name: "",
       email: "",
@@ -21,12 +40,18 @@ const handleSubmit = async () => {
       subject: "",
       message: "",
     };
-    alert("Thank you for contacting The Literary Haven! We'll get back to you soon.");
   } catch (error) {
-    console.error("Error submitting form:", error);
-    alert("There was an error submitting your form. Please try again.");
+    console.error("Submission error:", error);
+
+    toast.add({
+      title: "Error",
+      description: "বার্তা পাঠাতে ব্যর্থ হয়েছে। আবার চেষ্টা করুন।",
+      color: "red",
+      icon: "i-heroicons-x-circle",
+    });
   }
 };
+
 </script>
 
 <template>
@@ -105,7 +130,6 @@ const handleSubmit = async () => {
               </div>
               <div class="flex-1 h-px bg-gray-300"></div>
             </div>
-            
             <form @submit.prevent="handleSubmit" class="space-y-6">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>

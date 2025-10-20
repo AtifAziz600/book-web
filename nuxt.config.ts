@@ -8,7 +8,7 @@ css: ['~/assets/css/main.css'],
   plugins: [tailwindcss()],
 },
 
-  modules: ["nuxt-swiper", "@nuxt/icon", "@nuxt/ui", "@pinia/nuxt"],
+  modules: ["nuxt-swiper", "@nuxt/ui" ,"@nuxt/icon", "@pinia/nuxt"],
     runtimeConfig: {
     public: {
       apiUrl: 'http://localhost:8000/api',

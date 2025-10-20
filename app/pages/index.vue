@@ -6,7 +6,7 @@
   <HomeTradingBooksSection/>
   <HomeNewProductsSection/>
   <HomeSecondBannerSection/>
-  <HomeBookServiceSection/>
+  <!-- <HomeBookServiceSection/> -->
   <HomeBlogSection/>
   <HomeNewsLetterSection/>
 

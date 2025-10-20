@@ -37,7 +37,7 @@ export const useAuthStore = defineStore('auth', {
                 this.accessToken = response.token
                 this.loggedIn = true
                 this.user = response.user
-                return navigateTo('/')
+                return navigateTo('/dashboard')
             } catch (error) {
                 throw error
             }
@@ -55,7 +55,7 @@ export const useAuthStore = defineStore('auth', {
                 if(response.redirect_url){
                     window.location.href = response.redirect_url;
                 }else {
-                    navigateTo('/')
+                    navigateTo('/dashboard')
                 }
             } catch (error) {
                 throw error

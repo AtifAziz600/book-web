@@ -1,3 +1,4 @@
+// import { useToast } from "nuxt-ui";
 export default defineNuxtPlugin(() => {
     const config = useRuntimeConfig()
     const auth = useAuthStore()
