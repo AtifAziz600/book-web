@@ -68,7 +68,7 @@ const logout = async () => {
                                     <div
                                         class="flex flex-col items-center cursor-pointer group p-1.5 hover:bg-gray-100 rounded-lg transition duration-200">
                                         <Icon name="heroicons:user"
-                                            class="w-12 h-12 text-gray-700 group-hover:text-red-600" />
+                                            class="w-5 h-5 text-gray-700 group-hover:text-red-600" />
                                         <span class="text-xs mt-1 text-gray-600">লগইন</span>
                                     </div>
                                 </NuxtLink>

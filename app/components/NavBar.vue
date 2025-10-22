@@ -33,7 +33,7 @@ const menuItems = ref([
         // ]
     },
     { name: "অর্ডার ফর্ম", link: "/order-form", type: "link" },
-    { name: "ব্লগ", link: "/blog/blogs", type: "link" },
+    { name: "ব্লগ", link: "/blog", type: "link" },
     { name: "যোগাযোগ", link: "/contact-us", type: "link" },
 ]);
 
@@ -62,13 +62,12 @@ const { data: categories, status } = await useAsyncData('category', () => $api('
                         class="py-4 px-6 text-white hover:bg-[#A82229] transition-colors duration-200 uppercase flex items-center cursor-pointer"
                         active-class="font-bold text-red-300 border-b-2 border-red-600 bg-[#A82229]">
                         {{ item.name }}
-                        <Icon name="mdi:chevron-down" class="w-12 h-12 ml-1" />
+                        <Icon name="mdi:chevron-down" class="w-5 h-5 ml-1" />
                     </NuxtLink>
                     <div
                         class="absolute left-0 mt-0 w-56 bg-white shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 border">
                         <div class="py-1">
-                            <!--:to="`/syllabus/${cat.slug}`"-->
-                            <NuxtLink v-for="cat in categories" :key="cat?.id" to="/syllabus/singlepage"
+                            <NuxtLink v-for="cat in categories" :key="cat?.id" :to="`/syllabus/${cat.slug}`"
                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
                                 active-class="bg-gray-100 font-semibold">
                                 {{ cat?.name }}

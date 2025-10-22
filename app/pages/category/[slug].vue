@@ -16,7 +16,7 @@ const addToCart = (book) => {
     <section class="w-full relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-slate-100 py-12">
         <div class="text-center mb-10">
             <div class="flex items-center justify-center gap-3 mb-4">
-                <Icon name="heroicons:book-open" class="h-48 w-48 text-[#1C3B8B]" />
+                <Icon name="heroicons:book-open" class="h-8 w-8 text-[#1C3B8B]" />
                 <h2 class="text-3xl font-bold text-gray-800">{{ category?.name }}</h2>
             </div>
             <p class="text-gray-600">আমাদের {{ category?.name }} সংকলিত সংগ্রহ ব্রাউজ করুন</p>

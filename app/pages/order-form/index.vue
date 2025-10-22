@@ -1,25 +1,32 @@
-<script setup lang="ts">
-import { ref, computed } from "vue";
-const subjects = ref([
-    { id: 1, name: "ছবি আঁকিবুকি অনুশীলন", rate: 250, quantity: 0, image: "/image/book-1.jpg" },
-    { id: 2, name: "ছেলে অথবা মেয়েদের লেখা", rate: 310, quantity: 0, image: "/image/book-1.jpg" },
-    { id: 3, name: "অঙ্কের অনুশীলন", rate: 120, quantity: 0, image: "/image/book-1.jpg" },
-    { id: 4, name: "আলফাবেট লেখা", rate: 110, quantity: 0, image: "/image/book-1.jpg" },
-    { id: 5, name: "শ্রেণী কার্য (টেবিল কাজ)", rate: 100, quantity: 0, image: "/image/book-1.jpg" },
-    { id: 6, name: "ফ্রিজার রঙের কাজ", rate: 420, quantity: 0, image: "/image/book-1.jpg" },
-    { id: 7, name: "কার্ড আঁকিবুকি", rate: 320, quantity: 0, image: "/image/book-1.jpg" },
-    { id: 8, name: "ফ্রিজার কেটে আঠা লাগানো", rate: 230, quantity: 0, image: "/image/book-1.jpg" },
-    { id: 9, name: "ফ্রিজার জার্নাল ও স্কেচবুক লেখা", rate: 520, quantity: 0, image: "/image/book-1.jpg" },
-    { id: 10, name: "আলফাবেট ব্লক", rate: 620, quantity: 0, image: "/image/book-1.jpg" },
-    { id: 11, name: "নিয়মিত ছুটি (৭)", rate: 430, quantity: 0, image: "/image/book-1.jpg" },
-]);
+<script setup>
+import { ref, computed, watch } from "vue";
+
+const config = useRuntimeConfig();
+const baseURL = config.public.apiBase;
+const {$api} = useNuxtApp();
+
+const subjects = ref([]); 
+
+const { data, error, status, refresh } = useAsyncData('products', () => $api('/frontend/v1/product'));
+
+watch(data, (newData) => {
+  if (newData?.data) {
+    subjects.value = newData.data.map((item, index) => ({
+      id: item.id,
+      name: item.title,
+      rate: item.price, 
+      quantity: 0,
+      image: item.cover_image_url,
+    }));
+  }
+});
 
 const totalAmount = computed(() => {
-  return subjects.value.reduce((total, subject) => {
-    return total + (subject.quantity * subject.rate);
-  }, 0).toFixed(2);
+  return subjects.value.reduce((total, subject) => total + (subject.quantity * subject.rate), 0).toFixed(2);
 });
+
 </script>
+
 
 <template>
     <section class="w-full bg-gradient-to-br from-gray-50 to-gray-100 py-8 px-4 sm:px-6">
@@ -53,10 +60,9 @@ const totalAmount = computed(() => {
                                     </div>
                                 </td>
                                 <td class="py-3 px-4 text-sm font-medium text-gray-800">{{ subject.name }}</td>
-                                <td class="py-3 px-4 text-sm">
-                                    <input type="number" v-model.number="subject.rate" min="0"
-                                        class="w-20 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all text-right" />
-                                </td>
+<td class="py-3 px-4 text-sm">
+    <span class="text-gray-800 font-medium">{{ subject.rate }}</span>
+</td>
                                 <td class="py-3 px-4 text-sm">
                                     <input type="number" v-model.number="subject.quantity" min="0"
                                         class="w-20 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all text-right" />
