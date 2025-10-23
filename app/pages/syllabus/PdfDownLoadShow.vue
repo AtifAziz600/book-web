@@ -30,19 +30,11 @@ const handleQuestionClick = (paper: { name: string; url: string }) => {
       সিলেবাস দেখুন
     </button>
 
-    <div v-if="book.questionPapers && book.questionPapers.length">
-      <div
-        v-for="(paper, index) in book.questionPapers"
-        :key="index"
-        class="w-full"
-      >
-        <button
-          @click="handleQuestionClick(paper)"
-          class="bg-green-600 hover:bg-green-800 text-white px-4 py-2 rounded-lg w-full mb-2"
-        >
-          {{ paper.name }}
-        </button>
-      </div>
-    </div>
+     <button
+      @click="emit('view-pdf', { name: 'সিলেবাস', url: book.questionPapers })"
+      class="bg-green-600 hover:bg-green-800 text-white px-4 py-2 rounded-lg w-full mb-2"
+    >
+      সিলেবাস দেখুন
+    </button>
   </div>
 </template>

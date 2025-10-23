@@ -1,6 +1,5 @@
 <template>
-  <section
-    class="w-full relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-slate-100 py-12">
+  <section class="w-full relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-slate-100 py-12">
     <div class="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
       <div class="container max-w-7xl mx-auto">
         <div>
@@ -23,26 +22,26 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="(subject, index) in subjects" :key="subject.id">
+                      <tr v-for="(subject, index) in subjects" :key="subject?.id">
                         <td class="border border-gray-400 px-2 py-2 text-center text-sm">
                           {{ index + 1 }}
                         </td>
                         <td class="border border-gray-400 px-2 py-2 text-sm">
-                          {{ subject.name }}
+                          {{ subject?.name }}
                         </td>
                         <td class="border border-gray-400 px-2 py-2 text-sm">
-                          {{ subject.rate }}
+                          {{ subject?.rate }}
                         </td>
                         <td class="border border-gray-400 px-2 py-2 text-sm">
-                          {{ subject.quantity }}
+                          {{ subject?.quantity }}
                         </td>
-                        <td
-                          class="border border-gray-400 px-2 py-2 text-right font-semibold text-sm"
-                        >
-                          {{ itemTotal(subject).toFixed(2) }}
+                        <td class="border border-gray-400 px-2 py-2 text-right font-semibold text-sm">
+                          {{ itemTotal(subject)?.toFixed(2) }}
                         </td>
                         <td class="border border-r-gray-400 px-2 py-2 text-center font-semibold text-sm">
-                          <Icon name="ph:trash" class="h-4 w-4"/>
+                          <button @click="removeItems(index)">
+                            <Icon name="ph:trash" class="h-4 w-4" />
+                          </button>
                         </td>
                       </tr>
                     </tbody>
@@ -52,7 +51,7 @@
                           মোট মূল্য (Grand Total):
                         </td>
                         <td class="border border-gray-400 px-2 py-2 text-right text-red-600">
-                          {{ grandTotal.toFixed(2) }}
+                          {{ grandTotal?.toFixed(2) }}
                         </td>
                       </tr>
                     </tfoot>
@@ -64,49 +63,30 @@
                 <div class="grid gap-4 text-sm grid-cols-1">
                   <div class="md:col-span-5">
                     <label for="institution_name">প্রতিষ্ঠানের নাম</label>
-                    <input
-                      type="text"
-                      name="institution_name"
-                      id="institution_name"
-                      class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                      value=""
-                      placeholder="আপনার প্রতিষ্ঠানের নাম লিখুন"
-                    />
+                    <input type="text" name="institution_name" id="institution_name"
+                      class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value=""
+                      placeholder="আপনার প্রতিষ্ঠানের নাম লিখুন" />
                   </div>
 
                   <div class="md:col-span-5">
                     <label for="institute_code">কোড</label>
-                    <input
-                      type="text"
-                      name="institute_code"
-                      id="institute_code"
-                      class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                      value=""
-                      placeholder="আপনার ইনস্টিটিউট কোড লিখুন"
-                    />
+                    <input type="text" name="institute_code" id="institute_code"
+                      class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value=""
+                      placeholder="আপনার ইনস্টিটিউট কোড লিখুন" />
                   </div>
 
                   <div class="md:col-span-5">
                     <label for="phone">মোবাইল নম্বর</label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      id="phone"
-                      class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                      value=""
-                      placeholder="+880"
-                    />
+                    <input type="tel" name="phone" id="phone" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                      value="" placeholder="+880" />
                   </div>
 
                   <div class="md:col-span-5">
                     <div class="grid grid-cols-2 gap-4">
                       <div class="col-span-1">
                         <label for="district_selection">জেলা</label>
-                        <select
-                          id="district_selection"
-                          name="district_selection"
-                          class="h-10 border mt-1 rounded px-4 w-full bg-gray-50 border-gray-200 text-gray-600"
-                        >
+                        <select id="district_selection" name="district_selection"
+                          class="h-10 border mt-1 rounded px-4 w-full bg-gray-50 border-gray-200 text-gray-600">
                           <option value="">Select</option>
                           <option value="Dhaka">ঢাকা</option>
                           <option value="Chittagong">চট্টগ্রাম</option>
@@ -116,11 +96,8 @@
 
                       <div class="col-span-1">
                         <label for="thana_selection">থানা</label>
-                        <select
-                          id="thana_selection"
-                          name="thana_selection"
-                          class="h-10 border mt-1 rounded px-4 w-full bg-gray-50 border-gray-200 text-gray-600"
-                        >
+                        <select id="thana_selection" name="thana_selection"
+                          class="h-10 border mt-1 rounded px-4 w-full bg-gray-50 border-gray-200 text-gray-600">
                           <option value="">Select</option>
                           <option value="Mirpur">মিরপুর</option>
                           <option value="Mohammadpur">মোহাম্মদপুর</option>
@@ -132,37 +109,37 @@
 
                   <div class="md:col-span-5">
                     <label for="address">ঠিকানা</label>
-                    <input
-                      type="text"
-                      name="address"
-                      id="address"
-                      class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                      value=""
-                      placeholder="আপনার ঠিকানা লিখুন"
-                    />
+                    <input type="text" name="address" id="address"
+                      class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value=""
+                      placeholder="আপনার ঠিকানা লিখুন" />
                   </div>
 
                   <div class="md:col-span-5">
                     <label for="special_instructions">নোট</label>
-                    <textarea
-                      name="special_instructions"
-                      id="special_instructions"
-                      rows="3"
-                      class="mt-1 border rounded px-4 w-full bg-gray-50"
-                      placeholder="নোট (যদি থাকে)..."
-                    ></textarea>
+                    <textarea name="special_instructions" id="special_instructions" rows="3"
+                      class="mt-1 border rounded px-4 w-full bg-gray-50" placeholder="নোট (যদি থাকে)..."></textarea>
                   </div>
 
                   <div class="md:col-span-5 text-right">
                     <div class="inline-flex items-end">
-                      <button
-                        @click="openModal"
-                        class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-8 rounded transition duration-300 inline-flex items-center justify-center"
-                      >
+                      <button @click="openModal"
+                        class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-8 rounded transition duration-300 inline-flex items-center justify-center">
                         অর্ডার করুন
                       </button>
                     </div>
                   </div>
+                </div>
+                <div class="flex items-start sm:items-center py-1">
+                                                    <label for="terms-checkbox-2" class="ms-2 text-sm font-medium text-gray-800">আমাদের বই নিতে ইচ্ছুক এমন
+                    প্রতিষ্ঠানকে অবশ্যই আগে ওয়েবসাইটে নিবন্ধন করতে হবে। এরপর আমাদের অফিশিয়াল WhatsApp [০১৯৪২২১৩৩৪৬] এ
+                    মেসেজ করে এপ্রুভাল নিতে হবে। WhatsApp মেসেজ করার আগ পর্যন্ত আপনার একাউন্টটি এপ্রুভাল এর অপেক্ষায়ই
+                    থাকবে।</label>
+                </div>
+                <div class="flex items-start px-2 py-1 sm:items-center">
+                  <input id="terms-checkbox-2" type="checkbox" value=""
+                    class="h-4 w-4 rounded border-gray-300 bg-gray-100 text-red-600 focus:ring-2" />
+                  <label for="terms-checkbox-2" class="ms-2 text-sm font-medium text-gray-800"> Accept terms and
+                    conditions</label>
                 </div>
               </div>
             </div>
@@ -171,42 +148,43 @@
       </div>
     </div>
     <transition name="modal">
-    <div v-if="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center"
-        @click.self="closeModal">
-        <div
-            class="absolute inset-0 bg-transparent bg-opacity-50 backdrop-blur-sm transition-opacity duration-300">
+      <div v-if="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center" @click.self="closeModal">
+        <div class="absolute inset-0 bg-transparent bg-opacity-50 backdrop-blur-sm transition-opacity duration-300">
         </div>
         <div
-            class="relative bg-white rounded-lg shadow-xl w-full max-w-sm p-6 m-4 transform transition-all duration-300">
-            <div class="flex justify-center mb-4">
-                <Icon name="heroicons:exclamation-triangle" class="h-24 w-24 text-gray-800"/>
-            </div>
+          class="relative bg-white rounded-lg shadow-xl w-full max-w-sm p-6 m-4 transform transition-all duration-300">
+          <div class="flex justify-center mb-4">
+            <Icon name="heroicons:exclamation-triangle" class="h-24 w-24 text-gray-800" />
+          </div>
 
-            <div class="flex justify-center items-center text-center mb-6">
-                <h2 class="font-semibold text-xl">
-                    আপনি কি অর্ডারটি কনফার্ম করতে চান?
-                </h2>
-            </div>
+          <div class="flex justify-center items-center text-center mb-6">
+            <h2 class="font-semibold text-xl">
+              আপনি কি অর্ডারটি কনফার্ম করতে চান?
+            </h2>
+          </div>
 
-            <div class="flex justify-between space-x-4">
-                <button @click="processConfirm" :disabled="isProcessing"
-                    class="flex-1 px-4 py-2 bg-red-600 text-white font-semibold rounded hover:bg-red-700 transition duration-150 flex items-center justify-center disabled:opacity-70 text-sm">
-                    <svg v-if="isProcessing" class="animate-spin h-5 w-5 mr-1 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    <span v-if="isProcessing">প্রক্রিয়া হচ্ছে...</span>
-                    <span v-else>হ্যাঁ, কনফার্ম করুন</span>
-                </button>
+          <div class="flex justify-between space-x-4">
+            <button @click="processConfirm" :disabled="isProcessing"
+              class="flex-1 px-4 py-2 bg-red-600 text-white font-semibold rounded hover:bg-red-700 transition duration-150 flex items-center justify-center disabled:opacity-70 text-sm">
+              <svg v-if="isProcessing" class="animate-spin h-5 w-5 mr-1 text-white" xmlns="http://www.w3.org/2000/svg"
+                fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                </path>
+              </svg>
+              <span v-if="isProcessing">প্রক্রিয়া হচ্ছে...</span>
+              <span v-else>হ্যাঁ, কনফার্ম করুন</span>
+            </button>
 
-                <button @click="closeModal"
-                    class="flex-1 px-4 py-2 bg-gray-200 text-gray-800 font-semibold rounded hover:bg-gray-300 transition duration-150 text-sm">
-                    বাতিল করুন
-                </button>
-            </div>
+            <button @click="closeModal"
+              class="flex-1 px-4 py-2 bg-gray-200 text-gray-800 font-semibold rounded hover:bg-gray-300 transition duration-150 text-sm">
+              বাতিল করুন
+            </button>
+          </div>
         </div>
-    </div>
-</transition>
+      </div>
+    </transition>
   </section>
 </template>
 
@@ -214,15 +192,13 @@
 import { ref, computed } from "vue";
 const isModalOpen = ref(false);
 const openModal = () => {
-    isModalOpen.value = true;
+  isModalOpen.value = true;
 };
 const closeModal = () => {
-    isModalOpen.value = false;
+  isModalOpen.value = false;
 };
-const subjects = ref([
-  { id: 1, name: "ছবি আঁকিবুকি অনুশীলন", rate: 250, quantity: 1, image: "/image/book-1.jpg" },
-  { id: 2, name: "বাংলা ব্যাকরণ ও রচনা", rate: 300, quantity: 2, image: "/image/book-2.jpg" },
-]);
+
+const subjects = ref(null);
 
 const itemTotal = (subject) => {
   const rate = Number(subject.rate) || 0;
@@ -231,11 +207,24 @@ const itemTotal = (subject) => {
 };
 
 const grandTotal = computed(() => {
-  return subjects.value.reduce((sum, subject) => {
+  return subjects.value?.reduce((sum, subject) => {
     return sum + itemTotal(subject);
   }, 0);
 });
+
+const removeItems = (index) => {
+  if (subjects.value && subjects.value[index]) {
+    subjects.value.splice(index, 1);
+    localStorage.setItem('cartItems', JSON.stringify(subjects.value))
+  }
+}
+onMounted(() => {
+  const storedSubjects = localStorage.getItem('cartItems');
+  if (storedSubjects) {
+    subjects.value = JSON.parse(storedSubjects);
+  }
+});
+
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

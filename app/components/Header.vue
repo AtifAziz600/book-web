@@ -52,7 +52,7 @@ const logout = async () => {
                                     <div @click="toggleDropdown"
                                         class="flex flex-col items-center cursor-pointer group p-1.5 hover:bg-gray-100 rounded-lg transition duration-200">
                                         <Icon name="heroicons:user-circle"
-                                            class="w-12 h-12 text-gray-700 group-hover:text-red-600" />
+                                            class="w-5 h-5 text-gray-700 group-hover:text-red-600" />
                                         <span class="text-xs mt-1 text-gray-600">{{ user.name }}</span>
                                     </div>
                                     <div v-if="isDropdownOpen"
@@ -77,7 +77,6 @@ const logout = async () => {
                     </div>
                 </header>
                 <NavBar />
-                <span class="flex items-center  w-full h-2"> </span>
             </div>
         </nav>
     </header>

@@ -9,28 +9,8 @@ const menuItems = ref([
     { name: "পাঠ্যপুস্তক", link: "/books-category", type: "link" },
     {
         name: "সিলেবাস ও প্রশ্নপত্র",
-        // link: "/syllabus",
+
         type: "dropdown",
-        // items: [
-        // { name: "প্রাক-প্রাথমিক", link: "/syllabus/singlepage" },
-        // { name: "প্রাথমিক", link: "/syllabus/singlepage" },
-        // { name: "মাধ্যমিক", link: "/syllabus/singlepage" },
-        // { name: "উচ্চ মাধ্যমিক", link: "/syllabus/singlepage" },
-        // { name: "অনার্স", link: "/syllabus/singlepage" },
-        // { name: "মাস্টার্স", link: "/syllabus/singlepage" },
-        // ]
-    },
-    {
-        name: "টিউটোরিয়াল",
-        type: "dropdown",
-        // items: [
-        //     { name: "প্রাক-প্রাথমিক", link: "/tutorial/[slug]" },
-        //     { name: "প্রাথমিক", link: "/tutorial/[slug]" },
-        //     { name: "মাধ্যমিক", link: "/tutorial/[slug]" },
-        //     { name: "উচ্চ মাধ্যমিক", link: "/tutorial/[slug]" },
-        //     { name: "অনার্স", link: "/tutorial/[slug]" },
-        //     { name: "মাস্টার্স", link: "/tutorial/[slug]" },
-        // ]
     },
     { name: "অর্ডার ফর্ম", link: "/order-form", type: "link" },
     { name: "ব্লগ", link: "/blog", type: "link" },
@@ -40,15 +20,14 @@ const menuItems = ref([
 const config = useRuntimeConfig();
 const baseURL = config.public.apiBase;
 const { $api } = useNuxtApp();
-const slug = route.params.slug;
+
 const { data, pending, error, refresh } = await useAsyncData("page", () => $api("/frontend/v1/page"));
 
-const { data: categories, status } = await useAsyncData('category', () => $api('/frontend/v1/category'));
+const { data: categories, status } = await useAsyncData("category", () => $api('/frontend/v1/category'));
 </script>
 
 <template>
     <nav class="bg-[#800000] w-full">
-
         <div class="flex items-center justify-center text-white text-md font-normal">
             <template v-for="item in menuItems" :key="item.name">
                 <NuxtLink v-if="item.type === 'link'" :to="item.link"
@@ -64,10 +43,11 @@ const { data: categories, status } = await useAsyncData('category', () => $api('
                         {{ item.name }}
                         <Icon name="mdi:chevron-down" class="w-5 h-5 ml-1" />
                     </NuxtLink>
+        
                     <div
                         class="absolute left-0 mt-0 w-56 bg-white shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 border">
                         <div class="py-1">
-                            <NuxtLink v-for="cat in categories" :key="cat?.id" :to="`/syllabus/${cat.slug}`"
+                            <NuxtLink v-for="cat in categories" :key="cat?.id" :to="`/syllabus/${cat?.slug}`"
                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
                                 active-class="bg-gray-100 font-semibold">
                                 {{ cat?.name }}

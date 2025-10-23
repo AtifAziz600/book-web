@@ -1,8 +1,5 @@
 <script setup>
-import { ref, computed, watch } from "vue";
 
-const config = useRuntimeConfig();
-const baseURL = config.public.apiBase;
 const {$api} = useNuxtApp();
 
 const subjects = ref([]); 
@@ -25,6 +22,21 @@ const totalAmount = computed(() => {
   return subjects.value.reduce((total, subject) => total + (subject.quantity * subject.rate), 0).toFixed(2);
 });
 
+const onSubmit = () => {
+     const cartItems = subjects.value.filter(
+        (item) => item.quantity > 0 && item.rate > 0
+    );
+
+    if (cartItems.length === 0) {
+        alert('Please add at least one valid product to cart.');
+        return;
+    }
+
+    // Save to localStorage
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+
+    alert('Cart saved successfully!');
+}
 </script>
 
 
@@ -85,7 +97,7 @@ const totalAmount = computed(() => {
             <div class="flex justify-center">
                 <NuxtLink to="/order-form/order-table" 
                     class="px-8 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold rounded-lg shadow-md hover:from-red-600 hover:to-red-700 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50">
-                    <button class="flex items-center">
+                    <button @click="onSubmit" class="flex items-center">
                         <span>বিল</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />

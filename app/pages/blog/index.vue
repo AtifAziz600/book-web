@@ -32,7 +32,7 @@ const blogs = computed(() => blogsData.value?.data || []);
                                 <h1 class="title-font text-lg font-medium text-gray-900 my-3">{{ blog.title }}</h1>
                                 <p class="leading-relaxed mb-3 text-sm">{{ blog.excerpt }}</p>
                                 <div class="flex items-center flex-wrap ">
-                                    <NuxtLink :to="`/blog/${blog.slug}`"
+                                    <NuxtLink :to="`/blog/${blog.id}`"
                                         class="text-white bg-red-600 cursor-pointer hover:bg-red-700 px-4 py-2 rounded-md inline-flex items-center">পুরোটা
                                         পড়ুন
                                     </NuxtLink>

@@ -5,24 +5,7 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 const { $api } = useNuxtApp()
 
-const blog = ref(null)
-const loading = ref(true)
-const error = ref(null)
-
-const fetchBlog = async () => {
-  try {
-    loading.value = true
-    const response = await $api.get(`/frontend/v1/blog/${route.params.id}`)
-    blog.value = response.data
-  } catch (err) {
-    error.value = 'Failed to fetch blog post.'
-    console.error(err)
-  } finally {
-    loading.value = false
-  }
-}
-
-fetchBlog()
+const {data : blogData, status, refresh} = useAsyncData('blog', ()=> $api(`/frontend/v1/blog/${route.params.id}`))
 
 const review = ref({
   bookTitle: '',
@@ -95,6 +78,7 @@ const addComment = () => {
 }
 </script>
 
+
 <template>
   <section class="w-full relative overflow-hidden bg-gradient-to-br from-gray-50 via-white to-gray-100 py-12">
     <div class="mt-10">
@@ -102,26 +86,28 @@ const addComment = () => {
         <div class="mb-4 md:mb-0 w-full max-w-7xl mx-auto relative" style="height: 24em;">
           <div class="absolute left-0 bottom-0 w-full h-full z-10"
             style="background-image: linear-gradient(180deg,transparent,rgba(0,0,0,.7));"></div>
-          <img :src="blog.image_url || '/image/darsul-quran-slider-banner-de24.jpg'" class="absolute left-0 top-0 w-full h-full z-0 object-cover" />
+          <img :src="blogData?.image_url" class="absolute left-0 top-0 w-full h-full z-0 object-cover" />
           <div class="p-4 absolute bottom-0 left-0 z-20">
-            <a href="#" class="px-4 py-1 bg-#800000 text-white inline-flex items-center justify-center mb-2">ইসলামিক সাহিত্য</a>
             <h2 class="text-4xl font-semibold text-gray-100 leading-tight">
-              {{ blog.title }}
+              {{ blogData?.title }}
             </h2>
             <div class="flex mt-3">
               <img src="/image/avater1.png"
                 class="h-10 w-10 rounded-full mr-2 object-cover" />
               <div>
-                <p class="font-semibold text-gray-200 text-sm"> {{ blog.publisher }} </p>
-                <p class="font-semibold text-gray-400 text-xs"> {{ new Date(blog.created_at).toLocaleDateString('bn-BD') }} </p>
+                <p class="font-semibold text-gray-200 text-sm"> {{ blogData?.publisher }} </p>
+                <p class="font-semibold text-gray-400 text-xs"> {{ new Date(blogData?.created_at).toLocaleDateString('bn-BD') }} </p>
               </div>
             </div>
           </div>
         </div>
 
         <div class="px-4 lg:px-0 mt-12 text-gray-700 max-w-screen-md mx-auto text-lg leading-relaxed">
-          <p class="pb-6" v-html="blog.excerpt"></p>
+          <h4 class="pb-6" v-html="blogData?.excerpt"></h4>
         </div>
+        <div class="px-4 lg:px-0 text-gray-700 max-w-screen-md mx-auto text-lg">
+          <p class="pb-6" v-html="blogData?.description"></p>
+          </div>
         <div class="mt-12 bg-white p-6 rounded-lg shadow-md">
           <h3 class="text-2xl font-bold text-gray-800 mb-4">আপনার বই রিভিউ শেয়ার করুন</h3>
           <p class="text-gray-600 mb-6">আপনার পড়া ইসলামি বই সম্পর্কে রিভিউ লিখুন এবং বইয়ের ছবি আপলোড করুন।</p>
@@ -166,7 +152,7 @@ const addComment = () => {
               </div>
             </div>
             
-            <button type="submit" class="w-full bg-#800000 text-white py-3 px-4 rounded-md hover:bg-green-700 transition duration-300 font-medium">
+            <button type="submit" class="w-full bg-[#800000] text-white py-3 px-4 rounded-md hover:bg-green-700 transition duration-300 font-medium">
               রিভিউ পোস্ট করুন
             </button>
           </form>
@@ -180,7 +166,7 @@ const addComment = () => {
                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-#800000"
                       placeholder="আপনার মন্তব্য লিখুন..."></textarea>
             <button @click="addComment" 
-                    class="mt-2 bg-#800000 text-white py-2 px-6 rounded-md hover:bg-green-700 transition duration-300 font-medium">
+                    class="mt-2 bg-[#800000] text-white py-2 px-6 rounded-md hover:bg-green-800 transition duration-300 font-medium">
               মন্তব্য পোস্ট করুন
             </button>
           </div>
@@ -203,7 +189,5 @@ const addComment = () => {
   </section>
 </template>
 
-
 <style scoped>
-
 </style>
