@@ -37,7 +37,7 @@ export const useAuthStore = defineStore('auth', {
                 this.accessToken = response.token
                 this.loggedIn = true
                 this.user = response.user
-                return navigateTo('/dashboard')
+                return navigateTo('/')
             } catch (error) {
                 throw error
             }

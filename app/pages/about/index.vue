@@ -387,7 +387,7 @@ const promises = [
               class="w-full p-8 bg-gradient-to-br from-gray-50 to-white rounded-2xl border border-gray-200 flex flex-col items-center text-center"
             >
               <div class="p-4 bg-[#E61C24]/10 rounded-full mb-4">
-                <Icon name="mdi:check" width="32" height="32" class="text-[#E61C24]" />
+                <Icon icon="mdi:check" width="32" height="32" class="text-[#E61C24]" />
               </div>
               <h3 class="text-xl font-bold text-gray-900 mb-2">{{ promise.title }}</h3>
               <p class="text-gray-600">{{ promise.description }}</p>
@@ -399,7 +399,7 @@ const promises = [
     <section class="py-16 bg-white border-t border-gray-100">
       <div class="max-w-4xl mx-auto px-4">
         <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-8 text-center">
-          Frequently Asked Questions
+          প্রায়শই জিজ্ঞাসিত প্রশ্নাবলী
         </h3>
         <div class="space-y-4">
           <div

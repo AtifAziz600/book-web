@@ -21,7 +21,7 @@ const openModal = (file = null) => {
 const closeModal = () => (isModalOpen.value = false);
 
 const navigateImage = (direction) => {
-  const images = [data.value?.cover_image_url, ...(data.value?.images?.map(img => img.image_url) || [])];
+  const images = [data.value?.cover_image_url];
   if (!images.length) return;
 
   if (direction === "up") {
@@ -70,7 +70,7 @@ const relatedBooks = [
               class="max-h-[500px] object-contain mb-4"
             />
             <button
-              @click="openModal(data?.book_file_url)"
+              @click="openModal(data?.cover_image_url)"
               class="bg-red-700 hover:bg-red-800 text-white px-6 py-2 rounded-full font-semibold transition"
             >
               Read here

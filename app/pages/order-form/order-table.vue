@@ -130,7 +130,7 @@
                   </div>
                 </div>
                 <div class="flex items-start sm:items-center py-1">
-                                                    <label for="terms-checkbox-2" class="ms-2 text-sm font-medium text-gray-800">আমাদের বই নিতে ইচ্ছুক এমন
+                  <label for="terms-checkbox-2" class="ms-2 text-sm font-medium text-gray-800">আমাদের বই নিতে ইচ্ছুক এমন
                     প্রতিষ্ঠানকে অবশ্যই আগে ওয়েবসাইটে নিবন্ধন করতে হবে। এরপর আমাদের অফিশিয়াল WhatsApp [০১৯৪২২১৩৩৪৬] এ
                     মেসেজ করে এপ্রুভাল নিতে হবে। WhatsApp মেসেজ করার আগ পর্যন্ত আপনার একাউন্টটি এপ্রুভাল এর অপেক্ষায়ই
                     থাকবে।</label>
