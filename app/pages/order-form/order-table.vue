@@ -116,7 +116,7 @@
 
                   <div class="md:col-span-5">
                     <label for="special_instructions">নোট</label>
-                    <textarea name="special_instructions" id="special_instructions" rows="3"
+                    <textarea name="special_instructions" id="special_instructions" rows="5"
                       class="mt-1 border rounded px-4 w-full bg-gray-50" placeholder="নোট (যদি থাকে)..."></textarea>
                   </div>
 
@@ -164,18 +164,18 @@
           </div>
 
           <div class="flex justify-between space-x-4">
-            <button @click="processConfirm" :disabled="isProcessing"
-              class="flex-1 px-4 py-2 bg-red-600 text-white font-semibold rounded hover:bg-red-700 transition duration-150 flex items-center justify-center disabled:opacity-70 text-sm">
-              <svg v-if="isProcessing" class="animate-spin h-5 w-5 mr-1 text-white" xmlns="http://www.w3.org/2000/svg"
-                fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                </path>
-              </svg>
-              <span v-if="isProcessing">প্রক্রিয়া হচ্ছে...</span>
-              <span v-else>হ্যাঁ, কনফার্ম করুন</span>
-            </button>
+<button @click="processConfirm" :disabled="isProcessing"
+  class="flex-1 px-4 py-2 bg-red-600 text-white font-semibold rounded hover:bg-red-700 transition duration-150 flex items-center justify-center disabled:opacity-70 text-sm">
+  <svg v-if="isProcessing" class="animate-spin h-5 w-5 mr-1 text-white" xmlns="http://www.w3.org/2000/svg"
+    fill="none" viewBox="0 0 24 24">
+    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+    <path class="opacity-75" fill="currentColor"
+      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+    </path>
+  </svg>
+  হ্যাঁ, কনফার্ম করুন
+</button>
+
 
             <button @click="closeModal"
               class="flex-1 px-4 py-2 bg-gray-200 text-gray-800 font-semibold rounded hover:bg-gray-300 transition duration-150 text-sm">
@@ -189,8 +189,11 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
+const {$api} =  useNuxtApp();
 const isModalOpen = ref(false);
+const isProcessing = ref(false);
+
 const openModal = () => {
   isModalOpen.value = true;
 };
@@ -198,7 +201,17 @@ const closeModal = () => {
   isModalOpen.value = false;
 };
 
-const subjects = ref(null);
+const subjects = ref([]);
+
+const form = ref({
+  institution_name: "",
+  institute_code: "",
+  phone: "",
+  district_selection: "",
+  thana_selection: "",
+  address: "",
+  special_instructions: "",
+});
 
 const itemTotal = (subject) => {
   const rate = Number(subject.rate) || 0;
@@ -215,16 +228,53 @@ const grandTotal = computed(() => {
 const removeItems = (index) => {
   if (subjects.value && subjects.value[index]) {
     subjects.value.splice(index, 1);
-    localStorage.setItem('cartItems', JSON.stringify(subjects.value))
+    localStorage.setItem("cartItems", JSON.stringify(subjects.value));
   }
-}
+};
+
 onMounted(() => {
-  const storedSubjects = localStorage.getItem('cartItems');
+  const storedSubjects = localStorage.getItem("cartItems");
   if (storedSubjects) {
     subjects.value = JSON.parse(storedSubjects);
   }
 });
 
+const submitOrder = async () => {
+  const orderData = {
+    institution_name: form.value.institution_name,
+    institute_code: form.value.institute_code,
+    phone: form.value.phone,
+    district: form.value.district_selection,
+    thana: form.value.thana_selection,
+    address: form.value.address,
+    special_instructions: form.value.special_instructions,
+    subjects: subjects.value,
+    payment_method: "cod",
+    delivery_charge: 0,
+  };
+
+  try {
+    const response = await $api("/frontend/v1/order", {
+      method: "POST",
+      body: orderData,
+    });
+
+    alert("আপনার অর্ডার সফলভাবে জমা হয়েছে!");
+    localStorage.removeItem("cartItems");
+    closeModal();
+  } catch (error) {
+    console.log("Error submitting order:", error);
+    alert("দুঃখিত, কিছু সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+  } finally {
+    isProcessing.value = false;
+  }
+};
+
+const processConfirm = async () => {
+  isProcessing.value = true;
+  await submitOrder();
+};
 </script>
+
 
 <style scoped></style>

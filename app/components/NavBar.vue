@@ -56,7 +56,7 @@ const { data: categories, status } = await useAsyncData("category", () => $api('
                     </div>
                 </div>
             </template>
-            <div v-for="page in data" :key="page?.id">
+            <div v-for="page in data?.slice(0,2)" :key="page?.id">
                 <NuxtLink :to="`/page/${page?.slug}`"
                     class="py-4 px-6 text-white hover:bg-[#A82229] transition-colors duration-200 uppercase"
                     active-class="font-bold text-red-300 border-b-2 border-red-600 bg-[#A82229]">

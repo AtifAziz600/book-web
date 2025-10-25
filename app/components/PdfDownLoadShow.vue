@@ -63,7 +63,7 @@ const getPdfUrl = (book) => {
             
             <div class="bg-gray-50 rounded p-2 space-y-1">
               <button 
-                v-for="(paper, index) in book.questionPapers.slice(0, 3)"
+                v-for="(paper, index) in book.questionPapers?.slice(0, 3)"
                 :key="index"
                 @click.prevent="$emit('view-pdf', { type: 'question-paper', url: paper.url, title: paper.name || `Question Paper ${index + 1}` })"
                 class="w-full text-left text-xs text-gray-700 hover:text-[#1C3B8B] hover:bg-blue-50 py-1 px-2 rounded transition-colors duration-200 flex items-center"

@@ -57,9 +57,6 @@ const logout = async () => {
                                     </div>
                                     <div v-if="isDropdownOpen"
                                         class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-20">
-                                        <NuxtLink to="/dashboard"
-                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">ড্যাশবোর্ড
-                                        </NuxtLink>
                                         <a @click.prevent="logout" href="#"
                                             class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">লগআউট</a>
                                     </div>

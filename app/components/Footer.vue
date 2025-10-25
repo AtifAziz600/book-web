@@ -1,13 +1,21 @@
+<script setup>
+const config = useRuntimeConfig()
+const baseURL = config.public.apiBase
+const { $api } = useNuxtApp()
+const {data: pages} = await useAsyncData('page', () => $api('/frontend/v1/page'));
+const { data, pending, error, refresh } = await useAsyncData('settings', () => $api('/top-one-ir'))
+const mediaLogoName = computed(() => data.value?.media_logo_name)
+const footerContent = computed(() => data.value?.footer_columns)
+</script>
 <template>
   <footer class="bg-gray-800 text-white">
     <div class="bg-gray-800 py-10 md:py-12">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8 lg:gap-12">
-
           <div class="space-y-4">
-            <img src="/image/logo.png" class="w-18 h-auto md:w-18 lg:w-18 rounded-2xl object-cover justify-center items-center" alt="">
+            <img :src="data?.logo_light" class="w-18 h-auto md:w-18 lg:w-18 rounded-2xl object-cover justify-center items-center" alt="">
             <h3 class="text-xl font-bold text-white">
-              সালসাবীল পাবলিকেশন্স
+              {{ mediaLogoName }}
             </h3>
             <p class="text-gray-300 leading-relaxed">
               বই ও জ্ঞান প্রসারে আমাদের পাশে থাকুন। আপনার পছন্দের বইটি দ্রুত পেতে আজই যোগাযোগ করুন।
@@ -32,29 +40,24 @@
             </h3>
             <ul class="space-y-3">
               <li>
-                <a href="#" class="flex items-center text-gray-300 hover:text-yellow-300 transition-all duration-200 group">
+                <RouterLink to="/about" class="flex items-center text-gray-300 hover:text-yellow-300 transition-all duration-200 group">
                   <span class="w-2 h-2 bg-yellow-400 rounded-full mr-3 group-hover:scale-150 transition-transform"></span>
                   আমাদের সম্পর্কে
-                </a>
+                </RouterLink>
               </li>
               <li>
-                <a href="#" class="flex items-center text-gray-300 hover:text-yellow-300 transition-all duration-200 group">
+                <RouterLink to="/products/AllBooks" class="flex items-center text-gray-300 hover:text-yellow-300 transition-all duration-200 group">
                   <span class="w-2 h-2 bg-yellow-400 rounded-full mr-3 group-hover:scale-150 transition-transform"></span>
                   সকল বই
-                </a>
+                </RouterLink>
               </li>
-              <li>
-                <a href="#" class="flex items-center text-gray-300 hover:text-yellow-300 transition-all duration-200 group">
-                  <span class="w-2 h-2 bg-yellow-400 rounded-full mr-3 group-hover:scale-150 transition-transform"></span>
-                  বিক্রেতা/ডিলার
-                </a>
-              </li>
-              <li>
-                <a href="#" class="flex items-center text-gray-300 hover:text-yellow-300 transition-all duration-200 group">
-                  <span class="w-2 h-2 bg-yellow-400 rounded-full mr-3 group-hover:scale-150 transition-transform"></span>
-                  প্রাইভেসি পলিসি
-                </a>
-              </li>
+              <li v-for="page in pages?.slice(0,2)" :key="page?.id">
+                <NuxtLink :to="`/page/${page?.slug}`" class="flex items-center text-gray-300 hover:text-yellow-300 transition-all duration-200 group">
+                  <span class="w-2 h-2 bg-yellow-400 rounded-full mr-3">
+                    </span>
+                         {{ page?.title }}
+                </NuxtLink>
+                </li>
             </ul>
           </div>
           
@@ -63,29 +66,12 @@
               গুরুত্বপূর্ণ লিংক
             </h3>
             <ul class="space-y-3">
-              <li>
-                <a href="#" class="flex items-center text-gray-300 hover:text-yellow-300 transition-all duration-200 group">
-                  <span class="w-2 h-2 bg-yellow-400 rounded-full mr-3 group-hover:scale-150 transition-transform"></span>
-                  আমাদের সম্পর্কে
-                </a>
-              </li>
-              <li>
-                <a href="#" class="flex items-center text-gray-300 hover:text-yellow-300 transition-all duration-200 group">
-                  <span class="w-2 h-2 bg-yellow-400 rounded-full mr-3 group-hover:scale-150 transition-transform"></span>
-                  সকল বই
-                </a>
-              </li>
-              <li>
-                <a href="#" class="flex items-center text-gray-300 hover:text-yellow-300 transition-all duration-200 group">
-                  <span class="w-2 h-2 bg-yellow-400 rounded-full mr-3 group-hover:scale-150 transition-transform"></span>
-                  বিক্রেতা/ডিলার
-                </a>
-              </li>
-              <li>
-                <a href="#" class="flex items-center text-gray-300 hover:text-yellow-300 transition-all duration-200 group">
-                  <span class="w-2 h-2 bg-yellow-400 rounded-full mr-3 group-hover:scale-150 transition-transform"></span>
-                  প্রাইভেসি পলিসি
-                </a>
+              <li v-for="page in pages" :key="page?.id">
+                <NuxtLink :to="`/page/${page?.slug}`" class="flex items-center text-gray-300 hover:text-yellow-300 transition-all duration-200 group">
+                  <span class="w-2 h-2 bg-yellow-400 rounded-full mr-3">
+                    </span>
+                         {{ page?.title }}
+                </NuxtLink>
               </li>
             </ul>
           </div>
@@ -141,7 +127,3 @@
     </div>
   </footer>
 </template>
-
-<script>
-
-</script>
