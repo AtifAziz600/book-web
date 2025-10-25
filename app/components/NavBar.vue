@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 
-const route = useRoute()
+const route = useRoute();
 const menuItems = ref([
     { name: "হোম", link: "/", type: "link" },
     { name: "আমাদের সম্পর্কে", link: "/about", type: "link" },

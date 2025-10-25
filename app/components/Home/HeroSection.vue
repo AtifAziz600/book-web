@@ -1,9 +1,24 @@
 <template>
   <section class="relative w-full h-[800px] lg:h-screen overflow-hidden">
-    <Swiper :modules="modules" :autoplay="{ delay: 4000, disableOnInteraction: false }" :loop="true"
-      :pagination="{ clickable: true }" :speed="1000" class="h-full w-full">
-      <SwiperSlide v-for="slide in data?.hero_slider" :key="slide.id" class="h-full w-full relative">
-        <img :src="slide.image_url" :alt="slide.id" class="h-full w-full object-fit object-center" />
+    <Swiper
+      v-if="data?.hero_slider?.length"
+      :key="data.hero_slider.length"
+      :modules="modules"
+      :autoplay="{ delay: 4000, disableOnInteraction: false }"
+      :loop="true"
+      :pagination="{ clickable: true }"
+      class="h-full w-full"
+    >
+      <SwiperSlide
+        v-for="slide in data.hero_slider"
+        :key="slide.id"
+        class="h-full w-full relative"
+      >
+        <img
+          :src="slide.image_url"
+          :alt="slide.id"
+          class="h-full w-full object-fit object-center"
+        />
 
         <div class="absolute inset-0 bg-black/40"></div>
 
@@ -19,12 +34,16 @@
             </p>
 
             <div class="flex flex-col sm:flex-row justify-center gap-4">
-              <NuxtLink to="/products/AllBooks"
-                class="bg-[var(--color-secondary)] hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+              <NuxtLink
+                to="/products/AllBooks"
+                class="bg-[var(--color-secondary)] hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+              >
                 {{ button1Text }}
-            </NuxtLink>
-              <NuxtLink to="/products/AllBooks"
-                class="bg-transparent border-2 border-white hover:bg-white/10 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105">
+              </NuxtLink>
+              <NuxtLink
+                to="/products/AllBooks"
+                class="bg-transparent border-2 border-white hover:bg-white/10 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105"
+              >
                 {{ button2Text }}
               </NuxtLink>
             </div>
@@ -36,9 +55,9 @@
     <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
       <div class="swiper-pagination-custom"></div>
     </div>
-
   </section>
 </template>
+
 
 <script setup>
 import { Swiper, SwiperSlide } from 'swiper/vue';
