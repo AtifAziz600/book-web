@@ -9,6 +9,6 @@
   <HomeBlogSection />
   <HomeBookServiceSection />
   <HomeSecondBannerSection />
-  <HomeNewsLetterSection />
+  <!-- <HomeNewsLetterSection /> -->
 
 </template>

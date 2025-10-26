@@ -28,7 +28,7 @@ const formattedOriginalPrice = computed(() => {
         <img
           :src="book.cover_image_url"
           :alt="`Cover of ${book.title}`"
-          class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
+          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           loading="lazy"
         />
         
@@ -59,7 +59,7 @@ const formattedOriginalPrice = computed(() => {
         <div class="flex flex-col">
           <div v-if="book.discount_price" class="flex flex-row items-start">
             <div class="text-2xl font-semibold text-primary leading-tight">৳{{ formattedPrice }}</div>
-            <div class="text-sm text-gray-400 line-through mt-0.5 ml-2">৳{{ formattedOriginalPrice }}</div>
+            <div class="text-sm text-gray-400 line-through mt-0.5 ml-2">{{ formattedOriginalPrice }}</div>
           </div>
           <div v-else class="text-2xl font-semibold text-primary leading-tight">৳{{ formattedPrice }}</div>
         </div>

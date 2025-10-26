@@ -86,7 +86,7 @@ const handleLogin = async () => {
               </div>
             </div>
             
-            <div class="flex items-center justify-between mb-6">
+            <!-- <div class="flex items-center justify-between mb-6">
               <div class="flex items-center">
                 <input 
                   id="remember-me" 
@@ -99,7 +99,7 @@ const handleLogin = async () => {
               <div class="text-sm">
                 <a href="#" class="font-medium text-red-600 hover:text-red-500 transition">পাসওয়ার্ড ভুলে গেছেন?</a>
               </div>
-            </div>
+            </div> -->
             
             <button 
               type="submit" 
@@ -111,10 +111,10 @@ const handleLogin = async () => {
             </button>
           </form>
           
-          <p class="mt-8 text-center text-sm text-gray-600">
+          <!-- <p class="mt-8 text-center text-sm text-gray-600">
             আপনার কি অ্যাকাউন্ট নেই?
             <NuxtLink to="/register" class="font-medium text-red-600 hover:text-red-500 transition">নিবন্ধন করুন</NuxtLink>
-          </p>
+          </p> -->
         </div>
       </div>
     </div>

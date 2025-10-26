@@ -2,7 +2,7 @@
 import PdfDownLoadShow from './PdfDownLoadShow.vue';
 import { useRoute } from 'vue-router';
 import { computed } from 'vue';
-import { useAuthStore } from '~/stores/auth'; // Fixed import path
+import { useAuthStore } from '~/stores/auth'; 
 
 const route = useRoute();
 const config = useRuntimeConfig();
@@ -14,14 +14,13 @@ const { data: syllabusData, error, status, refresh } = await useAsyncData(`produ
 );
 
 const authStore = useAuthStore();
-const { user, loggedIn, login } = authStore; // Changed isAuthenticated to loggedIn
+const { user, loggedIn, login } = authStore; 
 
 const books = computed(() => syllabusData.value?.data);
 
 const handleViewPdf = (pdfData: { name: string; url: string }) => {
   if (!loggedIn) {
-    // Redirect to login page if not authenticated
-    return navigateTo('/login'); // Adjust the path if your login page is different
+    return navigateTo('/login'); 
   }
   if (!pdfData?.url) return;
   window.open(pdfData.url, '_blank');

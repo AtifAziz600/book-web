@@ -13,9 +13,9 @@ css: ['~/assets/css/main.css'],
     runtimeConfig: {
     public: {
       apiUrl: 'http://localhost:8000/api',
-      apiBase: process.env.APP_URL || 'http://localhost:8000'
+      apiBase: 'http://localhost:8000'
       // apiUrl: 'https://admin.salsabilpublications.com/api',
-      // apiBase: process.env.APP_URL || 'https://admin.salsabilpublications.com'
+      // apiBase: 'https://admin.salsabilpublications.com'
     },
   },
   app: {

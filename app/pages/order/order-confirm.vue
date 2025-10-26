@@ -1,12 +1,81 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { useRoute, navigateTo } from 'nuxt/app';
+
+const { $api } = useNuxtApp();
+const route = useRoute();
 const isModalOpen = ref(false);
+const isProcessing = ref(false);
+const order = ref(null);
+
+const form = ref({
+    institution_name: "",
+    institute_code: "",
+    phone: "",
+    email: "",
+    delivery_type: "",
+    address: "",
+    special_instructions: "",
+    payment_method: "cod", 
+});
 
 const openModal = () => {
     isModalOpen.value = true;
 };
 const closeModal = () => {
     isModalOpen.value = false;
+};
+
+onMounted(async () => {
+    const orderId = route.query.order_id;
+    if (orderId) {
+        try {
+            const response = await $api(`/frontend/v1/order/${orderId}`);
+            order.value = response.data;
+            form.value.institution_name = order.value.institution_name;
+            form.value.institute_code = order.value.institute_code;
+            form.value.phone = order.value.phone;
+            form.value.email = order.value.customer?.email; 
+            form.value.address = order.value.address;
+            form.value.special_instructions = order.value.special_instructions;
+            form.value.payment_method = order.value.payment_method || "cod";
+            form.value.delivery_type = "standard"; 
+        } catch (error) {
+            console.error("Error fetching order details:", error);
+            alert("অর্ডার বিস্তারিত লোড করতে সমস্যা হয়েছে।");
+            navigateTo('/order-form');
+        }
+    } else {
+        alert("কোনো অর্ডার আইডি পাওয়া যায়নি।");
+        navigateTo('/order-form'); 
+    }
+});
+
+const processConfirm = async () => {
+    if (!order.value) {
+        alert("অর্ডার লোড হয়নি।");
+        closeModal();
+        return;
+    }
+
+    isProcessing.value = true;
+    try {
+        await $api(`/frontend/v1/order/${order.value.id}/confirm`, {
+            method: "POST",
+            body: {
+                payment_method: form.value.payment_method,
+                delivery_type: form.value.delivery_type,
+            },
+        });
+        alert("আপনার অর্ডার সফলভাবে কনফার্ম হয়েছে!");
+        navigateTo(`/order/invoice?order_id=${order.value.id}`);
+    } catch (error) {
+        console.error("Error confirming order:", error);
+        alert("দুঃখিত, অর্ডার কনফার্ম করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+    } finally {
+        isProcessing.value = false;
+        closeModal();
+    }
 };
 </script>
 <template>
@@ -23,14 +92,14 @@ const closeModal = () => {
                                             class="block text-gray-700 font-medium mb-1">নাম</label>
                                         <input type="text" name="institution_name" id="institution_name"
                                             class="h-12 border border-gray-300 mt-1 rounded-lg px-4 w-full bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
-                                            value="" placeholder="আপনার নাম লিখুন" />
+                                            v-model="form.institution_name" placeholder="আপনার নাম লিখুন" />
                                     </div>
 
                                     <div class="md:col-span-6">
-                                        <label for="code" class="block text-gray-700 font-medium mb-1">ইমেইল</label>
-                                        <input type="text" name="code" id="code"
+                                        <label for="email" class="block text-gray-700 font-medium mb-1">ইমেইল</label>
+                                        <input type="email" name="email" id="email"
                                             class="h-12 border border-gray-300 mt-1 rounded-lg px-4 w-full bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
-                                            value="" placeholder="আপনার ইমেইল লিখুন" />
+                                            v-model="form.email" placeholder="আপনার ইমেইল লিখুন" />
                                     </div>
 
                                     <div class="md:col-span-6">
@@ -38,15 +107,16 @@ const closeModal = () => {
                                             নম্বর</label>
                                         <input type="tel" name="phone" id="phone"
                                             class="h-12 border border-gray-300 mt-1 rounded-lg px-4 w-full bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
-                                            value="" placeholder="+880" />
+                                            v-model="form.phone" placeholder="+880" />
                                     </div>
 
                                     <div class="md:col-span-6">
                                         <label for="delivery_type" class="block text-gray-700 font-medium mb-1">ডেলিভারি
                                             ধরণ</label>
                                         <select id="delivery_type" name="delivery_type"
-                                            class="h-12 border border-gray-300 mt-1 rounded-lg px-4 w-full bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200">
-                                            <option value="" disabled selected>ডেলিভারির ধরণ নির্বাচন করুন</option>
+                                            class="h-12 border border-gray-300 mt-1 rounded-lg px-4 w-full bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+                                            v-model="form.delivery_type">
+                                            <option value="" disabled>ডেলিভারির ধরণ নির্বাচন করুন</option>
                                             <option value="standard">স্ট্যান্ডার্ড ডেলিভারি (Standard)</option>
                                             <option value="express">এক্সপ্রেস ডেলিভারি (Express)</option>
                                             <option value="pickup">স্টোর পিকআপ (Store Pickup)</option>
@@ -57,7 +127,7 @@ const closeModal = () => {
                                         <label for="address" class="block text-gray-700 font-medium mb-1">ঠিকানা</label>
                                         <input type="text" name="address" id="address"
                                             class="h-12 border border-gray-300 mt-1 rounded-lg px-4 w-full bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
-                                            value="" placeholder="আপনার ঠিকানা লিখুন" />
+                                            v-model="form.address" placeholder="আপনার ঠিকানা লিখুন" />
                                     </div>
 
                                     <div class="md:col-span-6">
@@ -65,7 +135,7 @@ const closeModal = () => {
                                             class="block text-gray-700 font-medium mb-1">নোট</label>
                                         <textarea name="special_instructions" id="special_instructions" rows="5"
                                             class="mt-1 border border-gray-300 rounded-lg px-4 w-full bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
-                                            placeholder="নোট (যদি থাকে)..."></textarea>
+                                            v-model="form.special_instructions" placeholder="নোট (যদি থাকে)..."></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -77,8 +147,9 @@ const closeModal = () => {
 
                         <div class="mb-6">
                             <div
-                                class="flex items-center p-4 border border-gray-300 rounded-xl cursor-pointer hover:bg-blue-50 hover:border-blue-300 transition duration-200">
-                                <input type="radio" name="payment_method" value="self_transfer"
+                                class="flex items-center p-4 border border-gray-300 rounded-xl cursor-pointer hover:bg-blue-50 hover:border-blue-300 transition duration-200"
+                                :class="{ 'border-blue-500 bg-blue-50': form.payment_method === 'cod' }">
+                                <input type="radio" name="payment_method" value="cod" v-model="form.payment_method"
                                     class="mr-3 h-5 w-5 text-blue-600 focus:ring-blue-500">
                                 <div class="flex items-center">
                                     <div
@@ -96,8 +167,9 @@ const closeModal = () => {
                         <div class="mb-6">
                             <h3 class="font-medium mb-3 text-gray-700">মোবাইল ওয়ালেট</h3>
                             <div
-                                class="flex items-center p-4 border border-gray-300 rounded-xl cursor-pointer hover:bg-blue-50 hover:border-blue-300 transition duration-200">
-                                <input type="radio" name="payment_method" value="self_transfer"
+                                class="flex items-center p-4 border border-gray-300 rounded-xl cursor-pointer hover:bg-blue-50 hover:border-blue-300 transition duration-200"
+                                :class="{ 'border-blue-500 bg-blue-50': form.payment_method === 'bkash' }">
+                                <input type="radio" name="payment_method" value="bkash" v-model="form.payment_method"
                                     class="mr-3 h-5 w-5 text-blue-600 focus:ring-blue-500">
                                 <div class="flex items-center">
                                     <div
@@ -110,13 +182,14 @@ const closeModal = () => {
                                 </div>
                             </div>
                             <div
-                                class="flex items-center p-4 border border-gray-300 rounded-xl cursor-pointer hover:bg-blue-50 hover:border-blue-300 transition duration-200">
-                                <input type="radio" name="payment_method" value="self_transfer"
+                                class="flex items-center p-4 border border-gray-300 rounded-xl cursor-pointer hover:bg-blue-50 hover:border-blue-300 transition duration-200"
+                                :class="{ 'border-blue-500 bg-blue-50': form.payment_method === 'nagad' }">
+                                <input type="radio" name="payment_method" value="nagad" v-model="form.payment_method"
                                     class="mr-3 h-5 w-5 text-blue-600 focus:ring-blue-500">
                                 <div class="flex items-center">
                                     <div
                                         class="w-12 h-12 mr-3 bg-blue-100 rounded-full flex items-center justify-center">
-                                        <img src="/image/nagad.jpg" class="w-8 h-8" alt="Cash on Delivery">
+                                        <img src="/image/nagad.jpg" class="w-8 h-8" alt="Nagad">
                                     </div>
                                     <div>
                                         <div class="font-medium text-gray-800">Nagad</div>
@@ -124,13 +197,14 @@ const closeModal = () => {
                                 </div>
                             </div>
                             <div
-                                class="flex items-center p-4 border border-gray-300 rounded-xl cursor-pointer hover:bg-blue-50 hover:border-blue-300 transition duration-200">
-                                <input type="radio" name="payment_method" value="self_transfer"
+                                class="flex items-center p-4 border border-gray-300 rounded-xl cursor-pointer hover:bg-blue-50 hover:border-blue-300 transition duration-200"
+                                :class="{ 'border-blue-500 bg-blue-50': form.payment_method === 'rocket' }">
+                                <input type="radio" name="payment_method" value="rocket" v-model="form.payment_method"
                                     class="mr-3 h-5 w-5 text-blue-600 focus:ring-blue-500">
                                 <div class="flex items-center">
                                     <div
                                         class="w-12 h-12 mr-3 bg-blue-100 rounded-full flex items-center justify-center">
-                                        <img src="/image/rocket.png" class="w-8 h-8" alt="Cash on Delivery">
+                                        <img src="/image/rocket.png" class="w-8 h-8" alt="Rocket">
                                     </div>
                                     <div>
                                         <div class="font-medium text-gray-800">Rocket</div>
@@ -147,20 +221,16 @@ const closeModal = () => {
                         <div class="space-y-3 mb-6">
                             <div class="flex justify-between py-1">
                                 <span class="text-gray-600">পণ্যের মূল্য:</span>
-                                <span class="font-medium">৳ 1,200</span>
+                                <span class="font-medium">৳ {{ order?.sub_total?.toFixed(2) }}</span>
                             </div>
                             <div class="flex justify-between py-1">
                                 <span class="text-gray-600">ডেলিভারি চার্জ:</span>
-                                <span class="font-medium">৳ 80</span>
-                            </div>
-                            <div class="flex justify-between py-1">
-                                <span class="text-gray-600">ছাড়:</span>
-                                <span class="text-green-600 font-medium">-৳ 100</span>
+                                <span class="font-medium">৳ {{ order?.delivery_charge?.toFixed(2) }}</span>
                             </div>
                             <div class="border-t border-gray-200 pt-3 mt-3">
                                 <div class="flex justify-between font-bold text-lg">
                                     <span>সর্বমোট:</span>
-                                    <span class="text-red-600">৳ 1,180</span>
+                                    <span class="text-red-600">৳ {{ order?.grand_total?.toFixed(2) }}</span>
                                 </div>
                             </div>
                         </div>

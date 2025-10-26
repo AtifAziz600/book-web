@@ -55,7 +55,7 @@ export const useAuthStore = defineStore('auth', {
                 if(response.redirect_url){
                     window.location.href = response.redirect_url;
                 }else {
-                    navigateTo('/dashboard')
+                    navigateTo('/')
                 }
             } catch (error) {
                 throw error

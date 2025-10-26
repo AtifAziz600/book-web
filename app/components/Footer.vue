@@ -6,6 +6,15 @@ const {data: pages} = await useAsyncData('page', () => $api('/frontend/v1/page')
 const { data, pending, error, refresh } = await useAsyncData('settings', () => $api('/top-one-ir'))
 const mediaLogoName = computed(() => data.value?.media_logo_name)
 const footerContent = computed(() => data.value?.footer_columns)
+
+// New computed properties for dynamic settings
+const address = computed(() => data.value?.linkedin_link)
+const email = computed(() => data.value?.email)
+const phoneNumber = computed(() => data.value?.phone_number)
+const whatsappNumber = computed(() => data.value?.whatsapp_number)
+const hotlineNumber = computed(() => data.value?.hotline_number)
+const facebookLink = computed(() => data.value?.facebook_link)
+const whatsappLink = computed(() => `https://wa.me/${whatsappNumber.value}`)
 </script>
 <template>
   <footer class="bg-gray-800 text-white">
@@ -22,13 +31,13 @@ const footerContent = computed(() => data.value?.footer_columns)
             </p>
 
             <div class="flex space-x-4">
-              <a href="https://www.facebook.com/salsabilpublication" class="p-2 bg-gray-700 rounded-lg hover:bg-blue-600 transition-all duration-300 transform hover:scale-110" aria-label="Facebook Page">
+              <a :href="facebookLink" class="p-2 bg-gray-700 rounded-lg hover:bg-blue-600 transition-all duration-300 transform hover:scale-110" aria-label="Facebook Page">
                 <Icon name="mdi:facebook" class="h-5 w-5 text-white"/>
               </a>
-              <a href="#" class="p-2 bg-gray-700 rounded-lg hover:bg-green-500 transition-all duration-300 transform hover:scale-110" aria-label="WhatsApp Contact">
+              <a :href="whatsappLink" class="p-2 bg-gray-700 rounded-lg hover:bg-green-500 transition-all duration-300 transform hover:scale-110" aria-label="WhatsApp Contact">
                 <Icon name="mdi:whatsapp" class="h-5 w-5 text-white"/>
               </a>
-              <a href="mailto:salsabilpublication13@gmail.com" class="p-2 bg-gray-700 rounded-lg hover:bg-red-500 transition-all duration-300 transform hover:scale-110" aria-label="Email Address">
+              <a :href="`mailto:${email}`" class="p-2 bg-gray-700 rounded-lg hover:bg-red-500 transition-all duration-300 transform hover:scale-110" aria-label="Email Address">
                 <Icon name="mdi:email" class="h-5 w-5 text-white"/>
               </a>
             </div>
@@ -61,20 +70,19 @@ const footerContent = computed(() => data.value?.footer_columns)
             </ul>
           </div>
           
-          <div>
-            <h3 class="text-lg font-bold mb-6 text-yellow-400 border-l-4 border-yellow-400 pl-3">
-              গুরুত্বপূর্ণ লিংক
-            </h3>
-            <ul class="space-y-3">
-              <li v-for="page in pages" :key="page?.id">
-                <NuxtLink :to="`/page/${page?.slug}`" class="flex items-center text-gray-300 hover:text-yellow-300 transition-all duration-200 group">
-                  <span class="w-2 h-2 bg-yellow-400 rounded-full mr-3">
-                    </span>
-                         {{ page?.title }}
-                </NuxtLink>
-              </li>
-            </ul>
-          </div>
+  <div v-for="column in footerContent" :key="column.id" class="space-y-4">
+    <h3 class="text-lg font-bold mb-6 text-yellow-400 border-l-4 border-yellow-400 pl-3">
+      {{ column.title }}
+    </h3>
+    <ul class="space-y-3">
+      <li v-for="page in column.pages" :key="page.slug">
+        <NuxtLink :to="`/page/${page.slug}`" class="flex items-center text-gray-300 hover:text-yellow-300 transition-all duration-200 group">
+          <span class="w-2 h-2 bg-yellow-400 rounded-full mr-3 group-hover:scale-150 transition-transform"></span>
+          {{ page.title }}
+        </NuxtLink>
+      </li>
+    </ul>
+  </div>
           <div>
             <h3 class="text-lg font-bold mb-6 text-yellow-400 border-l-4 border-yellow-400 pl-3">
               যোগাযোগ ও ঠিকানা
@@ -82,26 +90,27 @@ const footerContent = computed(() => data.value?.footer_columns)
             <div class="space-y-4">
               <div>
                 <p class="font-semibold text-yellow-400 mb-1">ঠিকানা:</p>
-                <p class="text-gray-300">০৩৭/৩, মফিজউল্লাহ কমপ্লেক্স</p>
-                <p class="text-gray-300">বাংলাবাজার, ঢাকা-১১০০, বাংলাদেশ।</p>
+                <p class="text-gray-300">{{ address }}</p>
               </div>
               
               <div>
                 <p class="font-semibold text-yellow-400 mb-1">ফোন:</p>
                 <div class="flex items-center text-gray-300 mb-1">
                   <Icon name="mdi:phone" class="w-4 h-4 mr-2 text-yellow-400"/>
-                  <span>০১৭৮৪-৫৬৬৩১৫</span>
+                  <span>{{ whatsappNumber }}</span>
                 </div>
                 <div class="flex items-center text-gray-300">
                   <Icon name="mdi:phone" class="w-4 h-4 mr-2 text-yellow-400"/>
-                  <span>০১৯৭২-১৩৩৪৫ (বইয়ের জন্য)</span>
+                  <span>{{ hotlineNumber }} (বইয়ের জন্য)</span>
                 </div>
               </div>
 
-              <a href="mailto:salsabilpublication13@gmail.com" class="flex items-center text-yellow-300 hover:text-yellow-200 transition-colors duration-200 group">
+
+              <a :href="`mailto:${email}`" class="flex items-center text-yellow-300 hover:text-yellow-200 transition-colors duration-200 group">
                 <Icon name="mdi:email" class="w-5 h-5 mr-2 group-hover:scale-110 transition-transform"/>
-                <span class="break-all">salsabilpublication13@gmail.com</span>
+                <span class="break-all">{{ email }}</span>
               </a>
+
             </div>
           </div>
 

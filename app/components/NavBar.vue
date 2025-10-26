@@ -22,7 +22,7 @@ const baseURL = config.public.apiBase;
 const { $api } = useNuxtApp();
 
 const { data, pending, error, refresh } = await useAsyncData("page", () => $api("/frontend/v1/page"));
-
+const { data: Logo } = await useAsyncData('settings', () => $api('/top-one-ir'))
 const { data: categories, status } = await useAsyncData("category", () => $api('/frontend/v1/category'));
 </script>
 

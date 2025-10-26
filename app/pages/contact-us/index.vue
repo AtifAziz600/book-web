@@ -213,7 +213,7 @@ const handleSubmit = async () => {
 <section class="py-12">
   <div class="max-w-7xl mx-auto px-4">
     <iframe
-      src="https://www.google.com/maps?q=107,+2%2F3%2F4%2F5,+Madina+Aarzu+Complex,+Nawabpur+Road,+Modonpal+Ln,+Dhaka+1100&z=18&output=embed"
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d456.645464039441!2d90.41148147159078!3d23.70584708352581!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b90784ca8f35%3A0x6bac5d1ee7e5e526!2z4Ka44Ka-4Kay4Ka44Ka-4Kas4KeA4KayIOCmquCmvuCmrOCmsuCmv-CmleCnh-CmtuCmqOCnjeCmuA!5e0!3m2!1sbn!2sbd!4v1761459891605!5m2!1sbn!2sbd"
       width="100%"
       height="450"
       class="rounded-lg shadow-md"

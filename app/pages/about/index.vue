@@ -223,7 +223,7 @@ const promises = [
         </div>
     </div>
 
-    <section class="py-24 relative">
+    <!-- <section class="py-24 relative">
       <div class="w-full max-w-7xl px-4 md:px-5 lg:px-5 mx-auto">
         <div class="w-full flex-col justify-start items-center lg:gap-11 gap-8 inline-flex">
           <div class="w-full flex-col justify-start items-center gap-2.5 flex">
@@ -247,7 +247,7 @@ const promises = [
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <section class="py-16 bg-white">
       <div class="w-full max-w-7xl px-4 md:px-5 lg:px-5 mx-auto">
@@ -280,7 +280,7 @@ const promises = [
       </div>
     </section>
 
-    <section class="py-16 bg-gray-50">
+    <!-- <section class="py-16 bg-gray-50">
       <div class="w-full max-w-7xl px-4 md:px-5 lg:px-5 mx-auto">
         <div class="w-full flex-col justify-start items-center lg:gap-12 gap-8 inline-flex">
           <div class="w-full flex-col justify-start items-center gap-4 flex">
@@ -302,7 +302,7 @@ const promises = [
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <section class="py-16 bg-white">
       <div class="w-full max-w-7xl px-4 md:px-5 lg:px-5 mx-auto">

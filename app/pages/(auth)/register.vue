@@ -127,10 +127,6 @@ const handleRegister = async () => {
             </button>
           </form>
 
-          <p class="mt-8 text-center text-sm text-gray-600">
-            যদি আপনার একটি অ্যাকাউন্ট থাকে,
-            <NuxtLink to="/login" class="font-medium text-red-600 hover:text-red-500 transition">লগইন করুন</NuxtLink>
-          </p>
         </div>
       </div>
     </div>

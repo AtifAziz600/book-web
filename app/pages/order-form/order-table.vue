@@ -58,76 +58,41 @@
                   </table>
                 </div>
               </div>
-
-              <div class="">
-                <div class="grid gap-4 text-sm grid-cols-1">
-                  <div class="md:col-span-5">
-                    <label for="institution_name">প্রতিষ্ঠানের নাম</label>
-                    <input type="text" name="institution_name" id="institution_name"
-                      class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value=""
-                      placeholder="আপনার প্রতিষ্ঠানের নাম লিখুন" />
-                  </div>
-
-                  <div class="md:col-span-5">
-                    <label for="institute_code">কোড</label>
-                    <input type="text" name="institute_code" id="institute_code"
-                      class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value=""
-                      placeholder="আপনার ইনস্টিটিউট কোড লিখুন" />
-                  </div>
-
-                  <div class="md:col-span-5">
-                    <label for="phone">মোবাইল নম্বর</label>
-                    <input type="tel" name="phone" id="phone" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                      value="" placeholder="+880" />
-                  </div>
-
-                  <div class="md:col-span-5">
-                    <div class="grid grid-cols-2 gap-4">
-                      <div class="col-span-1">
-                        <label for="district_selection">জেলা</label>
-                        <select id="district_selection" name="district_selection"
-                          class="h-10 border mt-1 rounded px-4 w-full bg-gray-50 border-gray-200 text-gray-600">
-                          <option value="">Select</option>
-                          <option value="Dhaka">ঢাকা</option>
-                          <option value="Chittagong">চট্টগ্রাম</option>
-                          <option value="Rajshahi">রাজশাহী</option>
-                        </select>
-                      </div>
-
-                      <div class="col-span-1">
-                        <label for="thana_selection">থানা</label>
-                        <select id="thana_selection" name="thana_selection"
-                          class="h-10 border mt-1 rounded px-4 w-full bg-gray-50 border-gray-200 text-gray-600">
-                          <option value="">Select</option>
-                          <option value="Mirpur">মিরপুর</option>
-                          <option value="Mohammadpur">মোহাম্মদপুর</option>
-                          <option value="Gulshan">গুলশান</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="md:col-span-5">
-                    <label for="address">ঠিকানা</label>
-                    <input type="text" name="address" id="address"
-                      class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value=""
-                      placeholder="আপনার ঠিকানা লিখুন" />
-                  </div>
-
-                  <div class="md:col-span-5">
-                    <label for="special_instructions">নোট</label>
-                    <textarea name="special_instructions" id="special_instructions" rows="5"
-                      class="mt-1 border rounded px-4 w-full bg-gray-50" placeholder="নোট (যদি থাকে)..."></textarea>
-                  </div>
-
-                  <div class="md:col-span-5 text-right">
-                    <div class="inline-flex items-end">
-                      <button @click="openModal"
-                        class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-8 rounded transition duration-300 inline-flex items-center justify-center">
-                        অর্ডার করুন
-                      </button>
-                    </div>
-                  </div>
+              <form @submit.prevent>
+                <div>
+                  <label for="institution_name" class="block mb-2 text-sm font-medium text-gray-700">প্রতিষ্ঠানের
+                    নাম</label>
+                  <input v-model="form.institution_name" type="text" id="institution_name"
+                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" placeholder="আপনার প্রতিষ্ঠানের নাম লিখুন"
+                    required />
+                </div>
+                <div>
+                  <label for="institute_code" class="block mb-2 text-sm font-medium text-gray-700">ইনস্টিটিউট
+                    কোড</label>
+                  <input v-model="form.institute_code" type="text" id="institute_code"
+                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" placeholder="ইনস্টিটিউট কোড লিখুন" />
+                </div>
+                <div>
+                  <label for="phone" class="block mb-2 text-sm font-medium text-gray-700">ফোন নাম্বার</label>
+                  <input v-model="form.phone" type="tel" id="phone"
+                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" placeholder="+880" required />
+                </div>
+                <div>
+                  <label for="address" class="block mb-2 text-sm font-medium text-gray-700">ঠিকানা</label>
+                  <input v-model="form.address" type="text" id="address"
+                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" placeholder="ঠিকানা লিখুন" required />
+                </div>
+                <div>
+                  <label for="special_instructions" class="block mb-2 text-sm font-medium text-gray-700">নোট</label>
+                  <textarea v-model="form.special_instructions" id="special_instructions" rows="4"
+                    class="border rounded px-4 py-2 w-full bg-gray-50"
+                    placeholder="যদি বিশেষ কোনো নির্দেশনা থাকে, এখানে লিখুন..."></textarea>
+                </div>
+                <div class="mt-6 flex justify-end">
+                  <button @click="openModal" type="submit" :disabled="isProcessing"
+                    class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg transition disabled:opacity-50">
+                    {{ isProcessing ? "Processing..." : " অর্ডার করুন" }}
+                  </button>
                 </div>
                 <div class="flex items-start sm:items-center py-1">
                   <label for="terms-checkbox-2" class="ms-2 text-sm font-medium text-gray-800">আমাদের বই নিতে ইচ্ছুক এমন
@@ -141,7 +106,7 @@
                   <label for="terms-checkbox-2" class="ms-2 text-sm font-medium text-gray-800"> Accept terms and
                     conditions</label>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
         </div>
@@ -156,27 +121,23 @@
           <div class="flex justify-center mb-4">
             <Icon name="heroicons:exclamation-triangle" class="h-24 w-24 text-gray-800" />
           </div>
-
           <div class="flex justify-center items-center text-center mb-6">
             <h2 class="font-semibold text-xl">
               আপনি কি অর্ডারটি কনফার্ম করতে চান?
             </h2>
           </div>
-
           <div class="flex justify-between space-x-4">
-<button @click="processConfirm" :disabled="isProcessing"
-  class="flex-1 px-4 py-2 bg-red-600 text-white font-semibold rounded hover:bg-red-700 transition duration-150 flex items-center justify-center disabled:opacity-70 text-sm">
-  <svg v-if="isProcessing" class="animate-spin h-5 w-5 mr-1 text-white" xmlns="http://www.w3.org/2000/svg"
-    fill="none" viewBox="0 0 24 24">
-    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-    <path class="opacity-75" fill="currentColor"
-      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-    </path>
-  </svg>
-  হ্যাঁ, কনফার্ম করুন
-</button>
-
-
+            <button @click="processConfirm" :disabled="isProcessing"
+              class="flex-1 px-4 py-2 bg-red-600 text-white font-semibold rounded hover:bg-red-700 transition duration-150 flex items-center justify-center disabled:opacity-70 text-sm">
+              <svg v-if="isProcessing" class="animate-spin h-5 w-5 mr-1 text-white" xmlns="http://www.w3.org/2000/svg"
+                fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                </path>
+              </svg>
+              হ্যাঁ, কনফার্ম করুন
+            </button>
             <button @click="closeModal"
               class="flex-1 px-4 py-2 bg-gray-200 text-gray-800 font-semibold rounded hover:bg-gray-300 transition duration-150 text-sm">
               বাতিল করুন
@@ -190,7 +151,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
-const {$api} =  useNuxtApp();
+const { $api } = useNuxtApp();
 const isModalOpen = ref(false);
 const isProcessing = ref(false);
 
@@ -258,10 +219,11 @@ const submitOrder = async () => {
       method: "POST",
       body: orderData,
     });
+    localStorage.setItem("orderData", JSON.stringify(response));
 
-    alert("আপনার অর্ডার সফলভাবে জমা হয়েছে!");
     localStorage.removeItem("cartItems");
-    closeModal();
+
+    navigateTo(`/order/checkout?order_id=${response.order_id}`);
   } catch (error) {
     console.log("Error submitting order:", error);
     alert("দুঃখিত, কিছু সমস্যা হয়েছে। আবার চেষ্টা করুন।");
@@ -270,10 +232,18 @@ const submitOrder = async () => {
   }
 };
 
+
 const processConfirm = async () => {
+  if (!subjects.value || subjects.value.length === 0) {
+    alert("আপনি কোনো বই অর্ডার করেননি! দয়া করে অন্তত একটি বই যোগ করুন।");
+    closeModal();
+    return;
+  }
+
   isProcessing.value = true;
   await submitOrder();
 };
+
 </script>
 
 
