@@ -202,16 +202,23 @@ onMounted(() => {
 
 const submitOrder = async () => {
   const orderData = {
-    institution_name: form.value.institution_name,
-    institute_code: form.value.institute_code,
+    user_id: null,
     phone: form.value.phone,
-    district: form.value.district_selection,
-    thana: form.value.thana_selection,
-    address: form.value.address,
+    address_line_1: form.value.address,
     special_instructions: form.value.special_instructions,
-    subjects: subjects.value,
-    payment_method: "cod",
     delivery_charge: 0,
+    payment_method: "cod",
+    payment_status: "pending",
+    order_type: "customer",
+    order_date: new Date().toISOString(),
+    grand_total: grandTotal.value,
+    order_items: subjects.value.map((subject) => ({
+      product_id: subject.id,
+      name: subject.name,
+      rate: subject.rate,
+      quantity: subject.quantity,
+      total: itemTotal(subject),
+    })),
   };
 
   try {
@@ -219,11 +226,10 @@ const submitOrder = async () => {
       method: "POST",
       body: orderData,
     });
+
     localStorage.setItem("orderData", JSON.stringify(response));
-
     localStorage.removeItem("cartItems");
-
-    navigateTo(`/order/checkout?order_id=${response.order_id}`);
+    navigateTo(`/order/success?order_id=${response.order_id}`);
   } catch (error) {
     console.log("Error submitting order:", error);
     alert("দুঃখিত, কিছু সমস্যা হয়েছে। আবার চেষ্টা করুন।");
@@ -231,6 +237,7 @@ const submitOrder = async () => {
     isProcessing.value = false;
   }
 };
+
 
 
 const processConfirm = async () => {

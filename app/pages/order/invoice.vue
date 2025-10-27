@@ -1,175 +1,180 @@
-<template>
-  <section class="w-full relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-slate-100 py-12">
-    <div class="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
-      <div class="container max-w-7xl mx-auto">
-        <div>
-          <h2 class="font-semibold text-xl text-gray-600 mb-4">ইনভয়েস</h2>
-          <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
-            <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
-              <div class="text-gray-600 lg:col-span-2">
-                <p class="font-medium text-lg mb-4">অর্ডার বিস্তারিত</p>
-                <div class="overflow-x-auto mb-6">
-                  <table class="min-w-full border border-gray-400">
-                    <thead>
-                      <tr class="bg-gray-100">
-                        <th class="border border-gray-400 px-2 py-2 text-sm">ক্রম</th>
-                        <th class="border border-gray-400 px-2 py-2 text-sm">বিষয়</th>
-                        <th class="border border-gray-400 px-2 py-2 text-sm">দর</th>
-                        <th class="border border-gray-400 px-2 py-2 text-sm">পরিমাণ</th>
-                        <th class="border border-gray-400 px-2 py-2 text-sm">মোট</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="(item, index) in order?.order_details" :key="item.id">
-                        <td class="border border-gray-400 px-2 py-2 text-center text-sm">
-                          {{ index + 1 }}
-                        </td>
-                        <td class="border border-gray-400 px-2 py-2 text-sm">
-                          {{ item.product.title }}
-                        </td>
-                        <td class="border border-gray-400 px-2 py-2 text-sm">
-                          {{ item.price }}
-                        </td>
-                        <td class="border border-gray-400 px-2 py-2 text-sm">
-                          {{ item.quantity }}
-                        </td>
-                        <td class="border border-gray-400 px-2 py-2 text-right font-semibold text-sm">
-                          {{ (item.price * item.quantity).toFixed(2) }}
-                        </td>
-                      </tr>
-                    </tbody>
-                    <tfoot>
-                      <tr class="bg-gray-100 font-bold">
-                        <td colspan="4" class="border border-gray-400 px-2 py-2 text-right">
-                          মোট মূল্য (Sub Total):
-                        </td>
-                        <td class="border border-gray-400 px-2 py-2 text-right text-red-600">
-                          {{ order?.sub_total?.toFixed(2) }}
-                        </td>
-                      </tr>
-                      <tr class="bg-gray-100 font-bold">
-                        <td colspan="4" class="border border-gray-400 px-2 py-2 text-right">
-                          ডেলিভারি চার্জ:
-                        </td>
-                        <td class="border border-gray-400 px-2 py-2 text-right text-red-600">
-                          {{ order?.delivery_charge}}
-                        </td>
-                      </tr>
-                      <tr class="bg-gray-100 font-bold">
-                        <td colspan="4" class="border border-gray-400 px-2 py-2 text-right">
-                          সর্বমোট (Grand Total):
-                        </td>
-                        <td class="border border-gray-400 px-2 py-2 text-right text-red-600">
-                          {{ order?.grand_total }}
-                        </td>
-                      </tr>
-                    </tfoot>
-                  </table>
-                </div>
-
-                <p class="font-medium text-lg mb-4">আপনার তথ্য</p>
-                <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-2">
-                  <div class="md:col-span-1">
-                    <label class="block mb-1 text-sm font-medium text-gray-700">প্রতিষ্ঠানের নাম:</label>
-                    <p class="h-10 border mt-1 rounded px-4 w-full bg-gray-50 flex items-center">{{ order?.institution_name }}</p>
-                  </div>
-                  <div class="md:col-span-1">
-                    <label class="block mb-1 text-sm font-medium text-gray-700">ইনস্টিটিউট কোড:</label>
-                    <p class="h-10 border mt-1 rounded px-4 w-full bg-gray-50 flex items-center">{{ order?.institute_code }}</p>
-                  </div>
-                  <div class="md:col-span-1">
-                    <label class="block mb-1 text-sm font-medium text-gray-700">ফোন নাম্বার:</label>
-                    <p class="h-10 border mt-1 rounded px-4 w-full bg-gray-50 flex items-center">{{ order?.phone }}</p>
-                  </div>
-                  <div class="md:col-span-1">
-                    <label class="block mb-1 text-sm font-medium text-gray-700">ঠিকানা:</label>
-                    <p class="h-10 border mt-1 rounded px-4 w-full bg-gray-50 flex items-center">{{ order?.address }}</p>
-                  </div>
-                  <div class="md:col-span-2">
-                    <label class="block mb-1 text-sm font-medium text-gray-700">নোট:</label>
-                    <p class="border mt-1 rounded px-4 py-2 w-full bg-gray-50 min-h-[80px]">{{ order?.special_instructions }}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="lg:col-span-1">
-                <div class="bg-white rounded-xl shadow-lg p-6 mb-6 border border-gray-100">
-                  <h2 class="text-xl font-bold mb-4 text-gray-800">অর্ডার সারাংশ</h2>
-                  <div class="space-y-3 mb-6">
-                    <div class="flex justify-between py-1">
-                      <span class="text-gray-600">পণ্যের মূল্য:</span>
-                      <span class="font-medium">৳ {{ order?.sub_total }}</span>
-                    </div>
-                    <div class="flex justify-between py-1">
-                      <span class="text-gray-600">ডেলিভারি চার্জ:</span>
-                      <span class="font-medium">৳ {{ order?.delivery_charge }}</span>
-                    </div>
-                    <div class="border-t border-gray-200 pt-3 mt-3">
-                      <div class="flex justify-between font-bold text-lg">
-                        <span>সর্বমোট:</span>
-                        <span class="text-red-600">৳ {{ order?.grand_total }}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- Removed "Confirm Order" button as this is an invoice page -->
-              </div>
-
-              <div class="mb-4">
-                  <button 
-                    @click="viewInvoicePdf"
-                    class="w-full bg-blue-600 hover:bg-blue-800 text-white py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
-                  >
-                    <Icon name="mdi:file-pdf-box" class="w-4 h-4 mr-2" />
-                    ইনভয়েস PDF দেখুন
-                  </button>
-                </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </section>
-</template>
-
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRoute, navigateTo } from 'nuxt/app';
+import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
 
-const { $api } = useNuxtApp();
 const route = useRoute();
 const order = ref(null);
+const settings = ref(null);
+const loading = ref(true);
 
-onMounted(async () => {
-  const orderId = route.query.order_id;
-  if (orderId) {
-    try {
-      const response = await $api(`/frontend/v1/order/${orderId}`);
-      order.value = response.data;
-    } catch (error) {
-      console.error("Error fetching order details:", error);
-      alert("অর্ডার বিস্তারিত লোড করতে সমস্যা হয়েছে।");
+const getOrder = async () => {
+  try {
+    const response = await $fetch({
+      method: 'get',
+      url: `/frontend/v1/order/${route.params.id}`,
+    });
+    if (response) {
+      order.value = response;
     }
-  } else {
-    alert("কোনো অর্ডার আইডি পাওয়া যায়নি।");
-    navigateTo('/order-form'); // Redirect to order form if no order ID
-  }
-});
-
-// Add this function for PDF viewing
-const viewInvoicePdf = () => {
-  if (order.value && order.value.id) {
-    // Assuming your PDF endpoint is something like this
-    // Adjust the URL based on your actual API endpoint
-    const pdfUrl = `/api/order/${order.value.id}/invoice.pdf`;
-    window.open(pdfUrl, '_blank');
-  } else {
-    alert('অর্ডার ডেটা পাওয়া যায়নি।');
+  } catch (err) {
+    console.error('Error fetching order:', err);
   }
 };
+
+const getSettings = async () => {
+  try {
+    const response = await $fetch({
+      method: 'get',
+      url: '/frontend/v1/top-one-ir',
+    });
+    if (response) {
+      settings.value = response;
+    }
+  } catch (err) {
+    console.error('Error fetching settings:', err);
+  }
+};
+
+const printInvoice = (areaID) => {
+  const printContent = document.getElementById(areaID).innerHTML;
+  const originalContent = document.body.innerHTML;
+  document.body.innerHTML = printContent;
+  window.print();
+  document.body.innerHTML = originalContent;
+};
+
+onMounted(async () => {
+  await Promise.all([getOrder(), getSettings()]);
+  loading.value = false;
+});
 </script>
 
+<template>
+  <div>
+    <section class="overflow-hidden py-5">
+      <div class="w-full max-w-4xl mx-auto p-6">
+        <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 text-white rounded-md mb-4 transition-colors" @click="printInvoice('areaOfPrint')">
+          <i class="fas fa-print mr-2"></i>ইনভয়েস প্রিন্ট করুন
+        </button>
+        <div class="w-full bg-white shadow-lg rounded-lg overflow-hidden" id="areaOfPrint">
+          <div class="border border-gray-300 p-8">
+
+            <div class="flex justify-between items-start mb-8 pb-6 border-b border-gray-200">
+              <div>
+                <h1 class="text-2xl font-bold text-gray-800 mb-2">ইনভয়েস</h1>
+                <div class="bg-blue-100 text-blue-800 inline-block px-3 py-1 rounded-full text-sm font-medium">
+                  {{ order?.order_status === 'delivered' ? 'বিতরণকৃত' : order?.order_status === 'pending' ? 'মুলতুবি' : order?.order_status }}
+                </div>
+              </div>
+              <div class="text-right">
+                <h2 class="text-xl font-bold text-gray-800">{{ order?.id }}</h2>
+                <p class="text-gray-600 mt-1">ইনভয়েস তারিখ: {{ order?.order_date }}</p>
+              </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row justify-between mb-10">
+              <div class="mb-6 md:mb-0">
+                <h3 class="text-lg font-semibold text-gray-700 mb-3">ক্রেতার তথ্য</h3>
+                <ul class="list-none space-y-2">
+                  <li class="flex items-start">
+                    <span class="text-gray-600 w-24">নাম:</span>
+                    <span class="font-medium">{{ order?.customer?.name }}</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-gray-600 w-24">ফোন:</span>
+                    <span class="font-medium">{{ order?.customer?.phone }}</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-gray-600 w-24">ইমেইল:</span>
+                    <span class="font-medium">{{ order?.customer?.email }}</span>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold text-gray-700 mb-3">অর্ডার বিবরণ</h3>
+                <ul class="list-none space-y-2">
+                  <li class="flex items-start">
+                    <span class="text-gray-600 w-32">অর্ডার তারিখ:</span>
+                    <span class="font-medium">{{ order?.order_date }}</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-gray-600 w-32">অর্ডার স্ট্যাটাস:</span>
+                    <span class="font-medium">{{ order?.order_status === 'delivered' ? 'বিতরণকৃত' : order?.order_status === 'pending' ? 'মুলতুবি' : order?.order_status }}</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-gray-600 w-32">পেমেন্ট স্ট্যাটাস:</span>
+                    <span class="font-medium">{{ order?.payment_status === 'paid' ? 'পরিশোধিত' : order?.payment_status === 'pending' ? 'মুলতুবি' : order?.payment_status }}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="mb-10">
+              <h3 class="text-lg font-semibold text-gray-700 mb-4">পণ্যের তালিকা</h3>
+              <table class="w-full border-collapse border border-gray-300 rounded-lg overflow-hidden">
+                <thead>
+                  <tr class="bg-gray-100">
+                    <th class="p-3 text-left font-semibold text-gray-700">পণ্যের নাম</th>
+                    <th class="p-3 text-center font-semibold text-gray-700">দাম</th>
+                    <th class="p-3 text-center font-semibold text-gray-700">পরিমাণ</th>
+                    <th class="p-3 text-center font-semibold text-gray-700">মোট</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(item, index) in order?.orderDetails" :key="`single-details-item-${index}`" 
+                      :class="index % 2 === 0 ? 'bg-white' : 'bg-gray-50'">
+                    <td class="p-3 text-left text-sm border-t border-gray-300">
+                      {{ item.product?.title }}
+                    </td>
+                    <td class="p-3 text-center border-t border-gray-300">
+                      <span class="font-medium">{{ settings?.currency_symbol }}{{ item.price }}</span>
+                    </td>
+                    <td class="p-3 text-center border-t border-gray-300">
+                      <span class="font-medium">{{ item.quantity }}</span>
+                    </td>
+                    <td class="p-3 text-center border-t border-gray-300">
+                      <span class="font-medium">{{ settings?.currency_symbol }} {{ item.total_amount }}</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="flex justify-end mb-10">
+              <div class="w-full md:w-4/12 bg-gray-50 p-5 rounded-lg border border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-700 mb-4 border-b pb-2">মোট হিসাব</h3>
+                <div v-if="order?.sub_total" class="flex justify-between items-center mb-3">
+                  <p class="text-gray-600">সাবটোটাল</p>
+                  <p class="font-medium">{{ settings?.currency_symbol }}{{ order?.sub_total }}</p>
+                </div>
+                <div class="flex justify-between items-center pt-2">
+                  <p class="text-lg font-semibold text-gray-800">সর্বমোট</p>
+                  <p class="text-lg font-bold text-blue-700">{{ settings?.currency_symbol }}{{ order?.grand_total }}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-8 border-t border-gray-200">
+              <h3 class="text-lg font-bold text-gray-800 mb-3">আপনার অর্ডার করার জন্য ধন্যবাদ!</h3>
+              <p class="text-sm text-gray-600 mb-4">আপনার অর্ডার করার জন্য ধন্যবাদ!
+ইনভয়েসটি তৈরি সম্পন্ন হয়েছে। বইটি পেতে বা অর্ডার সম্পর্কিত যেকোনো তথ্যের জন্য আমাদের সাথে WhatsApp-এ যোগাযোগ করুন।
+আমাদের অফিসিয়াল WhatsApp নম্বর: ০১৯৪২২১৩৩৪৬</p>
+              <div class="text-xs text-gray-500 mt-6">
+                <p>এই ইনভয়েসটি কম্পিউটার দ্বারা তৈরি করা হয়েছে এবং স্বাক্ষর ছাড়াই বৈধ।</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</template>
+
 <style scoped>
-/* Add any specific styles for this page here */
+@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
+
+* {
+  font-family: 'Hind Siliguri', sans-serif;
+}
 </style>

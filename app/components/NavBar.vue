@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
-
 const route = useRoute();
 const menuItems = ref([
     { name: "হোম", link: "/", type: "link" },
@@ -9,18 +8,15 @@ const menuItems = ref([
     { name: "পাঠ্যপুস্তক", link: "/books-category", type: "link" },
     {
         name: "সিলেবাস ও প্রশ্নপত্র",
-
         type: "dropdown",
     },
     { name: "অর্ডার ফর্ম", link: "/order-form", type: "link" },
     { name: "ব্লগ", link: "/blog", type: "link" },
     { name: "যোগাযোগ", link: "/contact-us", type: "link" },
 ]);
-
 const config = useRuntimeConfig();
 const baseURL = config.public.apiBase;
 const { $api } = useNuxtApp();
-
 const { data, pending, error, refresh } = await useAsyncData("page", () => $api("/frontend/v1/page"));
 const { data: Logo } = await useAsyncData('settings', () => $api('/top-one-ir'))
 const { data: categories, status } = await useAsyncData("category", () => $api('/frontend/v1/category'));
@@ -35,7 +31,6 @@ const { data: categories, status } = await useAsyncData("category", () => $api('
                     active-class="font-bold text-red-300 border-b-2 border-red-600 bg-[#A82229]">
                     {{ item.name }}
                 </NuxtLink>
-
                 <div v-else-if="item.name === 'সিলেবাস ও প্রশ্নপত্র'" class="relative group">
                     <NuxtLink :to="item.link"
                         class="py-4 px-6 text-white hover:bg-[#A82229] transition-colors duration-200 uppercase flex items-center cursor-pointer"
@@ -43,7 +38,6 @@ const { data: categories, status } = await useAsyncData("category", () => $api('
                         {{ item.name }}
                         <Icon name="mdi:chevron-down" class="w-5 h-5 ml-1" />
                     </NuxtLink>
-        
                     <div
                         class="absolute left-0 mt-0 w-56 bg-white shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 border">
                         <div class="py-1">

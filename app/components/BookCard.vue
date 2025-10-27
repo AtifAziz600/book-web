@@ -55,7 +55,7 @@ const formattedOriginalPrice = computed(() => {
          <p class="text-sm text-gray-500">{{ book.category?.name }}</p>
         </div>
 
-      <div class="mt-auto p-4 flex justify-between items-end border-t border-gray-100 bg-gray-50/50">
+      <div class="mt-auto p-4 flex justify-between items-end border-t border-gray-100">
         <div class="flex flex-col">
           <div v-if="book.discount_price" class="flex flex-row items-start">
             <div class="text-2xl font-semibold text-primary leading-tight">৳{{ formattedPrice }}</div>

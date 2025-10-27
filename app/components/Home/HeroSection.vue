@@ -20,9 +20,9 @@
           class="h-full w-full object-fit object-center"
         />
 
-        <div class="absolute inset-0 bg-black/40"></div>
+        <!-- <div class="absolute inset-0 bg-black/40"></div> -->
 
-        <div class="absolute inset-0 flex items-center justify-center text-center px-4">
+        <!-- <div class="absolute inset-0 flex items-center justify-center text-center px-4">
           <div class="max-w-3xl text-white mx-auto">
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
               {{ commonTitle }}
@@ -48,7 +48,7 @@
               </NuxtLink>
             </div>
           </div>
-        </div>
+        </div> -->
       </SwiperSlide>
     </Swiper>
 

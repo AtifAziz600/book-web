@@ -1,29 +1,29 @@
 <script setup>
 
-const {$api} = useNuxtApp();
+const { $api } = useNuxtApp();
 
-const subjects = ref([]); 
+const subjects = ref([]);
 
 const { data, error, status, refresh } = useAsyncData('products', () => $api('/frontend/v1/product'));
 
 watch(data, (newData) => {
-  if (newData?.data) {
-    subjects.value = newData.data.map((item, index) => ({
-      id: item.id,
-      name: item.title,
-      rate: item.price, 
-      quantity: 0,
-      image: item.cover_image_url,
-    }));
-  }
+    if (newData?.data) {
+        subjects.value = newData.data.map((item, index) => ({
+            id: item.id,
+            name: item.title,
+            rate: item.price,
+            quantity: 0,
+            image: item.cover_image_url,
+        }));
+    }
 });
 
 const totalAmount = computed(() => {
-  return subjects.value.reduce((total, subject) => total + (subject.quantity * subject.rate), 0).toFixed(2);
+    return subjects.value.reduce((total, subject) => total + (subject.quantity * subject.rate), 0).toFixed(2);
 });
 
 const onSubmit = () => {
-     const cartItems = subjects.value.filter(
+    const cartItems = subjects.value.filter(
         (item) => item.quantity > 0 && item.rate > 0
     );
 
@@ -47,34 +47,38 @@ const onSubmit = () => {
                 <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">অর্ডার ফর্ম</h2>
                 <div class="w-24 h-1 bg-red-500 mx-auto rounded-full"></div>
             </div>
-            
+
             <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
+                    <table class="min-w-full divide-y divide-gray-200 overflow-scroll">
                         <thead class="bg-gradient-to-r from-red-500 to-red-600 text-white sticky top-0 z-10">
                             <tr>
                                 <th class="py-3 px-4 text-left text-sm font-semibold uppercase tracking-wider">ক্রম</th>
                                 <th class="py-3 px-4 text-left text-sm font-semibold uppercase tracking-wider">ছবি</th>
-                                <th class="py-3 px-4 text-left text-sm font-semibold uppercase tracking-wider">পণ্যের নাম</th>
-                                <th class="py-3 px-4 text-left text-sm font-semibold uppercase tracking-wider">মূল্য</th>
-                                <th class="py-3 px-4 text-left text-sm font-semibold uppercase tracking-wider">পরিমাণ</th>
-                                <th class="py-3 px-4 text-right text-sm font-semibold uppercase tracking-wider">মোট (৳)</th>
+                                <th class="py-3 px-4 text-left text-sm font-semibold uppercase tracking-wider">পণ্যের
+                                    নাম</th>
+                                <th class="py-3 px-4 text-left text-sm font-semibold uppercase tracking-wider">মূল্য
+                                </th>
+                                <th class="py-3 px-4 text-left text-sm font-semibold uppercase tracking-wider">পরিমাণ
+                                </th>
+                                <th class="py-3 px-4 text-right text-sm font-semibold uppercase tracking-wider">মোট (৳)
+                                </th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200 bg-white max-h-[350px] overflow-y-auto block">
-                            <tr v-for="(subject, index) in subjects" :key="subject.id" 
+                            <tr v-for="(subject, index) in subjects" :key="subject.id"
                                 class="hover:bg-gray-50 transition-colors duration-150 table-row">
                                 <td class="py-3 px-4 text-sm font-medium text-gray-700">{{ index + 1 }}</td>
                                 <td class="py-3 px-3 text-sm">
                                     <div class="flex justify-center">
-                                        <img :src="subject.image" :alt="subject.name" 
-                                             class="w-10 h-10 object-cover rounded-lg border border-gray-200 shadow-sm" />
+                                        <img :src="subject.image" :alt="subject.name"
+                                            class="w-10 h-10 object-cover rounded-lg border border-gray-200 shadow-sm" />
                                     </div>
                                 </td>
                                 <td class="py-3 px-4 text-sm font-medium text-gray-800">{{ subject.name }}</td>
-<td class="py-3 px-4 text-sm">
-    <span class="text-gray-800 font-medium">{{ subject.rate }}</span>
-</td>
+                                <td class="py-3 px-4 text-sm">
+                                    <span class="text-gray-800 font-medium">{{ subject.rate }}</span>
+                                </td>
                                 <td class="py-3 px-4 text-sm">
                                     <input type="number" v-model.number="subject.quantity" min="0"
                                         class="w-20 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all text-right" />
@@ -93,14 +97,17 @@ const onSubmit = () => {
                     </table>
                 </div>
             </div>
-            
+
             <div class="flex justify-center">
-                <NuxtLink to="/order-form/order-table" 
+                <NuxtLink to="/order-form/order-table"
                     class="px-8 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold rounded-lg shadow-md hover:from-red-600 hover:to-red-700 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50">
                     <button @click="onSubmit" class="flex items-center">
                         <span>বিল</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20"
+                            fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
+                                clip-rule="evenodd" />
                         </svg>
                     </button>
                 </NuxtLink>
@@ -110,7 +117,6 @@ const onSubmit = () => {
 </template>
 
 <style scoped>
-
 .overflow-x-auto::-webkit-scrollbar {
     height: 8px;
 }
@@ -132,18 +138,23 @@ const onSubmit = () => {
 
 tbody {
     display: block;
-    max-height: 350px; 
+    max-height: 300px;
+    min-width: 500px;
     overflow-y: auto;
+    overflow-x: auto;
 }
 
 
-thead, tbody tr, tfoot {
+thead,
+tbody tr,
+tfoot {
     display: table;
     width: 100%;
     table-layout: fixed;
 }
 
-th, td {
-    width: calc(100% / 6); 
+th,
+td {
+    width: calc(100% / 6);
 }
 </style>

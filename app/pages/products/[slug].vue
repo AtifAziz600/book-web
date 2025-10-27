@@ -20,19 +20,21 @@ const isModalOpen = ref(false);
 const selectedFile = ref(null);
 const currentImageIndex = ref(0);
 
-const openModal = (file = null) => {
-  selectedFile.value = file || data.value?.cover_image_url;
-  isModalOpen.value = true;
+const openModal = () => {
+  const images = data.value?.images?.map(img => img.image_url) || [];
+  if (!images.length) return;
+
+  selectedFile.value = images[0];
   currentImageIndex.value = 0;
+  isModalOpen.value = true;
 };
 
-
-
-
-const closeModal = () => (isModalOpen.value = false);
+const closeModal = () => {
+  isModalOpen.value = false;
+};
 
 const navigateImage = (direction) => {
-  const images = [data.value?.cover_image_url];
+  const images = data.value?.images?.map(img => img.image_url) || [];
   if (!images.length) return;
 
   if (direction === "up") {
@@ -45,21 +47,15 @@ const navigateImage = (direction) => {
 };
 
 const handleScroll = (e) => {
-  if (!isModalOpen.value || data.value?.book_file_url) return;
+  if (!isModalOpen.value) return;
 
-  if (e.deltaY > 50) {
-    navigateImage("down");
-  } else if (e.deltaY < -50) {
-    navigateImage("up");
-  }
+  if (e.deltaY > 50) navigateImage("down");
+  else if (e.deltaY < -50) navigateImage("up");
 };
 
-onMounted(() => {
-  window.addEventListener("wheel", handleScroll);
-});
-onUnmounted(() => {
-  window.removeEventListener("wheel", handleScroll);
-});
+onMounted(() => window.addEventListener("wheel", handleScroll));
+onUnmounted(() => window.removeEventListener("wheel", handleScroll));
+
 
 const newComment = ref("");
 const comments = ref([
@@ -77,35 +73,7 @@ const comments = ref([
   },
 ]);
 
-const handleImageUpload = (event) => {
-  const file = event.target.files[0];
-  if (file) {
-    review.value.image = file;
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      review.value.imagePreview = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  }
-};
 
-const submitReview = () => {
-  if (!review.value.bookTitle || !review.value.content) {
-    alert("দয়া করে বইয়ের নাম এবং রিভিউ লিখুন");
-    return;
-  }
-
-  console.log("Review submitted:", review.value);
-  alert("আপনার রিভিউ সফলভাবে জমা দেওয়া হয়েছে!");
-
-  review.value = {
-    bookTitle: "",
-    author: "",
-    content: "",
-    image: null,
-    imagePreview: "",
-  };
-};
 
 const addComment = () => {
   if (!newComment.value.trim()) {
@@ -123,12 +91,6 @@ const addComment = () => {
   newComment.value = "";
 };
 
-const relatedBooks = [
-  { id: 2, title: "গণিত শিখি (পেপারব্যাক)", price: 34.99, image: "/image/book-1.jpg", inStock: true },
-  { id: 3, title: "আমার প্রথম ইংরেজি বই (পেপারব্যাক)", price: 49.99, image: "/image/book-1.jpg", inStock: true },
-  { id: 4, title: "বিজ্ঞানের মজার খেলা (পেপারব্যাক)", price: 99.99, image: "/image/book-1.jpg", inStock: false },
-  { id: 5, title: "ছোটদের ছড়া (পেপারব্যাক)", price: 25.0, image: "/image/book-1.jpg", inStock: true },
-];
 </script>
 
 
@@ -171,7 +133,7 @@ const relatedBooks = [
         <p class="text-gray-700 leading-relaxed" v-html="data?.product_info"></p>
       </div>
     </div>
-    <div class="mt-12 bg-white p-6 rounded-lg shadow-md max-w-7xl mx-auto py-6">
+    <!-- <div class="mt-12 bg-white p-6 rounded-lg shadow-md max-w-7xl mx-auto py-6">
       <h3 class="text-2xl font-bold text-gray-800 mb-4">আপনার বই রিভিউ শেয়ার করুন</h3>
       <p class="text-gray-600 mb-6">আপনার পড়া বই সম্পর্কে রিভিউ লিখুন এবং বইয়ের ছবি আপলোড করুন।</p>
 
@@ -224,7 +186,7 @@ const relatedBooks = [
           রিভিউ পোস্ট করুন
         </button>
       </form>
-    </div>
+    </div> -->
 
     <div class="mt-12 bg-white p-6 rounded-lg shadow-md max-w-7xl mx-auto py-6">
       <h3 class="text-2xl font-bold text-gray-800 mb-6">মন্তব্য করুন</h3>
@@ -252,50 +214,51 @@ const relatedBooks = [
         </div>
       </div>
     </div>
-    <div>
-      <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
-        সম্পর্কিত বই
-      </h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <BookCard v-for="relatedBook in relatedBooks" :key="relatedBook.id" :book="relatedBook" />
-      </div>
-    </div>
-    <transition name="fade">
-      <div v-if="isModalOpen"
-        class="fixed inset-0 z-50 flex items-center justify-center bg-transparent bg-opacity-70 backdrop-blur-sm"
-        @click="closeModal">
-        <button @click="closeModal"
-          class="absolute top-4 right-4 text-gray-800 text-3xl font-bold hover:scale-110 transition z-10">
-          &times;
+
+<transition name="fade">
+  <div
+    v-if="isModalOpen"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
+    @click="closeModal"
+  >
+    <button
+      @click="closeModal"
+      class="absolute top-4 right-4 text-white text-3xl font-bold hover:scale-110 transition z-10"
+    >
+      &times;
+    </button>
+
+    <div
+      class="relative w-full max-w-3xl mx-auto p-4 flex flex-col items-center bg-white rounded-lg shadow-lg"
+      @click.stop
+    >
+      <div class="relative w-full flex justify-center items-center">
+        <img
+          :src="selectedFile"
+          :alt="data?.title"
+          class="max-h-[80vh] max-w-full rounded-lg shadow-lg object-contain transition-all duration-300"
+        />
+
+        <button
+          @click="navigateImage('up')"
+          class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/70 hover:bg-white text-gray-800 px-2 py-1 rounded-full shadow"
+        >
+          ◀
         </button>
-
-<div class="relative w-full max-w-2xl mx-auto p-4 flex flex-col items-center bg-white rounded-lg shadow-lg" @click.stop>
-<template v-if="data?.book_file_url">
-  <PdfEasy 
-    :src="data?.book_file_url" 
-    theme="dark" 
-    :pagination="true" 
-    :zoom="true" 
-    :download="true" 
-    :fullscreen="true" 
-    class="w-full h-[80vh] rounded-lg" 
-  />
-</template>
-<template v-else>
-  <div class="relative w-full flex justify-center">
-    <img 
-      :src="selectedFile || data?.cover_image_url" 
-      :alt="data?.title"
-      class="max-h-[80vh] max-w-full rounded-lg shadow-lg object-contain transition-all duration-300" 
-    />
-  </div>
-</template>
-
-</div>
-
-
+        <button
+          @click="navigateImage('down')"
+          class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/70 hover:bg-white text-gray-800 px-2 py-1 rounded-full shadow"
+        >
+          ▶
+        </button>
       </div>
-    </transition>
+      <p class="mt-4 text-gray-600 text-sm">
+        {{ currentImageIndex + 1 }} / {{ data?.images?.length || 0 }}
+      </p>
+    </div>
+  </div>
+</transition>
+
   </section>
 </template>
 
