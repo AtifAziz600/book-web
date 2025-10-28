@@ -12,10 +12,10 @@ css: ['~/assets/css/main.css'],
   modules: ["nuxt-swiper", "@nuxt/ui" ,"@nuxt/icon", "@pinia/nuxt", "nuxt-pdfeasy"],
     runtimeConfig: {
     public: {
-      apiUrl: 'http://localhost:8000/api',
-      apiBase: 'http://localhost:8000'
-      // apiUrl: 'https://admin.salsabilpublications.com/api',
-      // apiBase: 'https://admin.salsabilpublications.com'
+      // apiUrl: 'http://localhost:8000/api',
+      // apiBase: 'http://localhost:8000'
+      apiUrl: 'https://admin.salsabilpublications.com/api',
+      apiBase: 'https://admin.salsabilpublications.com'
     },
   },
   app: {

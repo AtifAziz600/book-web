@@ -59,7 +59,7 @@ const onSubmit = () => {
                         </thead>
                         <tbody class="divide-y divide-gray-200 bg-white max-h-[350px] overflow-y-auto block">
                             <tr v-for="(subject, index) in subjects" :key="subject.id"
-                                class="transition-colors duration-150 table-row odd:bg-white even:bg-gray-50 hover:bg-gray-100">
+                                class="transition-colors duration-150 table-row odd:bg-gray-200 even:bg-gray-50 hover:bg-gray-100">
                                 <td class="py-3 px-4 text-sm font-medium text-gray-700 hidden sm:table-cell">{{ index +
                                     1 }}</td>
                                 <td class="py-3 px-3 text-sm hidden sm:table-cell">
@@ -70,11 +70,19 @@ const onSubmit = () => {
                                 </td>
                                 <td class="py-3 px-4 text-sm font-medium text-gray-800">{{ subject.name }}</td>
                                 <td class="py-3 px-4 text-sm"><span class="text-gray-800 font-medium">{{ subject.rate
-                                        }}</span></td>
-                                <td class="py-3 px-4 text-sm">
+                                }}</span></td>
+
+                                <td class="py-3 px-4 text-sm flex items-center justify-center space-x-2">
+                                    <button @click="subject.quantity = Math.max(0, subject.quantity - 1)"
+                                        class="px-2 bg-red-500 rounded hover:bg-red-700 text-white text-lg font-bold">−</button>
+
                                     <input type="number" v-model.number="subject.quantity" min="0"
-                                        class="w-20 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all text-right" />
+                                        class="w-16 h-8 text-center border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" />
+
+                                    <button @click="subject.quantity += 1"
+                                        class="px-2 bg-red-500 rounded hover:bg-red-700 text-white text-lg font-bold">+</button>
                                 </td>
+
                                 <td class="py-3 px-4 text-sm font-semibold text-right text-gray-800">
                                     {{ (subject.quantity * subject.rate) }}
                                 </td>
