@@ -1,7 +1,7 @@
 <script setup></script>
 <template>
-  <!-- <HomeBannerImage /> -->
   <HomeHeroSection />
+  <HomeBannerImage />
   <HomePublishBooksSection />
   <HomeBannerSection />
   <HomeTradingBooksSection />

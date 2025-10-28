@@ -77,17 +77,28 @@
                   <input v-model="form.phone" type="tel" id="phone"
                     class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" placeholder="+880" required />
                 </div>
-                <div>
-                  <label for="address" class="block mb-2 text-sm font-medium text-gray-700">ঠিকানা</label>
-                  <input v-model="form.address" type="text" id="address"
-                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" placeholder="ঠিকানা লিখুন" required />
-                </div>
-                <div>
-                  <label for="special_instructions" class="block mb-2 text-sm font-medium text-gray-700">নোট</label>
-                  <textarea v-model="form.special_instructions" id="special_instructions" rows="4"
-                    class="border rounded px-4 py-2 w-full bg-gray-50"
-                    placeholder="যদি বিশেষ কোনো নির্দেশনা থাকে, এখানে লিখুন..."></textarea>
-                </div>
+<div>
+  <label for="address" class="block mb-2 text-sm font-medium text-gray-700">ঠিকানা</label>
+  <input v-model="form.address" type="text" id="address"
+    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" placeholder="ঠিকানা লিখুন" required />
+</div>
+<div>
+  <label for="district_selection" class="block mb-2 text-sm font-medium text-gray-700">জেলা</label>
+  <input v-model="form.district_selection" type="text" id="district_selection"
+    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" placeholder="জেলা লিখুন" />
+</div>
+<div>
+  <label for="thana_selection" class="block mb-2 text-sm font-medium text-gray-700">থানা</label>
+  <input v-model="form.thana_selection" type="text" id="thana_selection"
+    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" placeholder="থানা লিখুন" />
+</div>
+<div>
+  <label for="special_instructions" class="block mb-2 text-sm font-medium text-gray-700">নোট</label>
+  <textarea v-model="form.special_instructions" id="special_instructions" rows="4"
+    class="border rounded px-4 py-2 w-full bg-gray-50"
+    placeholder="যদি বিশেষ কোনো নির্দেশনা থাকে, এখানে লিখুন..."></textarea>
+</div>
+
                 <div class="mt-6 flex justify-end">
                   <button @click="openModal" type="submit" :disabled="isProcessing"
                     class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg transition disabled:opacity-50">
@@ -203,8 +214,12 @@ onMounted(() => {
 const submitOrder = async () => {
   const orderData = {
     user_id: null,
+    institution_name: form.value.institution_name,
+    institution_code: form.value.institute_code,
     phone: form.value.phone,
-    address_line_1: form.value.address,
+    district: form.value.district_selection,
+    thana: form.value.thana_selection,
+    address: form.value.address,
     special_instructions: form.value.special_instructions,
     delivery_charge: 0,
     payment_method: "cod",
@@ -212,12 +227,11 @@ const submitOrder = async () => {
     order_type: "customer",
     order_date: new Date().toISOString(),
     grand_total: grandTotal.value,
-    order_items: subjects.value.map((subject) => ({
-      product_id: subject.id,
-      name: subject.name,
-      rate: subject.rate,
+    subjects: subjects.value.map((subject) => ({
+      id: subject.id,
+      product_stock_id: 1, 
       quantity: subject.quantity,
-      total: itemTotal(subject),
+      rate: subject.rate,
     })),
   };
 
@@ -237,6 +251,7 @@ const submitOrder = async () => {
     isProcessing.value = false;
   }
 };
+
 
 
 

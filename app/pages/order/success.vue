@@ -33,8 +33,8 @@ const downloadPdf = async () => {
       <head><title>Invoice</title></head>
       <body>
         <h1>Order Invoice</h1>
-        <p>Order ID: ${order.value.id}</p>
-        <p>Institution: ${order.value.institution_name}</p>
+        <p>Order ID: ${order.value?.id}</p>
+        <p>Institution: ${order.value?.institution_name}</p>
         <table>
           <thead>
             <tr><th>Product</th><th>Quantity</th><th>Price</th></tr>
@@ -42,7 +42,7 @@ const downloadPdf = async () => {
           <tbody>
             ${order.value.orderDetails?.map(detail => `
               <tr>
-                <td>${detail.product?.title || 'N/A'}</td>
+                <td>${detail.product?.title}</td>
                 <td>${detail.quantity}</td>
                 <td>${detail.price}</td>
               </tr>
@@ -56,13 +56,13 @@ const downloadPdf = async () => {
   const { generatePdf } = usePdfEasy();
   await generatePdf({
     content: pdfContent,
-    filename: `invoice-${order.value.id}.pdf`
+    filename: `invoice-${order.value?.id}.pdf`
   });
 };
 
 const viewOrder = () => {
   if (order.value) {
-    navigateTo(`/order/invoice?order_id=${order.value.id}`);
+    navigateTo(`/order/invoice?order_id=${order.value?.id}`);
   }
 };
 </script>
@@ -76,10 +76,8 @@ const viewOrder = () => {
       <div class="flex justify-center items-center text-center mb-4">
         <h3 class="font-semibold text-xl">Order Successful!</h3>
       </div>
-      <div v-if="isLoading">Loading order details...</div>
-      <div v-else-if="error" class="text-red-500">{{ error }}</div>
-      <div v-else-if="order">
-        <p class="text-sm text-center mb-4">Order ID: {{ order.id }}</p>
+      <div>
+        <p class="text-sm text-center mb-4">Order ID: {{ order?.id }}</p>
         <div class="flex justify-center space-x-4">
           <button @click="viewOrder" class="flex-1 px-4 py-2 bg-red-600 text-white font-semibold rounded hover:bg-red-700 transition duration-150">
             Generate Pdf

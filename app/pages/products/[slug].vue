@@ -1,29 +1,75 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted, computed } from "vue";
 import { useRoute } from "vue-router";
+import { useAuthStore } from "~/stores/auth";
 
 const route = useRoute();
+const authStore = useAuthStore();
 const { $api } = useNuxtApp();
+
 const { data } = await useAsyncData(`product-${route.params?.slug}`, () =>
   $api(`/frontend/v1/product/${route.params.slug}`)
 );
-
-const review = ref({
-  bookTitle: "",
-  author: "",
-  content: "",
-  image: null,
-  imagePreview: "",
+const reviews = ref([]);
+const newReview = ref({
+  rating: 5,
+  title: "",
+  review: "",
 });
-
+const isLoadingReview = ref(false);
+const reviewMessage = ref("");
 const isModalOpen = ref(false);
 const selectedFile = ref(null);
 const currentImageIndex = ref(0);
+const fetchReviews = async () => {
+  try {
+    const response = await $api(`/frontend/v1/product/${data.value.id}/reviews`);
+    reviews.value = response;
+  } catch (error) {
+    console.error("Error fetching reviews:", error);
+  }
+};
 
+const submitReview = async () => {
+  if (!authStore.loggedIn) {
+    reviewMessage.value = "দয়া করে প্রথমে লগইন করুন";
+    return;
+  }
+  if (!newReview.value.title.trim() || !newReview.value.review.trim()) {
+    reviewMessage.value = "দয়া করে সব ফিল্ড পূরণ করুন";
+    return;
+  }
+  isLoadingReview.value = true;
+  try {
+    const response = await $api(`/frontend/v1/product/${data.value.id}/reviews`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${authStore.token}` },
+      body: {
+        rating: newReview.value.rating,
+        title: newReview.value.title,
+        review: newReview.value.review,
+      },
+    });
+    reviews.value.unshift(response.review);
+    newReview.value = { rating: 5, title: "", review: "" };
+    reviewMessage.value = response.message;
+
+    setTimeout(() => {
+      reviewMessage.value = "";
+    }, 3000);
+  } catch (error) {
+    reviewMessage.value = "রিভিউ যোগ করতে ব্যর্থ হয়েছে";
+    console.error("Error submitting review:", error);
+  } finally {
+    isLoadingReview.value = false;
+  }
+};
+
+
+// Image modal functions
 const openModal = () => {
   const images = data.value?.images?.map(img => img.image_url) || [];
   if (!images.length) return;
-
   selectedFile.value = images[0];
   currentImageIndex.value = 0;
   isModalOpen.value = true;
@@ -48,51 +94,17 @@ const navigateImage = (direction) => {
 
 const handleScroll = (e) => {
   if (!isModalOpen.value) return;
-
   if (e.deltaY > 50) navigateImage("down");
   else if (e.deltaY < -50) navigateImage("up");
 };
 
-onMounted(() => window.addEventListener("wheel", handleScroll));
+onMounted(() => {
+  window.addEventListener("wheel", handleScroll);
+  fetchReviews();
+});
+
 onUnmounted(() => window.removeEventListener("wheel", handleScroll));
-
-
-const newComment = ref("");
-const comments = ref([
-  {
-    name: "ফারহানা আহমেদ",
-    date: "২ দিন আগে",
-    text: "এই বইটি আমার জীবন বদলে দিয়েছে। লেখকের ব্যাখ্যা খুবই সহজবোধ্য।",
-    avatar: "/image/avater2.png",
-  },
-  {
-    name: "ইমরান হোসেন",
-    date: "১ সপ্তাহ আগে",
-    text: "কুরআন বুঝতে এই বইটি খুবই সহায়ক। প্রতিটি মুসলিমের পড়া উচিত।",
-    avatar: "/image/avater3.png",
-  },
-]);
-
-
-
-const addComment = () => {
-  if (!newComment.value.trim()) {
-    alert("দয়া করে মন্তব্য লিখুন");
-    return;
-  }
-
-  comments.value.unshift({
-    name: "আপনি",
-    date: "এখনই",
-    text: newComment.value,
-    avatar: "https://randomuser.me/api/portraits/men/1.jpg",
-  });
-
-  newComment.value = "";
-};
-
 </script>
-
 
 <template>
   <section class="py-12 bg-gradient-to-br from-slate-50 via-white to-slate-100">
@@ -102,8 +114,8 @@ const addComment = () => {
           <div class="flex flex-col items-center">
             <img :src="data?.cover_image_url" :alt="data?.title" class="max-h-[500px] object-contain mb-4" />
             <button @click="openModal(data?.cover_image_url)"
-              class="bg-red-700 hover:bg-red-800 text-white px-6 py-2 rounded-full font-semibold transition">
-              Read here
+              class="bg-red-700 hover:bg-red-800 text-white self-center lg:self-start rounded-md px-4 py-2 text-sm font-medium transition-all duration-300 hover:shadow-md mt-2 lg:mt-4">
+              একটু পড়ে দেখুন
             </button>
           </div>
         </div>
@@ -122,146 +134,109 @@ const addComment = () => {
             <p><span class="font-semibold">ISBN:</span> {{ data?.isbn }}</p>
           </div>
           <NuxtLink to="/order-form"
-            class="bg-red-700 hover:bg-red-800 text-white px-6 py-3 rounded-full font-semibold mt-4">
+            class="bg-red-700 hover:bg-red-800 text-white px-6 py-3 rounded-full font-semibold mt-4 text-center">
             অ্যাড তো কার্ট
           </NuxtLink>
         </div>
       </div>
-
       <div v-if="data?.product_info" class="bg-white p-8 rounded-lg shadow-md mb-16">
         <h2 class="text-2xl font-bold mb-4 border-b pb-2">বইয়ের বিবরণ</h2>
         <p class="text-gray-700 leading-relaxed" v-html="data?.product_info"></p>
       </div>
     </div>
-    <!-- <div class="mt-12 bg-white p-6 rounded-lg shadow-md max-w-7xl mx-auto py-6">
-      <h3 class="text-2xl font-bold text-gray-800 mb-4">আপনার বই রিভিউ শেয়ার করুন</h3>
-      <p class="text-gray-600 mb-6">আপনার পড়া বই সম্পর্কে রিভিউ লিখুন এবং বইয়ের ছবি আপলোড করুন।</p>
-
-      <form @submit.prevent="submitReview">
-        <div class="mb-4">
-          <label for="bookTitle" class="block text-gray-700 mb-2">বইয়ের নাম</label>
-          <input type="text" id="bookTitle" v-model="review.bookTitle"
-            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-#800000">
-        </div>
-
-        <div class="mb-4">
-          <label for="author" class="block text-gray-700 mb-2">লেখক</label>
-          <input type="text" id="author" v-model="review.author"
-            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-#800000">
-        </div>
-
-        <div class="mb-4">
-          <label for="review" class="block text-gray-700 mb-2">আপনার রিভিউ</label>
-          <textarea id="review" v-model="review.content" rows="5"
-            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-#800000"
-            placeholder="বইটি পড়ে আপনার অভিজ্ঞতা শেয়ার করুন..."></textarea>
-        </div>
-
-        <div class="mb-6">
-          <label class="block text-gray-700 mb-2">বইয়ের ছবি আপলোড করুন</label>
-          <div class="flex items-center justify-center w-full">
-            <label for="bookImage"
-              class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
-              <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                <svg class="w-8 h-8 mb-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                  fill="none" viewBox="0 0 20 16">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                </svg>
-                <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">ক্লিক করুন</span> অথবা ছবিটি ড্র্যাগ
-                  করুন</p>
-                <p class="text-xs text-gray-500">PNG, JPG, GIF (MAX. 5MB)</p>
-              </div>
-              <input id="bookImage" type="file" class="hidden" @change="handleImageUpload" accept="image/*" />
-            </label>
-          </div>
-          <div v-if="review.imagePreview" class="mt-4">
-            <p class="text-gray-700 mb-2">প্রিভিউ:</p>
-            <img :src="review.imagePreview" class="max-h-48 rounded-md shadow-sm" alt="বইয়ের ছবি প্রিভিউ">
-          </div>
-        </div>
-
-        <button type="submit"
-          class="w-full bg-[#800000] text-white py-3 px-4 rounded-md hover:bg-green-700 transition duration-300 font-medium">
-          রিভিউ পোস্ট করুন
-        </button>
-      </form>
-    </div> -->
-
     <div class="mt-12 bg-white p-6 rounded-lg shadow-md max-w-7xl mx-auto py-6">
-      <h3 class="text-2xl font-bold text-gray-800 mb-6">মন্তব্য করুন</h3>
+      <h3 class="text-2xl font-bold text-gray-800 mb-6">রিভিউ করুন</h3>
+      <div v-if="authStore.loggedIn" class="mb-8 p-4 bg-gray-50 rounded-lg">
+        <div v-if="reviewMessage" class="mb-4 p-3 bg-green-100 text-green-700 rounded">
+          {{ reviewMessage }}
+        </div>
+        <div class="mb-4">
+          <label class="block text-sm font-semibold text-gray-700 mb-2">রেটিং</label>
+          <div class="flex gap-2">
+            <button v-for="star in 5" :key="star" @click="newReview.rating = star" class="text-2xl transition"
+              :class="star <= newReview.rating ? 'text-yellow-400' : 'text-gray-300'">
+              ★
+            </button>
+          </div>
+        </div>
+        <div class="mb-4">
+          <input v-model="newReview.title" type="text" placeholder="রিভিউ শিরোনাম..."
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#800000]" />
+        </div>
+        <div class="mb-4">
+          <textarea v-model="newReview.review" rows="4" placeholder="আপনার রিভিউ লিখুন..."
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#800000]"></textarea>
+        </div>
 
-      <div class="mb-6">
-        <textarea v-model="newComment" rows="4"
-          class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-#800000"
-          placeholder="আপনার মন্তব্য লিখুন..."></textarea>
-        <button @click="addComment"
-          class="mt-2 bg-[#800000] text-white py-2 px-6 rounded-md hover:bg-green-800 transition duration-300 font-medium">
-          মন্তব্য পোস্ট করুন
+        <button @click="submitReview" :disabled="isLoadingReview"
+          class="bg-[#800000] text-white py-2 px-6 rounded-md hover:bg-red-800 transition duration-300 font-medium disabled:opacity-50">
+          {{ isLoadingReview ? "পাঠাচ্ছে..." : "রিভিউ পোস্ট করুন" }}
         </button>
       </div>
-
+      <div v-else class="mb-8 p-4 bg-blue-50 rounded-lg">
+        <p class="text-blue-700">
+          রিভিউ করতে <NuxtLink to="/login" class="font-semibold underline">লগইন করুন</NuxtLink>
+        </p>
+      </div>
       <div class="space-y-6">
-        <div v-for="(comment, index) in comments" :key="index" class="border-b border-gray-200 pb-4">
+        <div v-if="reviews.length === 0" class="text-center text-gray-500 py-8">
+          এখনও কোনো রিভিউ নেই
+        </div>
+
+        <div v-for="(review, index) in reviews" :key="index" class="border-b border-gray-200 pb-4">
           <div class="flex items-start">
-            <img :src="comment.avatar" class="h-10 w-10 rounded-full mr-3 object-cover" alt="ব্যবহারকারী">
-            <div>
-              <p class="font-semibold text-gray-800">{{ comment.name }}</p>
-              <p class="text-gray-500 text-sm">{{ comment.date }}</p>
-              <p class="text-gray-700 mt-2">{{ comment.text }}</p>
+            <div class="flex-1">
+              <div class="flex items-center gap-2 mb-2">
+                <p class="font-semibold text-gray-800">{{ review.author_name }}</p>
+                <div class="flex text-yellow-400">
+                  <span v-for="star in review.rating" :key="star">★</span>
+                </div>
+              </div>
+              <p class="text-gray-500 text-sm mb-2">{{ review.date }}</p>
+              <p class="font-semibold text-gray-700 mb-2">{{ review.title }}</p>
+              <p class="text-gray-700">{{ review.text }}</p>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-<transition name="fade">
-  <div
-    v-if="isModalOpen"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
-    @click="closeModal"
-  >
-    <button
-      @click="closeModal"
-      class="absolute top-4 right-4 text-white text-3xl font-bold hover:scale-110 transition z-10"
-    >
-      &times;
-    </button>
-
-    <div
-      class="relative w-full max-w-3xl mx-auto p-4 flex flex-col items-center bg-white rounded-lg shadow-lg"
-      @click.stop
-    >
-      <div class="relative w-full flex justify-center items-center">
-        <img
-          :src="selectedFile"
-          :alt="data?.title"
-          class="max-h-[80vh] max-w-full rounded-lg shadow-lg object-contain transition-all duration-300"
-        />
-
-        <button
-          @click="navigateImage('up')"
-          class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/70 hover:bg-white text-gray-800 px-2 py-1 rounded-full shadow"
-        >
-          ◀
-        </button>
-        <button
-          @click="navigateImage('down')"
-          class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/70 hover:bg-white text-gray-800 px-2 py-1 rounded-full shadow"
-        >
-          ▶
-        </button>
+    <div v-if="data?.relatedProducts?.length" class="container mx-auto px-4 mt-16">
+      <h2 class="text-2xl font-bold mb-6 border-b pb-2">সম্পর্কিত বই</h2>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        <BookCard v-for="book in data.relatedProducts" :key="book.id" :book="book" />
       </div>
-      <p class="mt-4 text-gray-600 text-sm">
-        {{ currentImageIndex + 1 }} / {{ data?.images?.length || 0 }}
-      </p>
     </div>
-  </div>
-</transition>
+    <transition name="fade">
+      <div v-if="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
+        @click="closeModal">
+        <button @click="closeModal"
+          class="absolute top-4 right-4 text-white text-3xl font-bold hover:scale-110 transition z-10">
+          &times;
+        </button>
 
+        <div class="relative w-full max-w-3xl mx-auto p-4 flex flex-col items-center bg-white rounded-lg shadow-lg"
+          @click.stop>
+          <div class="relative w-full flex justify-center items-center">
+            <img :src="selectedFile" :alt="data?.title"
+              class="max-h-[80vh] max-w-full rounded-lg shadow-lg object-contain transition-all duration-300" />
+
+            <button @click="navigateImage('up')"
+              class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/70 hover:bg-white text-gray-800 px-2 py-1 rounded-full shadow">
+              ◀
+            </button>
+            <button @click="navigateImage('down')"
+              class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/70 hover:bg-white text-gray-800 px-2 py-1 rounded-full shadow">
+              ▶
+            </button>
+          </div>
+          <p class="mt-4 text-gray-600 text-sm">
+            {{ currentImageIndex + 1 }} / {{ data?.images?.length || 0 }}
+          </p>
+        </div>
+      </div>
+    </transition>
   </section>
 </template>
-
 <style scoped>
 .fade-enter-active,
 .fade-leave-active {

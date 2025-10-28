@@ -1,5 +1,5 @@
 <template>
-  <section class="relative w-full h-[800px] lg:h-screen overflow-hidden">
+  <section class="relative w-full mx-auto h-[50px] lg:h-screen overflow-hidden px-2 md:px-4 py-1 md:py-2">
     <Swiper
       v-if="data?.hero_slider?.length"
       :key="data.hero_slider.length"
@@ -20,35 +20,6 @@
           class="h-full w-full object-fit object-center"
         />
 
-        <!-- <div class="absolute inset-0 bg-black/40"></div> -->
-
-        <!-- <div class="absolute inset-0 flex items-center justify-center text-center px-4">
-          <div class="max-w-3xl text-white mx-auto">
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
-              {{ commonTitle }}
-              <span class="text-[var(--color-thirdly)] block">{{ commonHighlight }}</span>
-            </h1>
-
-            <p class="text-lg md:text-xl mb-8 leading-relaxed opacity-90 max-w-xl mx-auto">
-              {{ commonDescription }}
-            </p>
-
-            <div class="flex flex-col sm:flex-row justify-center gap-4">
-              <NuxtLink
-                to="/products/AllBooks"
-                class="bg-[var(--color-secondary)] hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
-              >
-                {{ button1Text }}
-              </NuxtLink>
-              <NuxtLink
-                to="/products/AllBooks"
-                class="bg-transparent border-2 border-white hover:bg-white/10 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105"
-              >
-                {{ button2Text }}
-              </NuxtLink>
-            </div>
-          </div>
-        </div> -->
       </SwiperSlide>
     </Swiper>
 
@@ -67,12 +38,6 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
 const modules = [Autoplay, Pagination, Navigation];
-
-const commonTitle = "শিশুর স্বপ্ন হোক আকাশ জয়ের,";
-const commonHighlight = "ইনশাআল্লাহ সব সম্ভব,";
-const commonDescription = "অবিরাম লক্ষ্যে দূরন্ত শিশুর প্রতিটি অর্জনকে সেঁধে আত্মস্থাতে, শিক্ষা প্রাচুর্যে ধর্ম মানববিদ্যার জ্ঞান-আলোচনে তার জীবন ভরে উঠুক পরিপূর্ণতায়।";
-const button1Text = "প্রকাশিত বইগুলো দেখুন";
-const button2Text = "বই অর্ডার করুন";
 
 const { $api } = useNuxtApp();
 const { data, error, status, refresh } = useAsyncData('sliders', () => $api('/top-one-ir'));

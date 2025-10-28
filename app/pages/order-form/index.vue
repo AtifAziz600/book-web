@@ -1,11 +1,7 @@
 <script setup>
-
 const { $api } = useNuxtApp();
-
 const subjects = ref([]);
-
 const { data, error, status, refresh } = useAsyncData('products', () => $api('/frontend/v1/product'));
-
 watch(data, (newData) => {
     if (newData?.data) {
         subjects.value = newData.data.map((item, index) => ({
@@ -17,29 +13,21 @@ watch(data, (newData) => {
         }));
     }
 });
-
 const totalAmount = computed(() => {
-    return subjects.value.reduce((total, subject) => total + (subject.quantity * subject.rate), 0).toFixed(2);
+    return subjects.value.reduce((total, subject) => total + (subject.quantity * subject.rate), 0)?.toFixed(2);
 });
-
 const onSubmit = () => {
     const cartItems = subjects.value.filter(
         (item) => item.quantity > 0 && item.rate > 0
     );
-
     if (cartItems.length === 0) {
         alert('Please add at least one valid product to cart.');
         return;
     }
-
-    // Save to localStorage
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
-
     alert('Cart saved successfully!');
 }
 </script>
-
-
 <template>
     <section class="w-full bg-gradient-to-br from-gray-50 to-gray-100 py-8 px-4 sm:px-6">
         <div class="max-w-7xl mx-auto">
@@ -47,14 +35,18 @@ const onSubmit = () => {
                 <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">অর্ডার ফর্ম</h2>
                 <div class="w-24 h-1 bg-red-500 mx-auto rounded-full"></div>
             </div>
-
             <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200 overflow-scroll">
+                    <table class="min-w-full divide-y divide-gray-200" style="table-layout: fixed;">
                         <thead class="bg-gradient-to-r from-red-500 to-red-600 text-white sticky top-0 z-10">
                             <tr>
-                                <th class="py-3 px-4 text-left text-sm font-semibold uppercase tracking-wider">ক্রম</th>
-                                <th class="py-3 px-4 text-left text-sm font-semibold uppercase tracking-wider">ছবি</th>
+                                <th
+                                    class="py-3 px-4 text-left text-sm font-semibold uppercase tracking-wider hidden sm:table-cell">
+                                    ক্রম</th>
+                                <th
+                                    class="py-3 px-4 text-left text-sm font-semibold uppercase tracking-wider hidden sm:table-cell">
+                                    ছবি</th>
+
                                 <th class="py-3 px-4 text-left text-sm font-semibold uppercase tracking-wider">পণ্যের
                                     নাম</th>
                                 <th class="py-3 px-4 text-left text-sm font-semibold uppercase tracking-wider">মূল্য
@@ -67,24 +59,24 @@ const onSubmit = () => {
                         </thead>
                         <tbody class="divide-y divide-gray-200 bg-white max-h-[350px] overflow-y-auto block">
                             <tr v-for="(subject, index) in subjects" :key="subject.id"
-                                class="hover:bg-gray-50 transition-colors duration-150 table-row">
-                                <td class="py-3 px-4 text-sm font-medium text-gray-700">{{ index + 1 }}</td>
-                                <td class="py-3 px-3 text-sm">
+                                class="transition-colors duration-150 table-row odd:bg-white even:bg-gray-50 hover:bg-gray-100">
+                                <td class="py-3 px-4 text-sm font-medium text-gray-700 hidden sm:table-cell">{{ index +
+                                    1 }}</td>
+                                <td class="py-3 px-3 text-sm hidden sm:table-cell">
                                     <div class="flex justify-center">
                                         <img :src="subject.image" :alt="subject.name"
                                             class="w-10 h-10 object-cover rounded-lg border border-gray-200 shadow-sm" />
                                     </div>
                                 </td>
                                 <td class="py-3 px-4 text-sm font-medium text-gray-800">{{ subject.name }}</td>
-                                <td class="py-3 px-4 text-sm">
-                                    <span class="text-gray-800 font-medium">{{ subject.rate }}</span>
-                                </td>
+                                <td class="py-3 px-4 text-sm"><span class="text-gray-800 font-medium">{{ subject.rate
+                                        }}</span></td>
                                 <td class="py-3 px-4 text-sm">
                                     <input type="number" v-model.number="subject.quantity" min="0"
                                         class="w-20 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all text-right" />
                                 </td>
                                 <td class="py-3 px-4 text-sm font-semibold text-right text-gray-800">
-                                    {{ (subject.quantity * subject.rate).toFixed(2) }}
+                                    {{ (subject.quantity * subject.rate) }}
                                 </td>
                             </tr>
                         </tbody>
@@ -97,7 +89,6 @@ const onSubmit = () => {
                     </table>
                 </div>
             </div>
-
             <div class="flex justify-center">
                 <NuxtLink to="/order-form/order-table"
                     class="px-8 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold rounded-lg shadow-md hover:from-red-600 hover:to-red-700 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50">
@@ -115,7 +106,6 @@ const onSubmit = () => {
         </div>
     </section>
 </template>
-
 <style scoped>
 .overflow-x-auto::-webkit-scrollbar {
     height: 8px;
@@ -135,26 +125,22 @@ const onSubmit = () => {
     background: #a8a8a8;
 }
 
-
 tbody {
     display: block;
-    max-height: 300px;
-    min-width: 500px;
+    max-height: 350px;
     overflow-y: auto;
-    overflow-x: auto;
 }
 
-
 thead,
-tbody tr,
 tfoot {
     display: table;
     width: 100%;
     table-layout: fixed;
 }
 
-th,
-td {
-    width: calc(100% / 6);
+tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
 }
 </style>
