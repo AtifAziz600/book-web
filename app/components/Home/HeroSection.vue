@@ -1,5 +1,5 @@
 <template>
-  <section class="relative w-full mx-auto h-[50px] lg:h-screen overflow-hidden px-2 md:px-4 py-1 md:py-2">
+  <section class="relative w-full mx-auto h-full lg:h-screen overflow-hidden px-2 md:px-4 py-1 md:py-2">
     <Swiper
       v-if="data?.hero_slider?.length"
       :key="data.hero_slider.length"

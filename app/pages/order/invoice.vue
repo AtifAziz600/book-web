@@ -2,11 +2,7 @@
 const settings = ref(null);
 const loading = ref(true);
 const { $api } = useNuxtApp();
-
-
 const { data: order } = useAsyncData(() => $api(`/frontend/v1/order/${useRoute().query?.order_id}`))
-
-
 const getSettings = async () => {
   try {
     const response = await $api({
