@@ -9,7 +9,7 @@
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div
             class="lg:py-14 lg:px-20 p-10 rounded-2xl flex items-center justify-between flex-col lg:flex-row"
-            style="background: linear-gradient(to right, var(--color-primary), var(--color-secondary));">
+            style="background: var(--color-secondary);">
             <div class="block text-center mb-5 lg:text-left lg:mb-0">
               <h2 class="font-manrope text-4xl text-white font-semibold mb-5 lg:mb-2">
                 কোন বই সম্পর্কে আপনার 
