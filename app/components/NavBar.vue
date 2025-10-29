@@ -4,7 +4,6 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
-// Define static menu items
 const menuItems = ref([
   { name: "হোম", link: "/", type: "link" },
   { name: "সিলেবাস ও প্রশ্নপত্র", type: "dropdown" },
@@ -13,7 +12,6 @@ const menuItems = ref([
   { name: "যোগাযোগ", link: "/contact-us", type: "link" },
 ])
 
-// Fetch API data
 const config = useRuntimeConfig()
 const baseURL = config.public.apiBase
 const { $api } = useNuxtApp()
@@ -25,8 +23,6 @@ const { data: categories } = await useAsyncData("category", () => $api('/fronten
 <template>
   <nav class="bg-[#800000] w-full">
     <div class="flex items-center justify-center text-white text-md font-normal">
-      
-      <!-- Static links -->
       <NuxtLink
         to="/"
         class="py-4 px-6 text-white hover:bg-[#A82229] transition-colors duration-200 uppercase"
@@ -34,8 +30,6 @@ const { data: categories } = await useAsyncData("category", () => $api('/fronten
       >
         হোম
       </NuxtLink>
-
-      <!-- Dynamic page link (example: slice(4,5)) -->
       <div v-for="page in pageData?.slice(4, 5)" :key="page.id">
         <NuxtLink
           :to="`/page/${page.slug}`"
@@ -46,7 +40,6 @@ const { data: categories } = await useAsyncData("category", () => $api('/fronten
         </NuxtLink>
       </div>
 
-      <!-- পাঠ্যপুস্তক link -->
       <NuxtLink
         to="/books-category"
         class="py-4 px-6 text-white hover:bg-[#A82229] transition-colors duration-200 uppercase"
@@ -55,7 +48,6 @@ const { data: categories } = await useAsyncData("category", () => $api('/fronten
         পাঠ্যপুস্তক
       </NuxtLink>
 
-      <!-- Dropdown for সিলেবাস ও প্রশ্নপত্র -->
       <div class="relative group">
         <button
           class="py-4 px-6 text-white hover:bg-[#A82229] transition-colors duration-200 uppercase flex items-center cursor-pointer"
@@ -79,8 +71,6 @@ const { data: categories } = await useAsyncData("category", () => $api('/fronten
           </div>
         </div>
       </div>
-
-      <!-- Static links after dropdown -->
       <NuxtLink
         v-for="item in menuItems.filter(i => i.type === 'link' && i.name !== 'হোম')"
         :key="item.name"
@@ -90,8 +80,6 @@ const { data: categories } = await useAsyncData("category", () => $api('/fronten
       >
         {{ item.name }}
       </NuxtLink>
-
-      <!-- Another dynamic section -->
       <div v-for="page in pageData?.slice(0, 2)" :key="page.id">
         <NuxtLink
           :to="`/page/${page.slug}`"

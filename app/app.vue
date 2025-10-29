@@ -12,15 +12,10 @@ const openWhatsApp = () => {
     <NuxtRouteAnnouncer />
     <NuxtLayout>
       <NuxtPage />
-      <div class="fixed right-4 bottom-4 z-50 hidden md:block">
-        <!-- Improved WhatsApp Icon -->
+      <div class="fixed right-6 bottom-18 z-50 block">
         <div class="relative w-16 h-16 group cursor-pointer" @click="openWhatsApp">
-          <!-- Pulsing background effect -->
           <div class="absolute inset-0 bg-green-500 rounded-full opacity-20 animate-ping-slow"></div>
-          
-          <!-- Main icon container -->
           <div class="relative w-full h-full bg-green-500 rounded-full shadow-lg transition-all duration-300 group-hover:shadow-xl group-hover:scale-110 flex items-center justify-center">
-            <!-- WhatsApp icon -->
             <svg 
               class="w-8 h-8 text-white transition-transform duration-300 group-hover:scale-110" 
               viewBox="0 0 24 24" 

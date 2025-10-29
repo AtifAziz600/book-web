@@ -8,12 +8,12 @@
 
             <button @click="isSidebarOpen = true" class="flex flex-col items-center justify-center text-center transition-transform hover:scale-105">
                 <Icon name="heroicons:bars-3" class="text-2xl mb-1" />
-                <span class="text-xs">ক্যাটাগরি</span>
+                <span class="text-xs">সিলেবাস প্রশ্নপত্র</span>
             </button>
 
-            <NuxtLink to="/order/cart" class="flex flex-col items-center justify-center text-center transition-transform hover:scale-105 relative">
+            <NuxtLink to="/order-form" class="flex flex-col items-center justify-center text-center transition-transform hover:scale-105 relative">
                 <Icon name="heroicons:shopping-bag" class="text-2xl mb-1" />
-                <span class="text-xs">কার্ট</span>
+                <span class="text-xs">অর্ডার</span>
                 <span v-if="cartItemsCount > 0" class="absolute -top-1 -right-1 bg-white text-red-600 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
                     {{ cartItemsCount }}
                 </span>
@@ -33,7 +33,7 @@
             <div class="flex justify-between items-center p-4 border-b border-gray-200 text-gray-800">
                 <div class="flex items-center gap-2">
                     <Icon name="heroicons:bars-3" class="text-2xl" />
-                    <h2 class="text-lg font-bold">ক্যাটাগরি</h2>
+                    <h2 class="text-lg font-bold">সিলেবাস ও প্রশ্নপত্র</h2>
                 </div>
                 <button @click="isSidebarOpen = false" class="p-1 rounded-full bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors">
                     <Icon name="heroicons:x-mark" class="text-xl" />
@@ -42,16 +42,17 @@
 
             <div class="overflow-y-auto h-full pb-20">
                 <div class="p-2">
-                    <h3 class="px-3 py-2 text-sm font-semibold text-gray-500 uppercase tracking-wider">ক্যাটাগরি পাঠ্যপুস্তক সমূহ</h3>
+                    <h3 class="px-3 py-2 text-sm font-semibold text-gray-500 uppercase tracking-wider">সিলেবাস ও প্রশ্নপত্র পাঠ্যপুস্তক</h3>
                     <nav class="space-y-1">
                         <NuxtLink 
-                        v-for="book in data?.all_categories" :key="book.id"
-                            to="/books-category/singlebookcategory" 
+              v-for="cat in categories"
+              :key="cat.id"
+              :to="`/syllabus/${cat.slug}`"
                             class="flex items-center py-3 px-4 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-all group"
                             @click="isSidebarOpen = false"
                         >
-                            <img class="w-8 h-8 text-xl mr-3 object-cover rounded-full" :src="`${baseURL}${book.icon}`" :alt="data?.name">
-                            <span class="font-medium">{{ book.name }}</span>
+        <img class="w-8 h-8 text-xl mr-3 object-cover rounded-full" :src="`${baseURL}${cat?.icon}`" :alt="cat?.name">
+        <span class="font-medium">{{ cat?.name }}</span>
                         </NuxtLink>
                     </nav>
                 </div>
@@ -69,12 +70,10 @@
 const isSidebarOpen = ref(false)
 const cartItemsCount = ref(0) 
 
-const categories = ref([])
-
 const config = useRuntimeConfig()
 const baseURL = config.public.apiBase
 const { $api } = useNuxtApp()
-const {data, error, status, refresh} = useAsyncData('category ', () => $api('/top-one-ir'));
+const { data: categories } = await useAsyncData("category", () => $api('/frontend/v1/category'))
 
 const handleEscape = (e) => {
     if (e.key === 'Escape') {
