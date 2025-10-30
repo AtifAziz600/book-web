@@ -41,7 +41,7 @@ const { data: response, error, status, refresh } = useAsyncData('home_blogs', ()
                 <p class="leading-relaxed mb-3 text-sm">{{ blog.excerpt }}</p>
                 <div class="flex items-center flex-wrap">
                   <NuxtLink
-                    to="/blog"
+                    :to="`/blog/${blog.id}`"
                     class="text-white bg-red-600 cursor-pointer hover:bg-red-700 px-4 py-2 rounded-md inline-flex items-center"
                   >
                     পুরোটা পড়ুন

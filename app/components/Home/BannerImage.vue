@@ -13,14 +13,12 @@ const bannerData = computed(() => {
 
 <template>
   <section v-if="bannerData" class="w-full relative overflow-hidden z-50">
-    <!-- Banner Image -->
     <div class="w-full h-[250px] md:h-[400px] relative">
       <img
         :src="`${baseURL}${bannerData?.image}`"
         class="w-full h-full object-cover object-center"
         :alt="bannerData?.title"
       />
-      <!-- Overlay content -->
       <div class="absolute inset-0 flex flex-col md:flex-row items-center md:items-end justify-center md:justify-end px-4 md:px-16 bg-black/30 py-8 md:py-12">
         <div class="text-center md:text-right max-w-xl text-white">
           <h1 class="text-lg md:text-3xl font-bold mb-2 md:mb-3 leading-snug">

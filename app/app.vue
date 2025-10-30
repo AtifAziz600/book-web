@@ -1,9 +1,8 @@
 <script setup>
 import { onMounted } from "vue";
 const openWhatsApp = () => {
-  const phone = "01942213346";
-  const message = encodeURIComponent("Hello! I'd like to know more about your services.");
-  window.open(`https://wa.me/${phone}?text=${message}`, "_blank");
+  const phone = "+8801648550599";
+  window.open(`https://wa.me/${phone}`, "_blank");
 };
 </script>
 
