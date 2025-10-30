@@ -1,13 +1,13 @@
 <script setup>
 import { onMounted } from "vue";
 const openWhatsApp = () => {
-  const phone = "+8801648550599";
+  const phone = "+8801957521595";
   window.open(`https://wa.me/${phone}`, "_blank");
 };
 </script>
 
 <template>
-  <div>
+  <div class="overflow-x-auto">
     <NuxtRouteAnnouncer />
     <NuxtLayout>
       <NuxtPage />
@@ -35,7 +35,6 @@ const openWhatsApp = () => {
     </NuxtLayout>
   </div>
 </template>
-
 <style>
 @theme {
   --color-primary: #1C3B8B;
@@ -43,22 +42,10 @@ const openWhatsApp = () => {
   --color-thirdly: #FEE600;
 }
 
-::-webkit-scrollbar {
-  display: none;
-}
-
-* {
-  scrollbar-width: none;
-}
-
-body {
-  -ms-overflow-style: none;
-}
 
 body {
   position: relative;
 }
-
 .page-enter-active,
 .page-leave-active {
   transition: all 0.4s;
@@ -68,7 +55,6 @@ body {
   opacity: 0;
   filter: blur(1rem);
 }
-
 @keyframes ping-slow {
   0% {
     transform: scale(1);
