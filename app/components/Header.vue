@@ -47,7 +47,7 @@ const logout = async () => {
                             <div class="flex-1 max-w-xl w-full order-3 md:order-none">
                                 <div class="flex shadow-sm">
                                     <input v-model="searchQuery" @keydown.enter="performSearch" type="text"
-                                        placeholder="পণ্য, বিভাগ, অথবা ব্র্যান্ড অনুসন্ধান করুন..."
+                                        placeholder="আপনার বই অনুসন্ধান করুন..."
                                         class="flex-1 px-4 py-2.5 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500">
                                     <button @click="performSearch"
                                         class="bg-[#800000] hover:bg-red-700 text-white px-5 py-2.5 rounded-r-lg transition duration-200 flex items-center">

@@ -1,6 +1,7 @@
 <script setup>
 const { $api } = useNuxtApp();
 const subjects = ref([]);
+const router = useRouter();
 const { data, error, status, refresh } = useAsyncData('products', () => $api('/frontend/v1/product'));
 watch(data, (newData) => {
     if (newData?.data) {
@@ -22,10 +23,12 @@ const onSubmit = () => {
     );
     if (cartItems.length === 0) {
         alert('Please add at least one valid product to cart.');
+        router.push('/order-form')
         return;
     }
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
     alert('Cart saved successfully!');
+    router.push('/order-form/order-table');
 }
 </script>
 <template>
@@ -98,8 +101,7 @@ const onSubmit = () => {
                 </div>
             </div>
             <div class="flex justify-center">
-                <NuxtLink to="/order-form/order-table"
-                    class="px-8 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold rounded-lg shadow-md hover:from-red-600 hover:to-red-700 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50">
+                <div class="px-8 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold rounded-lg shadow-md hover:from-red-600 hover:to-red-700 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50">
                     <button @click="onSubmit" class="flex items-center">
                         <span>বিল</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20"
@@ -109,7 +111,7 @@ const onSubmit = () => {
                                 clip-rule="evenodd" />
                         </svg>
                     </button>
-                </NuxtLink>
+                </div>
             </div>
         </div>
     </section>

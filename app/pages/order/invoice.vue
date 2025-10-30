@@ -36,8 +36,7 @@ onMounted(async () => {
     <section class="overflow-hidden py-5">
       <div class="w-full max-w-4xl mx-auto p-6">
         <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 text-white rounded-md mb-4 transition-colors"
-          @click="printInvoice('areaOfPrint')">
-          <i class="fas fa-print mr-2"></i>ইনভয়েস প্রিন্ট করুন
+          @click="printInvoice('areaOfPrint')">ইনভয়েস প্রিন্ট করুন
         </button>
         <div class="w-full bg-white shadow-lg rounded-lg overflow-hidden" id="areaOfPrint">
           <div class="border border-gray-300 p-8">

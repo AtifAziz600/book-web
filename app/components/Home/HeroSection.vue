@@ -28,21 +28,16 @@
     </div>
   </section>
 </template>
-
-
 <script setup>
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-
 const modules = [Autoplay, Pagination, Navigation];
-
 const { $api } = useNuxtApp();
 const { data, error, status, refresh } = useAsyncData('sliders', () => $api('/top-one-ir'));
 </script>
-
 <style>
 :root {
   --color-primary: #1C3B8B;

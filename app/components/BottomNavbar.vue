@@ -69,22 +69,18 @@
 <script setup>
 const isSidebarOpen = ref(false)
 const cartItemsCount = ref(0) 
-
 const config = useRuntimeConfig()
 const baseURL = config.public.apiBase
 const { $api } = useNuxtApp()
 const { data: categories } = await useAsyncData("category", () => $api('/frontend/v1/category'))
-
 const handleEscape = (e) => {
     if (e.key === 'Escape') {
         isSidebarOpen.value = false
     }
 }
-
 onMounted(() => {
     document.addEventListener('keydown', handleEscape)
 })
-
 onUnmounted(() => {
     document.removeEventListener('keydown', handleEscape)
 })
